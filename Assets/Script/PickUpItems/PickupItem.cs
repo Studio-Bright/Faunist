@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PickupItem : MonoBehaviour
 {
-    private Rigidbody rb;
+    public Rigidbody rb;
     public Sprite icon;
 
     void Awake()
