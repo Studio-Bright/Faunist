@@ -9,19 +9,24 @@ public class DominoPiece : MonoBehaviour
 
     [Header("Pip Settings")]
     public GameObject pipPrefab;
-    public Transform endA;
-    public Transform endB;
     public float pipSpacing = 0.2f;
+
+    [Header("Connection Points")]
+    public Transform connectA;
+    public Transform connectB;
+
+    [Header("Pip Spawn Points")]
+    public Transform pipAnchorA;
+    public Transform pipAnchorB;
 
     [Header("Drag Settings")]
     public float yOffset = 0.05f;
     private bool hasSnappedOnce = false;
-    private bool isSnappedToGrid = false;
+    
     private Rigidbody rb;
 
     [HideInInspector] public DominoPuzzle parentPuzzle;
 
-    // 🔹 STATIC drag controller (only one piece can drag at a time)
     private static DominoPiece currentlyDragging;
     private Vector3 dragOffset;
 
@@ -92,7 +97,7 @@ public class DominoPiece : MonoBehaviour
                         if (rb != null)
                         {
                             rb.isKinematic = true;
-                            isSnappedToGrid = true;
+                            
                         }
                     }
 
@@ -126,6 +131,7 @@ public class DominoPiece : MonoBehaviour
         {
             parentPuzzle.CheckPuzzle();
             currentlyDragging = null;
+            hasSnappedOnce = false;
         }
 
     }
@@ -161,8 +167,17 @@ public class DominoPiece : MonoBehaviour
 
     public void RotateSelf()
     {
-        transform.Rotate(Vector3.up, 90f);
+        float newY = GetSnappedYRotation() + 90f;
+
+        Quaternion targetRot = Quaternion.Euler(0f, newY, 0f);
+
+        if (rb != null)
+            rb.MoveRotation(targetRot);
+        else
+            transform.rotation = targetRot;
+
         parentPuzzle.CheckPuzzle();
+        Debug.Log("Trying to rotate piece");
     }
 
     public bool IsOnBoard()
@@ -193,10 +208,10 @@ public class DominoPiece : MonoBehaviour
 
             bool connectedToThisPiece = false;
 
-            Vector3 aA = FlattenY(endA.position);
-            Vector3 aB = FlattenY(endB.position);
-            Vector3 bA = FlattenY(other.endA.position);
-            Vector3 bB = FlattenY(other.endB.position);
+            Vector3 aA = FlattenY(connectA.position);
+            Vector3 aB = FlattenY(connectB.position);
+            Vector3 bA = FlattenY(other.connectA.position);
+            Vector3 bB = FlattenY(other.connectB.position);
 
             float dAA = Vector3.Distance(aA, bA);
             float dAB = Vector3.Distance(aA, bB);
@@ -220,8 +235,8 @@ public class DominoPiece : MonoBehaviour
 
         Debug.Log($"{name} total connections: {connections}");
 
-        if (connections == 0) return false;    // isolated
-        if (connections >= 1) return true;     // valid chain
+        if (connections == 0) return false;    
+        if (connections >= 1) return true;     
         return false;                       
     }
 
@@ -237,14 +252,14 @@ public class DominoPiece : MonoBehaviour
 
     public void GeneratePips()
     {
-        if (pipPrefab == null || endA == null || endB == null)
+        if (pipPrefab == null || pipAnchorA == null || pipAnchorB == null)
             return;
 
-        foreach (Transform child in endA) Destroy(child.gameObject);
-        foreach (Transform child in endB) Destroy(child.gameObject);
+        foreach (Transform child in pipAnchorA) Destroy(child.gameObject);
+        foreach (Transform child in pipAnchorB) Destroy(child.gameObject);
 
-        SpawnPips(endA, valueA);
-        SpawnPips(endB, valueB);
+        SpawnPips(pipAnchorA, valueA);
+        SpawnPips(pipAnchorB, valueB);
     }
 
     void SpawnPips(Transform end, int value)
@@ -279,27 +294,6 @@ public class DominoPiece : MonoBehaviour
         return snapped;
     }
 
-
-    bool IsCellOccupied(Vector3 targetPos)
-    {
-        float checkRadius = parentPuzzle.cellSize * 0.4f;
-
-        Collider[] hits = Physics.OverlapSphere(
-            targetPos + Vector3.up * 0.1f,
-            checkRadius
-        );
-
-        foreach (var hit in hits)
-        {
-            DominoPiece other = hit.GetComponent<DominoPiece>();
-            if (other != null && other != this)
-                return true;
-        }
-
-        return false;
-    }
-
-
     void OnDrawGizmosSelected()
     {
         if (parentPuzzle == null) return;
@@ -307,10 +301,10 @@ public class DominoPiece : MonoBehaviour
         float snapDistance = parentPuzzle.cellSize * 0.7f;
 
         Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(endA.position, snapDistance);
+        Gizmos.DrawWireSphere(connectA.position, snapDistance);
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(endB.position, snapDistance);
+        Gizmos.DrawWireSphere(connectB.position, snapDistance);
     }
 
 }

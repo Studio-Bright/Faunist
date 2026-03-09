@@ -25,22 +25,50 @@ public class SynthesisTable : MonoBehaviour
 
     void Update()
     {
-        HandleSnapping();
         TryCraft();
+    }
+
+    public bool TrySnapItem(PickupItem pickup)
+    {
+        if (pickup == null) return false;
+
+        CraftItem item = pickup.GetComponent<CraftItem>();
+        if (item == null || item.isPlacedOnTable) return false;
+
+        float snapSqr = snapDistance * snapDistance;
+
+        Vector3 pos = pickup.transform.position;
+
+        if (currentItems[0] == null && (pos - slotA.position).sqrMagnitude < snapSqr)
+        {
+            SnapItem(item, 0, slotA.position);
+            return true;
+        }
+
+        if (currentItems[1] == null && (pos - slotB.position).sqrMagnitude < snapSqr)
+        {
+            SnapItem(item, 1, slotB.position);
+            return true;
+        }
+
+        if (currentItems[2] == null && (pos - slotC.position).sqrMagnitude < snapSqr)
+        {
+            SnapItem(item, 2, slotC.position);
+            return true;
+        }
+
+        return false;
     }
 
     void HandleSnapping()
     {
-        // Get all pickupable items in the scene
-        PickupItem[] allPickupItems = FindObjectsOfType<PickupItem>();
+        PickupItem[] allPickupItems = Object.FindObjectsByType<PickupItem>(FindObjectsSortMode.None);
 
         foreach (var pickup in allPickupItems)
         {
-            // Only snap if it has a CraftItem component
             CraftItem item = pickup.GetComponent<CraftItem>();
             if (item == null || item.isPlacedOnTable) continue;
 
-            // Snap to the nearest empty slot
             if (Vector3.Distance(pickup.transform.position, slotA.position) < snapDistance && currentItems[0] == null)
             {
                 SnapItem(item, 0, slotA.position);
@@ -58,16 +86,21 @@ public class SynthesisTable : MonoBehaviour
 
     void SnapItem(CraftItem item, int slotIndex, Vector3 position)
     {
-        // Disable physics but keep the object active
+        if (item.isPlacedOnTable) return;
+
+        item.isPlacedOnTable = true;
+
         PickupItem pickup = item.GetComponent<PickupItem>();
+
         if (pickup != null)
         {
+            pickup.rb.linearVelocity = Vector3.zero;
+            pickup.rb.angularVelocity = Vector3.zero;
             pickup.rb.isKinematic = true;
-            pickup.rb.useGravity = false;
         }
 
-        // Snap position
-        item.SnapToPosition(position);
+        item.transform.position = position;
+
         currentItems[slotIndex] = item;
     }
 

@@ -6,6 +6,9 @@ public class PotionTemperatureManager : MonoBehaviour
     private int totalTemperature = 0;
     private int completedCount = 0;
 
+    public PotionState finalTemperature;
+    public bool temperatureReady = false;
+
     private PotionState requiredState;
 
     public enum PotionState
@@ -19,10 +22,7 @@ public class PotionTemperatureManager : MonoBehaviour
 
     private List<EightSidedPuzzle> puzzles = new List<EightSidedPuzzle>();
 
-    void Start()
-    {
-        GenerateNewRequirement();
-    }
+    
 
     public void RegisterPuzzle(EightSidedPuzzle puzzle)
     {
@@ -43,17 +43,10 @@ public class PotionTemperatureManager : MonoBehaviour
 
     void EvaluateFinalTemperature()
     {
-        PotionState finalState = ConvertValueToState(totalTemperature);
+        finalTemperature = ConvertValueToState(totalTemperature);
+        temperatureReady = true;
 
-        if (finalState == requiredState)
-        {
-            Debug.Log("That's right!");
-            GenerateNewRequirement();
-        }
-        else
-        {
-            Debug.Log("Try again!");
-        }
+        Debug.Log("Final temperature: " + finalTemperature);
 
         ResetAllPuzzles();
     }
@@ -77,9 +70,5 @@ public class PotionTemperatureManager : MonoBehaviour
         return PotionState.Boiling;
     }
 
-    void GenerateNewRequirement()
-    {
-        requiredState = (PotionState)Random.Range(0, 4);
-        Debug.Log("Required potion state: " + requiredState);
-    }
+  
 }

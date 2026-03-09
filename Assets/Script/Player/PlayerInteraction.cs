@@ -14,6 +14,16 @@ public class PlayerInteraction : MonoBehaviour
     private bool inPuzzleMode = false;
     private MechanismInteraction currentMechanism;
 
+    private EightSidedPuzzle eightPuzzle;
+    private PhysicalStatePuzzle statePuzzle;
+    private DominoPuzzle dominoPuzzle;
+
+    void Start()
+    {
+        eightPuzzle = FindFirstObjectByType<EightSidedPuzzle>();
+        statePuzzle = FindFirstObjectByType<PhysicalStatePuzzle>();
+        dominoPuzzle = FindFirstObjectByType<DominoPuzzle>();
+    }
 
     void Update()
     {
@@ -79,9 +89,9 @@ public class PlayerInteraction : MonoBehaviour
     {
         inPuzzleMode = true;
         currentMechanism = mechanism;
-        FindObjectOfType<EightSidedPuzzle>().isInteractable = true;
-        FindAnyObjectByType<PhysicalStatePuzzle>().isInteractable = true;
-        FindObjectOfType<DominoPuzzle>().isInteractable = true;
+        eightPuzzle.isInteractable = true;
+        statePuzzle.isInteractable = true;
+        dominoPuzzle.isInteractable = true;
 
     }
 
@@ -90,9 +100,9 @@ public class PlayerInteraction : MonoBehaviour
         if (currentMechanism != null)
         {
             StartCoroutine(currentMechanism.ExitMechanism(this));
-            FindObjectOfType<EightSidedPuzzle>().isInteractable = false;
-            FindObjectOfType<PhysicalStatePuzzle>().isInteractable = false;
-            FindObjectOfType<DominoPuzzle>().isInteractable = false;
+            eightPuzzle.isInteractable = false;
+            statePuzzle.isInteractable = false;
+            dominoPuzzle.isInteractable = false;
 
         }
 
@@ -157,6 +167,13 @@ public class PlayerInteraction : MonoBehaviour
                         pickupItem.OnPickup();
                         return;
                     }
+
+                    CauldronInventory cauldron = hit.collider.GetComponent<CauldronInventory>();
+                    if (cauldron != null)
+                    {
+                        cauldron.Interact(this);
+                        return;
+                    }
                 }
             }
 
@@ -167,25 +184,24 @@ public class PlayerInteraction : MonoBehaviour
 
 
     void PlaceItem()
+    {
+        PickupItem selected = inventory.GetSelectedItem();
+        if (selected == null) return;
+
+        Ray ray = cam.ViewportPointToRay(Vector3.one * 0.5f);
+        RaycastHit hit;
+        Vector3 dropPosition;
+
+        if (Physics.Raycast(ray, out hit, interactDistance))
         {
-            PickupItem selected = inventory.GetSelectedItem();
-            if (selected == null) return;
-
-            Ray ray = cam.ViewportPointToRay(Vector3.one * 0.5f);
-            RaycastHit hit;
-
-            Vector3 dropPosition;
-
-            if (Physics.Raycast(ray, out hit, interactDistance))
-            {
-                dropPosition = hit.point + hit.normal * 0.05f;
-            }
-            else
-            {
-                dropPosition = cam.transform.position + cam.transform.forward * interactDistance;
-            }
-
-            selected.OnDrop(dropPosition);
-            inventory.RemoveSelected();
+            dropPosition = hit.point + hit.normal * 0.05f;
         }
+        else
+        {
+            dropPosition = cam.transform.position + cam.transform.forward * interactDistance;
+        }
+
+        selected.OnDrop(dropPosition);
+        inventory.RemoveSelected();
+    }
 }

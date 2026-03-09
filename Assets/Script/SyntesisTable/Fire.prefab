@@ -154,6 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f84bfb14c608c9d4ca26f01e29bbe361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
+  itemName: Fire Essence
+  rb: {fileID: 0}
   icon: {fileID: 21300000, guid: 0570c079c24177247925dce4d04c390f, type: 3}
 --- !u!114 &8912095223985319256
 MonoBehaviour:
@@ -167,5 +169,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 405762b2909036942b8e61c5b07b5103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CraftItem
-  itemName: Fire
+  itemName: Fire Essence
   isPlacedOnTable: 0

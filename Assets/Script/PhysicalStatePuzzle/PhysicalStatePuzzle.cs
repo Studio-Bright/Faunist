@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PhysicalStatePuzzle : MonoBehaviour
 {
+    public CauldronInventory cauldron;
+
     public RotatableItem cube1;
     public RotatableItem cube2;
     public RotatableItem cube3;
@@ -41,5 +43,11 @@ public class PhysicalStatePuzzle : MonoBehaviour
     void SpawnResult(int finalRotation)
     {
         Instantiate(resultPrefabs[finalRotation], spawnPoint.position, Quaternion.identity);
+        cauldron.Brew();
+    }
+
+    public int GetCurrentState()
+    {
+        return cube4.GetRotationIndex();
     }
 }

@@ -115,7 +115,7 @@ public class EightSidedPuzzle : MonoBehaviour
     void SetupLineRenderer()
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.widthMultiplier = 0.08f;
+        lineRenderer.widthMultiplier = 0.05f;
         lineRenderer.positionCount = 0;
         lineRenderer.useWorldSpace = true;
     }
