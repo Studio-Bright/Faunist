@@ -1,18 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI; // Если используешь UI Text
-using TMPro; // Если используешь TextMeshPro
+﻿using UnityEngine;
+using TMPro;
+using System;
 
 public class Timer : MonoBehaviour
 {
     public TextMeshProUGUI timer;
 
-    public float lifeTime = 600f; // 10 минут
+    private float lifeTime;
     private float gameTime;
+    private bool isRunning;
+
+    public Action OnTimerFinished;
+
+    public void StartTimer(float duration)
+    {
+        lifeTime = duration;
+        gameTime = 0f;
+        isRunning = true;
+    }
+
+    public void StopTimer()
+    {
+        isRunning = false;
+    }
 
     private void Update()
     {
+        if (!isRunning) return;
+
         gameTime += Time.deltaTime;
 
         if (gameTime >= 1f)
@@ -21,23 +36,18 @@ public class Timer : MonoBehaviour
             gameTime = 0f;
         }
 
-        if (lifeTime < 0)
+        if (lifeTime <= 0)
+        {
             lifeTime = 0;
+            isRunning = false;
+            OnTimerFinished?.Invoke();
+        }
 
-        // ⏱ перевод в формат 10:00
         int minutes = Mathf.FloorToInt(lifeTime / 60);
         int seconds = Mathf.FloorToInt(lifeTime % 60);
 
-        timer.text = $"Time left until the end of the level: {minutes:00}:{seconds:00}";
+        timer.text = $"Time left: {minutes:00}:{seconds:00}";
 
-        // 🎨 цвет
-        if (lifeTime <= 3)
-        {
-            timer.color = Color.red;
-        }
-        else if (lifeTime <= 5)
-        {
-            timer.color = Color.yellow;
-        }
+        
     }
 }
