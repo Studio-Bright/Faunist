@@ -1,6 +1,4 @@
 using UnityEngine;
-
-[RequireComponent(typeof(Rigidbody))]
 public class PickupItem : MonoBehaviour
 {
     public string itemName;
@@ -8,15 +6,36 @@ public class PickupItem : MonoBehaviour
     public Rigidbody rb;
     public Sprite icon;
 
+    public ItemType itemType;
+
+    public LiquidType containedLiquid = LiquidType.None;
+
+    public enum ItemType
+    {
+        Ingredient,
+        Bucket
+    }
+
+    public enum LiquidType
+    {
+        None,
+        Water
+    }
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    public void OnPickup()
+
+public void OnPickup()
     {
         rb.isKinematic = true;
         rb.useGravity = false;
+
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
         gameObject.SetActive(false);
     }
 
@@ -31,16 +50,7 @@ public class PickupItem : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        // Try snapping to synthesis table
-        SynthesisTable[] tables = FindObjectsByType<SynthesisTable>(FindObjectsSortMode.None);
-
-        foreach (var table in tables)
-        {
-            if (table.TrySnapItem(this))
-            {
-                return; // stop if snapped
-            }
-        }
+     
     }
 
 }

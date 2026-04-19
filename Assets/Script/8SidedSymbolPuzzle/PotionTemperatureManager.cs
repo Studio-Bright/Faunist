@@ -9,20 +9,7 @@ public class PotionTemperatureManager : MonoBehaviour
     public PotionState finalTemperature;
     public bool temperatureReady = false;
 
-    private PotionState requiredState;
-
-    public enum PotionState
-    {
-        Cold,
-        Heated,
-        Hot,
-        Boiling
-    }
-
-
     private List<EightSidedPuzzle> puzzles = new List<EightSidedPuzzle>();
-
-    
 
     public void RegisterPuzzle(EightSidedPuzzle puzzle)
     {
@@ -36,9 +23,7 @@ public class PotionTemperatureManager : MonoBehaviour
         completedCount++;
 
         if (completedCount == 3)
-        {
             EvaluateFinalTemperature();
-        }
     }
 
     void EvaluateFinalTemperature()
@@ -54,9 +39,7 @@ public class PotionTemperatureManager : MonoBehaviour
     void ResetAllPuzzles()
     {
         foreach (var puzzle in puzzles)
-        {
             puzzle.ResetPuzzle();
-        }
 
         totalTemperature = 0;
         completedCount = 0;
@@ -65,10 +48,8 @@ public class PotionTemperatureManager : MonoBehaviour
     PotionState ConvertValueToState(int value)
     {
         if (value <= -2) return PotionState.Cold;
-        if (value == -1) return PotionState.Heated;
+        if (value == -1) return PotionState.Warm;
         if (value <= 1) return PotionState.Hot;
         return PotionState.Boiling;
     }
-
-  
 }

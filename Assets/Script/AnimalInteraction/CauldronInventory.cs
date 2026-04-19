@@ -6,19 +6,14 @@ public class CauldronInventory : MonoBehaviour, IInteractable
     public List<PotionRecipe> potionRecipes = new List<PotionRecipe>();
     private List<string> currentIngredients = new List<string>();
 
-    public PhysicalStatePuzzle physicalPuzzle;
     public PotionTemperatureManager temperatureManager;
+
+    private bool hasWater = false;
 
     public void Interact(PlayerInteraction player)
     {
         TryAddIngredient(player);
     }
-
-   
-
-    // =========================
-    // ADD INGREDIENT
-    // =========================
 
     private void TryAddIngredient(PlayerInteraction player)
     {
@@ -30,8 +25,21 @@ public class CauldronInventory : MonoBehaviour, IInteractable
             return;
         }
 
-        AddIngredient(selectedItem.itemName);
+        if (!hasWater && selectedItem.itemType == PickupItem.ItemType.Ingredient)
+        {
+            Debug.Log("You need water first!");
+            return;
+        }
 
+        if (selectedItem.itemType == PickupItem.ItemType.Bucket &&
+            selectedItem.containedLiquid == PickupItem.LiquidType.Water)
+        {
+            AddWater();
+            selectedItem.containedLiquid = PickupItem.LiquidType.None;
+            return;
+        }
+
+        AddIngredient(selectedItem.itemName);
         player.inventory.RemoveSelected();
 
         Debug.Log(selectedItem.itemName + " added to cauldron.");
@@ -46,7 +54,7 @@ public class CauldronInventory : MonoBehaviour, IInteractable
     // =========================
     // BREW
     // =========================
-    public void Brew()
+    public void Brew(PhysicalState currentState)
     {
         if (!temperatureManager.temperatureReady)
         {
@@ -54,8 +62,7 @@ public class CauldronInventory : MonoBehaviour, IInteractable
             return;
         }
 
-        int currentState = physicalPuzzle.GetCurrentState();
-        var currentTemperature = temperatureManager.finalTemperature;
+        PotionState currentTemperature = temperatureManager.finalTemperature;
 
         foreach (var recipe in potionRecipes)
         {
@@ -65,23 +72,26 @@ public class CauldronInventory : MonoBehaviour, IInteractable
             {
                 Debug.Log("✅ Potion created: " + recipe.recipeName);
 
-                currentIngredients.Clear();
-                temperatureManager.temperatureReady = false;
+                Instantiate(recipe.potionPrefab, transform.position, Quaternion.identity);
+
+                ResetCauldron();
                 return;
             }
         }
 
         Debug.Log("❌ Potion failed!");
+        ResetCauldron();
+    }
 
+    private void ResetCauldron()
+    {
         currentIngredients.Clear();
         temperatureManager.temperatureReady = false;
+        hasWater = false;
     }
-    // =========================
-    // MATCH CHECK
-    // =========================
+
     private bool IsRecipeMatch(PotionRecipe recipe)
     {
-        // must match count exactly
         if (recipe.ingredients.Count != currentIngredients.Count)
             return false;
 
@@ -95,7 +105,18 @@ public class CauldronInventory : MonoBehaviour, IInteractable
             temp.Remove(required);
         }
 
-        // extra items protection
         return temp.Count == 0;
+    }
+
+    private void AddWater()
+    {
+        if (hasWater)
+        {
+            Debug.Log("Cauldron already has water!");
+            return;
+        }
+
+        hasWater = true;
+        Debug.Log("💧 Water added to cauldron!");
     }
 }

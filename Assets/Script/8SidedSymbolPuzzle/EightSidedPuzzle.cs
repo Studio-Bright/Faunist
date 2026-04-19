@@ -6,6 +6,7 @@ public class EightSidedPuzzle : MonoBehaviour
     [Header("Setup")]
     public GameObject nodePrefab;
     public float radius = 3f;
+    public float lineWidth = 0.05f;
     public Camera puzzleCamera;
 
     [Header("External")]
@@ -115,7 +116,7 @@ public class EightSidedPuzzle : MonoBehaviour
     void SetupLineRenderer()
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.widthMultiplier = 0.05f;
+        lineRenderer.widthMultiplier = lineWidth;
         lineRenderer.positionCount = 0;
         lineRenderer.useWorldSpace = true;
     }

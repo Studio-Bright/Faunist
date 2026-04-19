@@ -6,8 +6,8 @@ public class AnimalEncounterManager : MonoBehaviour
     public Transform spawnPoint;
     public Timer timer;
 
-    private Queue<AnimalData> animalQueue;
-    private AnimalData currentAnimal;
+    public Queue<AnimalData> animalQueue;
+    public AnimalData currentAnimal;
     private GameObject currentInstance;
     public DayManager dayManager;
 
@@ -26,13 +26,17 @@ public class AnimalEncounterManager : MonoBehaviour
         {
             Debug.Log("Day complete!");
 
-            StartNextDay(); // 👈 NEW
+            StartNextDay(); 
             return;
         }
 
         currentAnimal = animalQueue.Dequeue();
 
-        currentInstance = Instantiate(currentAnimal.prefab, spawnPoint.position, Quaternion.identity);
+        currentInstance = Instantiate(
+    currentAnimal.prefab,
+    spawnPoint.position,
+    Quaternion.Euler(currentAnimal.spawnRotation)
+);
 
         canHeal = true;
 
@@ -49,7 +53,7 @@ public class AnimalEncounterManager : MonoBehaviour
         }
     }
 
-    void OnAnimalHealed()
+    public void OnAnimalHealed()
     {
         canHeal = false;
 

@@ -5,4 +5,6 @@ public class AnimalData
 {
     public GameObject prefab;
     public float healTime; // in seconds (600 = 10 min, 900 = 15 min)
+
+    public Vector3 spawnRotation;
 }
