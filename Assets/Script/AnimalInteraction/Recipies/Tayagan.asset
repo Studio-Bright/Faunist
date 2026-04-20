@@ -17,4 +17,4 @@ MonoBehaviour:
   - MagmaEssence
   requiredPhysicalState: 0
   requiredTemperature: 0
-  potionPrefab: {fileID: 919132149155446097, guid: 8a229c0cf67550b4c90fb94ee049fa96, type: 3}
+  potionPrefab: {fileID: 7629232529631559383, guid: 7d3701c8093b9334d8bc6860696d6e8f, type: 3}
