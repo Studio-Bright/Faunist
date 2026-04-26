@@ -1,14 +1,20 @@
 using UnityEngine;
+
 public class PickupItem : MonoBehaviour
 {
     public string itemName;
-
-    public Rigidbody rb;
     public Sprite icon;
 
     public ItemType itemType;
-
     public LiquidType containedLiquid = LiquidType.None;
+
+    [Header("Physics")]
+    public Rigidbody rb;
+
+    [Header("Hold Visual")]
+    public GameObject holdVisualPrefab;
+    [HideInInspector] public GameObject spawnedHoldVisual;
+    public bool holdableInHands = false;
 
     public enum ItemType
     {
@@ -27,12 +33,10 @@ public class PickupItem : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-
-public void OnPickup()
+    public void OnPickup()
     {
         rb.isKinematic = true;
         rb.useGravity = false;
-
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
@@ -46,11 +50,13 @@ public void OnPickup()
 
         rb.isKinematic = false;
         rb.useGravity = true;
-
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-
-     
     }
 
+    // ✅ NEW: safe helper (NO STRUCTURE CHANGE)
+    public GameObject GetHoldVisual()
+    {
+        return holdVisualPrefab != null ? holdVisualPrefab : gameObject;
+    }
 }

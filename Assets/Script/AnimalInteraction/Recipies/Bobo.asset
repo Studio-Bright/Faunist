@@ -18,5 +18,5 @@ MonoBehaviour:
   - "\u0421hamomile"
   - LavanderEssentialOil
   requiredPhysicalState: 1
-  requiredTemperature: 2
-  potionPrefab: {fileID: 0}
+  requiredTemperature: 3
+  potionPrefab: {fileID: 7629232529631559383, guid: 7d3701c8093b9334d8bc6860696d6e8f, type: 3}

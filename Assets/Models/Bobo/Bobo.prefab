@@ -79,6 +79,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4c6a9667285fca04193b0659be5aac97, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7786350704524479672}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4c6a9667285fca04193b0659be5aac97, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7458022329042564735}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4c6a9667285fca04193b0659be5aac97, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3948359675141828240}
   m_SourcePrefab: {fileID: 100100000, guid: 4c6a9667285fca04193b0659be5aac97, type: 3}
 --- !u!1 &6548496109830626272 stripped
 GameObject:
@@ -107,3 +113,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-7458022329042564735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6548496109830626272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49beb284eb2a6d643b400bf23b9f5d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animal
+  animalID: All
+--- !u!135 &3948359675141828240
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6548496109830626272}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.05
+  m_Center: {x: 0, y: 0.04, z: 0}

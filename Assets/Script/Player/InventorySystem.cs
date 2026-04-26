@@ -14,7 +14,8 @@ public class InventorySystem : MonoBehaviour
     private List<Image> icons = new List<Image>();
     private List<GameObject> overlays = new List<GameObject>();
 
-    // Add item and create slot
+
+    public PlayerHands playerHands;
     public void AddItem(PickupItem item)
     {
         items.Add(item);
@@ -22,7 +23,6 @@ public class InventorySystem : MonoBehaviour
 
         GameObject slot = Instantiate(slotPrefab, slotParent);
 
-        // Cache references once (no more Find in Update)
         Image icon = slot.transform.Find("Icon")?.GetComponent<Image>();
         GameObject overlay = slot.transform.Find("Overlay")?.gameObject;
 
@@ -36,9 +36,9 @@ public class InventorySystem : MonoBehaviour
         }
 
         UpdateUI();
+        RefreshHands();
     }
 
-    // Remove currently selected item
     public void RemoveSelected()
     {
         if (items.Count == 0 || selectedIndex < 0) return;
@@ -46,17 +46,20 @@ public class InventorySystem : MonoBehaviour
         items.RemoveAt(selectedIndex);
 
         Destroy(slotParent.GetChild(selectedIndex).gameObject);
+
         icons.RemoveAt(selectedIndex);
         overlays.RemoveAt(selectedIndex);
 
-        // Adjust selection
         if (items.Count == 0)
         {
             selectedIndex = -1;
+            playerHands.Clear();
         }
-        else if (selectedIndex >= items.Count)
+        else
         {
-            selectedIndex = items.Count - 1;
+            if (selectedIndex >= items.Count)
+                selectedIndex = items.Count - 1;
+            RefreshHands();
         }
 
         UpdateUI();
@@ -70,13 +73,15 @@ public class InventorySystem : MonoBehaviour
         return items[selectedIndex];
     }
 
-    // Use int direction instead of float
     public void Scroll(int direction)
     {
         if (items.Count == 0) return;
 
         selectedIndex = (selectedIndex + direction + items.Count) % items.Count;
+
         UpdateUI();
+
+        RefreshHands();
     }
 
     private void UpdateUI()
@@ -100,5 +105,24 @@ public class InventorySystem : MonoBehaviour
 
         selectedIndex = index;
         UpdateUI();
+
+
+        RefreshHands();
+    }
+
+    private void RefreshHands()
+    {
+        if (playerHands == null) return;
+
+        PickupItem item = GetSelectedItem();
+        if (item == null) return;
+
+        if (!item.holdableInHands)
+        {
+            playerHands.Clear();
+            return;
+        }
+
+        playerHands.ShowItem(item);
     }
 }

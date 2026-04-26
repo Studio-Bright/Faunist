@@ -107,7 +107,7 @@ public class PlayerInteraction : MonoBehaviour
         currentMechanism = mechanism;
         eightPuzzle.isInteractable = true;
         statePuzzle.isInteractable = true;
-        dominoPuzzle.isInteractable = true;
+        //dominoPuzzle.isInteractable = true;
 
     }
 
@@ -118,7 +118,7 @@ public class PlayerInteraction : MonoBehaviour
             StartCoroutine(currentMechanism.ExitMechanism(this));
             eightPuzzle.isInteractable = false;
             statePuzzle.isInteractable = false;
-            dominoPuzzle.isInteractable = false;
+            //dominoPuzzle.isInteractable = false;
 
         }
 

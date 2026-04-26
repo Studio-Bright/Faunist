@@ -520,9 +520,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ebe2143a09b4e343a225ebea08aaa6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  speed: 5
+  normalSpeed: 5
+  preBellSpeed: 2
   jump: 2
   gravity: -9.81
+  currentSpeed: 0
   ladderGrabDistance: 0.6
   ladderSpeed: 3
 --- !u!114 &52176174
@@ -560,6 +562,7 @@ MonoBehaviour:
   selectedIndex: 0
   slotPrefab: {fileID: 2765740066412040878, guid: 2d1978be152e4674a8049524b2759cf9, type: 3}
   slotParent: {fileID: 516493311}
+  playerHands: {fileID: 0}
 --- !u!114 &52176176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,6 +578,7 @@ MonoBehaviour:
   interactDistance: 10
   cam: {fileID: 963194227}
   inventory: {fileID: 52176175}
+  animalEncounterManager: {fileID: 0}
 --- !u!1 &82966934 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6690420490818209423, guid: dea275d0e416dcf408a8a9dab50c50fe, type: 3}
@@ -2769,6 +2773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EightSidedPuzzleManager
   nodePrefab: {fileID: 3499951541474670545, guid: 75796b6b954e26a438aaece95a6af0a7, type: 3}
   radius: 0.7
+  lineWidth: 0.05
   puzzleCamera: {fileID: 963194227}
   temperatureManager: {fileID: 1366235575}
   isInteractable: 0
@@ -4459,10 +4464,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   itemName: Bucket
-  rb: {fileID: 0}
   icon: {fileID: 21300000, guid: 6409f434ed71c3f4ca5883cea90ce654, type: 3}
   itemType: 1
   containedLiquid: 0
+  rb: {fileID: 0}
+  holdVisualPrefab: {fileID: 0}
+  spawnedHoldVisual: {fileID: 0}
+  holdableInHands: 0
 --- !u!135 &959891455
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5173,10 +5181,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   itemName: 
-  rb: {fileID: 0}
   icon: {fileID: 21300000, guid: 726a2c83cdfb8024ea7985914cb54c6b, type: 3}
   itemType: 0
   containedLiquid: 0
+  rb: {fileID: 0}
+  holdVisualPrefab: {fileID: 0}
+  spawnedHoldVisual: {fileID: 0}
+  holdableInHands: 0
 --- !u!136 &1098939505
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6223,6 +6234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EightSidedPuzzleManager
   nodePrefab: {fileID: 3499951541474670545, guid: 75796b6b954e26a438aaece95a6af0a7, type: 3}
   radius: 0.7
+  lineWidth: 0.05
   puzzleCamera: {fileID: 963194227}
   temperatureManager: {fileID: 1366235575}
   isInteractable: 0
@@ -6454,6 +6466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EightSidedPuzzleManager
   nodePrefab: {fileID: 3499951541474670545, guid: 75796b6b954e26a438aaece95a6af0a7, type: 3}
   radius: 0.7
+  lineWidth: 0.05
   puzzleCamera: {fileID: 963194227}
   temperatureManager: {fileID: 1366235575}
   isInteractable: 0
@@ -6776,11 +6789,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f662a98c826dc754fbc10ca7c66b6ddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
-  dialogue1: {fileID: 11400000, guid: 5ee09d964159b5d47850593e708277a5, type: 2}
   dialogueUI: {fileID: 524350633}
   dialogueText: {fileID: 410831225}
   characterImage: {fileID: 1237405131}
   typingSpeed: 0.03
+  playerMovement: {fileID: 0}
 --- !u!4 &1546407311
 Transform:
   m_ObjectHideFlags: 0
@@ -7936,12 +7949,6 @@ MonoBehaviour:
   cube2: {fileID: 1144056413}
   cube3: {fileID: 1026132162}
   cube4: {fileID: 1391442395}
-  resultPrefabs:
-  - {fileID: 4493386393979996868, guid: 6c6e34935c9108f4facd0f341f5c2ede, type: 3}
-  - {fileID: 7747332288021247633, guid: e3778cdf005e5aa48b33c49ac460d9c1, type: 3}
-  - {fileID: 1676352068288434311, guid: 629872941551a9f4ea301a66e624bd7a, type: 3}
-  - {fileID: 8957493037377625962, guid: 4aa9701eb9afe2a429ecd013142da312, type: 3}
-  spawnPoint: {fileID: 819983725}
   isInteractable: 0
 --- !u!65 &1850680724
 BoxCollider:
@@ -8460,166 +8467,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c23511dea50403a46a8b5ff0ee324eab, type: 3}
---- !u!1 &2023276341
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2023276347}
-  - component: {fileID: 2023276346}
-  - component: {fileID: 2023276345}
-  - component: {fileID: 2023276344}
-  - component: {fileID: 2023276343}
-  - component: {fileID: 2023276342}
-  m_Layer: 0
-  m_Name: FireFly
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2023276342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023276341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f84bfb14c608c9d4ca26f01e29bbe361, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PickupItem
-  itemName: Firefly
-  rb: {fileID: 0}
-  icon: {fileID: 21300000, guid: 88b0d4636170c3447a64bc96da40287c, type: 3}
-  itemType: 0
-  containedLiquid: 0
---- !u!54 &2023276343
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023276341}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!136 &2023276344
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023276341}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &2023276345
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023276341}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &2023276346
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023276341}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &2023276347
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023276341}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 8.326, y: 0.23, z: 2.097}
-  m_LocalScale: {x: 0.17, y: 0.17, z: 0.17}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!4 &2048662660 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5862653320771585280, guid: 636a8173d2fc8b6429aab2a140c495df, type: 3}
@@ -8656,13 +8503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CauldronInventory
   potionRecipes:
-  - recipeName: Stabilize Snail
-    ingredients:
-    - Energy Essence
-    - Firefly
-    requiredPhysicalState: 2
-    requiredTemperature: 3
-  physicalPuzzle: {fileID: 1850680723}
+  - {fileID: 0}
   temperatureManager: {fileID: 1366235575}
 --- !u!4 &2048996435
 Transform:
@@ -10037,6 +9878,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c2e5fd9843150c41b1caca63f06f0ed, type: 3}
+--- !u!1001 &7886836467496354241
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4348342012588809670, guid: c9c4edbf273ab004ca45cc26525c7903, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.326
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348342012588809670, guid: c9c4edbf273ab004ca45cc26525c7903, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348342012588809670, guid: c9c4edbf273ab004ca45cc26525c7903, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.097
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348342012588809670, guid: c9c4edbf273ab004ca45cc26525c7903, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348342012588809670, guid: c9c4edbf273ab004ca45cc26525c7903, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348342012588809670, guid: c9c4edbf273ab004ca45cc26525c7903, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348342012588809670, guid: c9c4edbf273ab004ca45cc26525c7903, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348342012588809670, guid: c9c4edbf273ab004ca45cc26525c7903, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348342012588809670, guid: c9c4edbf273ab004ca45cc26525c7903, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348342012588809670, guid: c9c4edbf273ab004ca45cc26525c7903, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188372911458364445, guid: c9c4edbf273ab004ca45cc26525c7903, type: 3}
+      propertyPath: m_Name
+      value: FireFly
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c9c4edbf273ab004ca45cc26525c7903, type: 3}
 --- !u!1001 &8218554875076900902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10182,7 +10080,7 @@ SceneRoots:
   - {fileID: 6969160609671273772}
   - {fileID: 1510351415}
   - {fileID: 2048996435}
-  - {fileID: 2023276347}
+  - {fileID: 7886836467496354241}
   - {fileID: 9002607070914949476}
   - {fileID: 367414332484532715}
   - {fileID: 1743283302}

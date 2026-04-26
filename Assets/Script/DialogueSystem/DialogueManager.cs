@@ -5,38 +5,41 @@ using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
-    public DialogueData dialogue1;
-
-
+    [Header("UI")]
     public GameObject dialogueUI;
     public TextMeshProUGUI dialogueText;
     public Image characterImage;
 
+    [Header("Settings")]
     public float typingSpeed = 0.03f;
+
+    [Header("Player")]
+    public PlayerMovementCC playerMovement; // assign in inspector
 
     private string[] lines;
     private int currentLine;
+
     private bool isTyping;
     private bool canContinue;
+    private bool isDialogueActive;
 
-    public System.Action onDialogueEnd;
     private System.Action onDialogueEndCallback;
 
     void Update()
     {
-        if (dialogueUI.activeSelf && canContinue && Input.GetMouseButtonDown(0))
+        if (!isDialogueActive) return;
+
+        if (canContinue && Input.GetMouseButtonDown(0))
         {
             NextLine();
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            StartDialogue(dialogue1);
         }
     }
 
     public void StartDialogue(DialogueData dialogue, System.Action onComplete = null)
     {
+        if (isDialogueActive) return; // prevent double triggering
+
+        isDialogueActive = true;
         onDialogueEndCallback = onComplete;
 
         dialogueUI.SetActive(true);
@@ -46,7 +49,12 @@ public class DialogueManager : MonoBehaviour
 
         currentLine = 0;
 
-        Time.timeScale = 0f;
+        // 🔥 DO NOT PAUSE GAME
+        // Time.timeScale = 0f;
+
+        // 🔥 Slow player instead
+        if (playerMovement != null)
+            playerMovement.SetPreBellState();
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -58,27 +66,27 @@ public class DialogueManager : MonoBehaviour
     {
         isTyping = true;
         canContinue = false;
+
         dialogueText.text = "";
 
         foreach (char c in lines[currentLine])
         {
             dialogueText.text += c;
-            yield return new WaitForSecondsRealtime(typingSpeed);
+            yield return new WaitForSeconds(typingSpeed);
         }
 
         isTyping = false;
 
-        yield return new WaitForSecondsRealtime(1f); // delay before next
+        yield return new WaitForSeconds(1f);
 
         canContinue = true;
 
-        // auto advance
         StartCoroutine(AutoAdvance());
     }
 
     IEnumerator AutoAdvance()
     {
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSeconds(2f);
 
         if (canContinue)
         {
@@ -111,12 +119,18 @@ public class DialogueManager : MonoBehaviour
 
     void EndDialogue()
     {
+        StopAllCoroutines();
+
         dialogueUI.SetActive(false);
 
-        Time.timeScale = 1f;
+        // 🔥 Restore player speed
+        if (playerMovement != null)
+            playerMovement.SetNormalState();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        isDialogueActive = false;
 
         onDialogueEndCallback?.Invoke();
     }

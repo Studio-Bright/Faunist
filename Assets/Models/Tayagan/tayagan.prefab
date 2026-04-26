@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49beb284eb2a6d643b400bf23b9f5d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animal
-  animalID: Tayagan
+  animalID: All
 --- !u!136 &5132007275420393592
 CapsuleCollider:
   m_ObjectHideFlags: 0

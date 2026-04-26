@@ -12,6 +12,8 @@ public class PhysicalStatePuzzle : MonoBehaviour
     public bool isInteractable = false;
     public void CheckPuzzle()
     {
+        Debug.Log("Potion crafted");
+
         int r1 = cube1.GetRotationIndex();
         int r2 = cube2.GetRotationIndex();
         int r3 = cube3.GetRotationIndex();

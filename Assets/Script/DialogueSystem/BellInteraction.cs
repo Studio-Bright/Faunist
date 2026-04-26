@@ -4,7 +4,7 @@ using System.Collections;
 public class BellInteraction : MonoBehaviour, IInteractable
 {
     public DialogueManager dialogueManager;
-    public DialogueData dialogue;
+    public DialogueData introDialogue;     
 
     public AudioSource bellAudio;
 
@@ -17,6 +17,9 @@ public class BellInteraction : MonoBehaviour, IInteractable
 
     private bool canInteract = false;
     private bool hasPlayed = false;
+    private bool hasStartedDay = false;
+
+    public System.Action onBellRung;
 
     void Awake()
     {
@@ -56,16 +59,29 @@ public class BellInteraction : MonoBehaviour, IInteractable
         if (!canInteract || hasPlayed) return;
 
         hasPlayed = true;
-
         player.DisablePlayerControl();
 
-        dialogueManager.StartDialogue(dialogue, () =>
+        DialogueData dialogueToPlay = null;
+
+        if (!hasStartedDay)
         {
-            StartCoroutine(StartDayAfterDelay(player));
+            dialogueToPlay = introDialogue;
+        }
+       
+
+        // If no dialogue → skip directly
+        if (dialogueToPlay == null)
+        {
+            HandleBellLogic(player);
+            return;
+        }
+
+        dialogueManager.StartDialogue(dialogueToPlay, () =>
+        {
+            HandleBellLogic(player);
         });
     }
-
-    IEnumerator StartDayAfterDelay(PlayerInteraction player)
+    /*IEnumerator StartDayAfterDelay(PlayerInteraction player)
     {
         yield return new WaitForSeconds(1f);
 
@@ -75,5 +91,37 @@ public class BellInteraction : MonoBehaviour, IInteractable
         encounterManager.StartDay(day);
 
         Debug.Log("Day started after dialogue.");
+    }
+    */
+    IEnumerator FinishInteraction(PlayerInteraction player)
+    {
+        yield return new WaitForSeconds(1f);
+        player.EnablePlayerControl();
+    }
+
+    public void ResetBell()
+    {
+        hasPlayed = false;
+        canInteract = true; // or false if you want delay again
+    }
+
+    void HandleBellLogic(PlayerInteraction player)
+    {
+        if (!hasStartedDay)
+        {
+            hasStartedDay = true;
+
+            var day = dayManager.GetCurrentDay();
+            encounterManager.StartDay(day);
+
+            Debug.Log("Day started!");
+        }
+        else
+        {
+            Debug.Log("Bell rung for progression");
+            onBellRung?.Invoke();
+        }
+
+        StartCoroutine(FinishInteraction(player));
     }
 }

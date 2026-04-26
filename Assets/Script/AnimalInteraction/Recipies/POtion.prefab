@@ -155,10 +155,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   itemName: 
-  rb: {fileID: 0}
   icon: {fileID: 0}
   itemType: 0
   containedLiquid: 0
+  rb: {fileID: 0}
+  holdVisualPrefab: {fileID: 0}
+  spawnedHoldVisual: {fileID: 0}
+  holdableInHands: 0
 --- !u!114 &6876391602581640561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,4 +175,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PotionItem
   potionID: 1
-  targetAnimalID: Tayagan
+  targetAnimalID: All
