@@ -1209,7 +1209,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: c0b00dbe59bfe574cb5ba61ce478fd6e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: c0b00dbe59bfe574cb5ba61ce478fd6e, type: 3}
       propertyPath: m_Name
       value: small_vase (2)
@@ -1635,8 +1635,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -7277,7 +7277,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: a4bcb835e5276644f892a25c1afd7fbf, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c4fb30d786b6e9c4abc28ea3e29837ef, type: 2}
+      objectReference: {fileID: 2100000, guid: 9cd32b2ede413cf4e82a990c8467156d, type: 2}
     - target: {fileID: 919132149155446097, guid: a4bcb835e5276644f892a25c1afd7fbf, type: 3}
       propertyPath: m_Name
       value: Shelf_low (3)
@@ -8994,7 +8994,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 67dbba095d3b4044c82335314c6c0026, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: af3e52202a3c1b54ca34e88cb8764bcb, type: 2}
+      objectReference: {fileID: 2100000, guid: 15916032c44ea3545af2109fd7631ddc, type: 2}
     - target: {fileID: 919132149155446097, guid: 67dbba095d3b4044c82335314c6c0026, type: 3}
       propertyPath: m_Name
       value: FlowerPot_02
@@ -12522,7 +12522,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: m_Name
       value: Crate_v02 (3)
@@ -12828,7 +12828,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: m_Name
       value: Crate_v02 (2)
@@ -13819,7 +13819,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6e2112c21beaa3c41a38ace6662b5a64, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: 6e2112c21beaa3c41a38ace6662b5a64, type: 3}
       propertyPath: m_Name
       value: Crate_v01 (3)
@@ -16857,7 +16857,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: b48e8cd331cfa8d4fa52658811a39175, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c4fb30d786b6e9c4abc28ea3e29837ef, type: 2}
+      objectReference: {fileID: 2100000, guid: 9cd32b2ede413cf4e82a990c8467156d, type: 2}
     - target: {fileID: 919132149155446097, guid: b48e8cd331cfa8d4fa52658811a39175, type: 3}
       propertyPath: m_Name
       value: Shelf_high (2)
@@ -18176,7 +18176,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: e6683a5b4f2854741a428c438c01710c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: ff8907e358748cc46b0205324c70d47e, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: e6683a5b4f2854741a428c438c01710c, type: 3}
       propertyPath: m_Name
       value: Bookshelf_v02 (1)
@@ -19535,7 +19535,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 313e0883d9708c041b025e22e4d5677a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 6add8783f147cd24995fcac355926a7d, type: 2}
+      objectReference: {fileID: 2100000, guid: b8845621b0b14c6439b0e0800020b079, type: 2}
     - target: {fileID: 919132149155446097, guid: 313e0883d9708c041b025e22e4d5677a, type: 3}
       propertyPath: m_Name
       value: Chair (2)
@@ -20644,7 +20644,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: b48e8cd331cfa8d4fa52658811a39175, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c4fb30d786b6e9c4abc28ea3e29837ef, type: 2}
+      objectReference: {fileID: 2100000, guid: 9cd32b2ede413cf4e82a990c8467156d, type: 2}
     - target: {fileID: 919132149155446097, guid: b48e8cd331cfa8d4fa52658811a39175, type: 3}
       propertyPath: m_Name
       value: Shelf_high (3)
@@ -21181,7 +21181,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 22c4d36463d47114aaf1b413c5b30098, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: 22c4d36463d47114aaf1b413c5b30098, type: 3}
       propertyPath: m_Name
       value: flask_7 (4)
@@ -23835,7 +23835,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: e6683a5b4f2854741a428c438c01710c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: ff8907e358748cc46b0205324c70d47e, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: e6683a5b4f2854741a428c438c01710c, type: 3}
       propertyPath: m_Name
       value: Bookshelf_v02 (4)
@@ -25149,7 +25149,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: f5d65a66b318ad2428ab46a902c4c4fa, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: f5d65a66b318ad2428ab46a902c4c4fa, type: 3}
       propertyPath: m_Name
       value: bowl (4)
@@ -30679,7 +30679,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: d2c0f16e453455644af9ec685a6cbb75, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: d2c0f16e453455644af9ec685a6cbb75, type: 3}
       propertyPath: m_Name
       value: jar (11)
@@ -30838,7 +30838,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: m_Name
       value: Crate_v02 (1)
@@ -31335,7 +31335,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: cbe7b78defed8b345825551f345a9ac6, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: cbe7b78defed8b345825551f345a9ac6, type: 3}
       propertyPath: m_Name
       value: flask_6 (4)
@@ -31679,7 +31679,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: e6683a5b4f2854741a428c438c01710c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: ff8907e358748cc46b0205324c70d47e, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: e6683a5b4f2854741a428c438c01710c, type: 3}
       propertyPath: m_Name
       value: Bookshelf_v02 (3)
@@ -39168,7 +39168,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: b48e8cd331cfa8d4fa52658811a39175, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c4fb30d786b6e9c4abc28ea3e29837ef, type: 2}
+      objectReference: {fileID: 2100000, guid: 9cd32b2ede413cf4e82a990c8467156d, type: 2}
     - target: {fileID: 919132149155446097, guid: b48e8cd331cfa8d4fa52658811a39175, type: 3}
       propertyPath: m_Name
       value: Shelf_high (4)
@@ -43064,7 +43064,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: cbe7b78defed8b345825551f345a9ac6, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: cbe7b78defed8b345825551f345a9ac6, type: 3}
       propertyPath: m_Name
       value: flask_6 (4)
@@ -45523,7 +45523,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6e2112c21beaa3c41a38ace6662b5a64, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: 6e2112c21beaa3c41a38ace6662b5a64, type: 3}
       propertyPath: m_Name
       value: Crate_v01 (4)
@@ -46187,7 +46187,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: m_Name
       value: Crate_v02 (9)
@@ -52519,7 +52519,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: m_Name
       value: Crate_v02 (7)
@@ -56150,7 +56150,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: f9b7fd578b1e009428384bf6a98f0322, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: f9b7fd578b1e009428384bf6a98f0322, type: 3}
       propertyPath: m_Name
       value: Candle_3 (3)
@@ -57542,7 +57542,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 22c4d36463d47114aaf1b413c5b30098, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: 22c4d36463d47114aaf1b413c5b30098, type: 3}
       propertyPath: m_Name
       value: flask_7 (4)
@@ -59235,7 +59235,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6e2112c21beaa3c41a38ace6662b5a64, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: 6e2112c21beaa3c41a38ace6662b5a64, type: 3}
       propertyPath: m_Name
       value: Crate_v01 (2)
@@ -65096,7 +65096,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: d2c0f16e453455644af9ec685a6cbb75, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: d2c0f16e453455644af9ec685a6cbb75, type: 3}
       propertyPath: m_Name
       value: jar (8)
@@ -66247,7 +66247,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: m_Name
       value: Crate_v02 (4)
@@ -71215,7 +71215,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4560337948410812929, guid: 7d3701c8093b9334d8bc6860696d6e8f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.341
+      value: -2.043
       objectReference: {fileID: 0}
     - target: {fileID: 4560337948410812929, guid: 7d3701c8093b9334d8bc6860696d6e8f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -72782,7 +72782,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: m_Name
       value: Crate_v02 (5)
@@ -76976,7 +76976,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: a4bcb835e5276644f892a25c1afd7fbf, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c4fb30d786b6e9c4abc28ea3e29837ef, type: 2}
+      objectReference: {fileID: 2100000, guid: 9cd32b2ede413cf4e82a990c8467156d, type: 2}
     - target: {fileID: 919132149155446097, guid: a4bcb835e5276644f892a25c1afd7fbf, type: 3}
       propertyPath: m_Name
       value: Shelf_low (5)
@@ -77053,7 +77053,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: a4bcb835e5276644f892a25c1afd7fbf, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c4fb30d786b6e9c4abc28ea3e29837ef, type: 2}
+      objectReference: {fileID: 2100000, guid: 9cd32b2ede413cf4e82a990c8467156d, type: 2}
     - target: {fileID: 919132149155446097, guid: a4bcb835e5276644f892a25c1afd7fbf, type: 3}
       propertyPath: m_Name
       value: Shelf_low (2)
@@ -78162,7 +78162,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: d2c0f16e453455644af9ec685a6cbb75, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: d2c0f16e453455644af9ec685a6cbb75, type: 3}
       propertyPath: m_Name
       value: jar (10)
@@ -81855,7 +81855,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: d2c0f16e453455644af9ec685a6cbb75, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: d2c0f16e453455644af9ec685a6cbb75, type: 3}
       propertyPath: m_Name
       value: jar (11)
@@ -83588,7 +83588,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 313e0883d9708c041b025e22e4d5677a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 6add8783f147cd24995fcac355926a7d, type: 2}
+      objectReference: {fileID: 2100000, guid: b8845621b0b14c6439b0e0800020b079, type: 2}
     - target: {fileID: 919132149155446097, guid: 313e0883d9708c041b025e22e4d5677a, type: 3}
       propertyPath: m_Name
       value: Chair (3)
@@ -84243,7 +84243,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: c0b00dbe59bfe574cb5ba61ce478fd6e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: c0b00dbe59bfe574cb5ba61ce478fd6e, type: 3}
       propertyPath: m_Name
       value: small_vase (2)
@@ -85890,7 +85890,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: d2c0f16e453455644af9ec685a6cbb75, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: d2c0f16e453455644af9ec685a6cbb75, type: 3}
       propertyPath: m_Name
       value: jar (8)
@@ -94116,7 +94116,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 313e0883d9708c041b025e22e4d5677a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 6add8783f147cd24995fcac355926a7d, type: 2}
+      objectReference: {fileID: 2100000, guid: b8845621b0b14c6439b0e0800020b079, type: 2}
     - target: {fileID: 919132149155446097, guid: 313e0883d9708c041b025e22e4d5677a, type: 3}
       propertyPath: m_Name
       value: Chair (1)
@@ -95030,7 +95030,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: e6683a5b4f2854741a428c438c01710c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: ff8907e358748cc46b0205324c70d47e, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: e6683a5b4f2854741a428c438c01710c, type: 3}
       propertyPath: m_Name
       value: Bookshelf_v02 (2)
@@ -96846,7 +96846,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6e2112c21beaa3c41a38ace6662b5a64, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: 6e2112c21beaa3c41a38ace6662b5a64, type: 3}
       propertyPath: m_Name
       value: Crate_v01 (1)
@@ -97986,7 +97986,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: m_Name
       value: Crate_v02 (8)
@@ -99948,7 +99948,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: d2c0f16e453455644af9ec685a6cbb75, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a3382326ed058148891356d51a4d098, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e02700148cc85b4a9050cbe38ad29ac, type: 2}
     - target: {fileID: 919132149155446097, guid: d2c0f16e453455644af9ec685a6cbb75, type: 3}
       propertyPath: m_Name
       value: jar (10)
@@ -100160,7 +100160,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: aaca7975bdfcc7b4c8907e8162241b2c, type: 3}
       propertyPath: m_Name
       value: Crate_v02 (6)
@@ -100658,7 +100658,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6e2112c21beaa3c41a38ace6662b5a64, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7fecc72d95833304d8c08ed203bbf3a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 58bb307add20dcd4e9a6d62e235248ea, type: 2}
     - target: {fileID: 919132149155446097, guid: 6e2112c21beaa3c41a38ace6662b5a64, type: 3}
       propertyPath: m_Name
       value: Crate_v01 (5)
