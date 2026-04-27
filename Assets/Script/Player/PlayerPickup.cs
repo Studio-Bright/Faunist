@@ -5,83 +5,41 @@ public class PlayerPickup : MonoBehaviour
     public float interactDistance = 3f;
     public Camera cam;
     public InventorySystem inventory;
-    public AnimalEncounterManager animalEncounterManager;
 
-    private void Update()
+    void Update()
     {
+        HandleScroll();
         HandleClick();
+    }
+
+    void HandleScroll()
+    {
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        inventory.Scroll(scroll);
     }
 
     void HandleClick()
     {
-        if (!Input.GetMouseButtonDown(0)) return;
-
-        Ray ray = cam.ViewportPointToRay(Vector3.one * 0.5f);
-        RaycastHit hit;
-
-        int interactMask = ~LayerMask.GetMask("CraftLayer");
-
-        if (Physics.Raycast(ray, out hit, interactDistance, interactMask))
+        if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Hit: " + hit.collider.name);
+            Ray ray = cam.ViewportPointToRay(Vector3.one * 0.5f);
+            RaycastHit hit;
 
-            Drawer drawer = hit.collider.GetComponentInParent<Drawer>();
-            if (drawer != null)
+            if (Physics.Raycast(ray, out hit, interactDistance))
             {
-                drawer.Toggle();
-                return;
-            }
+                PickupItem item = hit.collider.GetComponent<PickupItem>();
 
-            SwingDoor door = hit.collider.GetComponentInParent<SwingDoor>();
-            if (door != null)
-            {
-                door.Toggle();
-                return;
-            }
-
-            if (hit.collider.TryGetComponent(out Animal animal))
-            {
-                TryUsePotionOnAnimal(animal);
-                return;
-            }
-
-            IInteractable interactable = hit.collider.GetComponentInParent<IInteractable>();
-            if (interactable != null)
-            {
-                interactable.Interact(GetComponent<PlayerInteraction>());
-                return;
-            }
-
-            PickupItem pickupItem = hit.collider.GetComponentInParent<PickupItem>();
-            if (pickupItem != null)
-            {
-                CraftItem craftItem = pickupItem.GetComponent<CraftItem>();
-
-                if (craftItem != null && craftItem.isPlacedOnTable)
+                if (item != null)
                 {
-                    craftItem.currentTable?.RemoveItem(craftItem);
+                    inventory.AddItem(item);
+                    item.OnPickup();
+                    return;
                 }
-
-                inventory.AddItem(pickupItem);
-                pickupItem.OnPickup();
-
-                Debug.Log("Picked item");
-                return;
             }
 
-            ItemSource source = hit.collider.GetComponent<ItemSource>();
-            if (source != null)
-            {
-                PickupItem newItem = source.GetItem();
-
-                if (newItem != null)
-                    inventory.AddItem(newItem);
-
-                return;
-            }
+            // If not hitting item → try placing
+            PlaceItem();
         }
-
-        PlaceItem();
     }
 
     void PlaceItem()
@@ -96,6 +54,7 @@ public class PlayerPickup : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, interactDistance))
         {
+            // small safe offset above surface
             dropPosition = hit.point + hit.normal * 0.05f;
         }
         else
@@ -107,33 +66,6 @@ public class PlayerPickup : MonoBehaviour
         inventory.RemoveSelected();
     }
 
-    void TryUsePotionOnAnimal(Animal animal)
-    {
-        PickupItem item = inventory.GetSelectedItem();
-        if (item == null) return;
 
-        PotionItem potion = item.GetComponent<PotionItem>();
 
-        if (potion == null)
-        {
-            Debug.Log("This is not a potion!");
-            return;
-        }
-
-        UsePotionOnAnimal(potion, animal);
-    }
-
-    public void UsePotionOnAnimal(PotionItem potion, Animal animal)
-    {
-        if (potion.targetAnimalID == animal.animalID)
-        {
-            Debug.Log("✅ Correct potion used!");
-            Destroy(potion.gameObject);
-            animalEncounterManager.OnAnimalHealed();
-        }
-        else
-        {
-            Debug.Log("❌ Wrong potion!");
-        }
-    }
 }

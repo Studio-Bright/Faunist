@@ -2,13 +2,11 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-
     public float interactDistance = 3f;
     public Camera cam;
     public InventorySystem inventory;
     public PlayerMovementCC movement;
     public CameraContoller cameraController;
-    
 
     [HideInInspector] public Vector3 originalCamPosition;
     [HideInInspector] public Quaternion originalCamRotation;
@@ -43,20 +41,6 @@ public class PlayerInteraction : MonoBehaviour
         HandleScroll();
         HandleInteraction();
         HandleClick();
-    }
-
-    void HandleScroll()
-    {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-
-        if (scroll > 0f)
-        {
-            inventory.Scroll(-1); // вверх
-        }
-        else if (scroll < 0f)
-        {
-            inventory.Scroll(1); // вниз
-        }
     }
 
     void HandleInteraction()
@@ -107,7 +91,7 @@ public class PlayerInteraction : MonoBehaviour
         currentMechanism = mechanism;
         eightPuzzle.isInteractable = true;
         statePuzzle.isInteractable = true;
-        //dominoPuzzle.isInteractable = true;
+        dominoPuzzle.isInteractable = true;
 
     }
 
@@ -118,12 +102,17 @@ public class PlayerInteraction : MonoBehaviour
             StartCoroutine(currentMechanism.ExitMechanism(this));
             eightPuzzle.isInteractable = false;
             statePuzzle.isInteractable = false;
-            //dominoPuzzle.isInteractable = false;
+            dominoPuzzle.isInteractable = false;
 
         }
 
     }
-    
+    void HandleScroll()
+    {
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        inventory.Scroll(scroll);
+    }
+
 
 
     void HandleClick()
@@ -143,9 +132,6 @@ public class PlayerInteraction : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, rayDistance))
             {
-                
-                
-
                 Debug.Log("Hit: " + hit.collider.name);
                 if (inPuzzleMode)
                 {
@@ -170,12 +156,17 @@ public class PlayerInteraction : MonoBehaviour
                         return;
                     }
 
-                  
 
                 }
                 else
                 {
-                    
+                    PickupItem pickupItem = hit.collider.GetComponent<PickupItem>();
+                    if (pickupItem != null)
+                    {
+                        inventory.AddItem(pickupItem);
+                        pickupItem.OnPickup();
+                        return;
+                    }
 
                     CauldronInventory cauldron = hit.collider.GetComponent<CauldronInventory>();
                     if (cauldron != null)
@@ -184,17 +175,33 @@ public class PlayerInteraction : MonoBehaviour
                         return;
                     }
                 }
-
-
             }
-            
 
-            /*if (!inPuzzleMode)
-                PlaceItem();*/
+            if (!inPuzzleMode)
+                PlaceItem();
         }
     }
-    
 
-    
 
+    void PlaceItem()
+    {
+        PickupItem selected = inventory.GetSelectedItem();
+        if (selected == null) return;
+
+        Ray ray = cam.ViewportPointToRay(Vector3.one * 0.5f);
+        RaycastHit hit;
+        Vector3 dropPosition;
+
+        if (Physics.Raycast(ray, out hit, interactDistance))
+        {
+            dropPosition = hit.point + hit.normal * 0.05f;
+        }
+        else
+        {
+            dropPosition = cam.transform.position + cam.transform.forward * interactDistance;
+        }
+
+        selected.OnDrop(dropPosition);
+        inventory.RemoveSelected();
+    }
 }

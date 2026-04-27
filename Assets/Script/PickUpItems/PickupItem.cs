@@ -1,32 +1,12 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PickupItem : MonoBehaviour
 {
     public string itemName;
-    public Sprite icon;
 
-    public ItemType itemType;
-    public LiquidType containedLiquid = LiquidType.None;
-
-    [Header("Physics")]
     public Rigidbody rb;
-
-    [Header("Hold Visual")]
-    public GameObject holdVisualPrefab;
-    [HideInInspector] public GameObject spawnedHoldVisual;
-    public bool holdableInHands = false;
-
-    public enum ItemType
-    {
-        Ingredient,
-        Bucket
-    }
-
-    public enum LiquidType
-    {
-        None,
-        Water
-    }
+    public Sprite icon;
 
     void Awake()
     {
@@ -37,9 +17,6 @@ public class PickupItem : MonoBehaviour
     {
         rb.isKinematic = true;
         rb.useGravity = false;
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-
         gameObject.SetActive(false);
     }
 
@@ -50,13 +27,20 @@ public class PickupItem : MonoBehaviour
 
         rb.isKinematic = false;
         rb.useGravity = true;
+
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+
+        // Try snapping to synthesis table
+        SynthesisTable[] tables = FindObjectsByType<SynthesisTable>(FindObjectsSortMode.None);
+
+        foreach (var table in tables)
+        {
+            if (table.TrySnapItem(this))
+            {
+                return; // stop if snapped
+            }
+        }
     }
 
-    // ✅ NEW: safe helper (NO STRUCTURE CHANGE)
-    public GameObject GetHoldVisual()
-    {
-        return holdVisualPrefab != null ? holdVisualPrefab : gameObject;
-    }
 }

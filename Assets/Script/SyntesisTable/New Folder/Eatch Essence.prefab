@@ -133,11 +133,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f84bfb14c608c9d4ca26f01e29bbe361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
-  itemName: EarthEssence
+  itemName: Earth Essence
   rb: {fileID: 0}
   icon: {fileID: 21300000, guid: f36d16285f04b4b4a90b11d2723af348, type: 3}
-  itemType: 0
-  containedLiquid: 0
 --- !u!114 &5273434405017006085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,8 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 405762b2909036942b8e61c5b07b5103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CraftItem
-  itemName: EarthEssence
-  currentTable: {fileID: 0}
+  itemName: Earth Essence
   isPlacedOnTable: 0
 --- !u!136 &3961058940346001578
 CapsuleCollider:

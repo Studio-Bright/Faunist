@@ -3,7 +3,6 @@ using UnityEngine;
 public class CraftItem : MonoBehaviour
 {
     public string itemName;
-    public SynthesisTable currentTable;
 
     [HideInInspector] public bool isPlacedOnTable = false;
 

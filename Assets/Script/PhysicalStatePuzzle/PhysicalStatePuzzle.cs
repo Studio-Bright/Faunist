@@ -9,11 +9,13 @@ public class PhysicalStatePuzzle : MonoBehaviour
     public RotatableItem cube3;
     public RotatableItem cube4;
 
+    public GameObject[] resultPrefabs; 
+    public Transform spawnPoint;
+
     public bool isInteractable = false;
+
     public void CheckPuzzle()
     {
-        Debug.Log("Potion crafted");
-
         int r1 = cube1.GetRotationIndex();
         int r2 = cube2.GetRotationIndex();
         int r3 = cube3.GetRotationIndex();
@@ -23,24 +25,29 @@ public class PhysicalStatePuzzle : MonoBehaviour
             ValidPair(r2, r3) &&
             ValidPair(r1, r2))
         {
-            cauldron.Brew(Convert(r4));
+            SpawnResult(r4);
         }
     }
 
     bool ValidPair(int previous, int next)
     {
-        return previous == next || (previous + 1) % 4 == next;
+        if (previous == next)
+            return true;
+        
+        if ((previous + 1) % 4 == next)
+            return true;
+
+        return false;
     }
 
-    PhysicalState Convert(int index)
+    void SpawnResult(int finalRotation)
     {
-        switch (index)
-        {
-            case 0: return PhysicalState.Solid;
-            case 1: return PhysicalState.Liquid;
-            case 2: return PhysicalState.Gas;
-            case 3: return PhysicalState.Essence;
-            default: return PhysicalState.Solid;
-        }
+        Instantiate(resultPrefabs[finalRotation], spawnPoint.position, Quaternion.identity);
+        cauldron.Brew();
+    }
+
+    public int GetCurrentState()
+    {
+        return cube4.GetRotationIndex();
     }
 }

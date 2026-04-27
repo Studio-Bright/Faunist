@@ -1,16 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PotionRecipe", menuName = "Potions/Recipe")]
-public class PotionRecipe : ScriptableObject
+[System.Serializable]
+public class PotionRecipe
 {
     public string recipeName;
 
-    public List<string> ingredients;
+    public List<string> ingredients = new List<string>();
 
-    public PhysicalState requiredPhysicalState;
+    public int requiredPhysicalState;
 
-    public PotionState requiredTemperature;
-
-    public GameObject potionPrefab;
+    public PotionTemperatureManager.PotionState requiredTemperature;
 }

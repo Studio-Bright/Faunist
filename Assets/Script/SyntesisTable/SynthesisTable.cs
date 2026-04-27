@@ -28,13 +28,67 @@ public class SynthesisTable : MonoBehaviour
         TryCraft();
     }
 
-    public void TryPlaceItem(CraftItem item, int slotIndex, Vector3 position)
+    public bool TrySnapItem(PickupItem pickup)
     {
-        if (currentItems[slotIndex] != null) return;
+        if (pickup == null) return false;
+
+        CraftItem item = pickup.GetComponent<CraftItem>();
+        if (item == null || item.isPlacedOnTable) return false;
+
+        float snapSqr = snapDistance * snapDistance;
+
+        Vector3 pos = pickup.transform.position;
+
+        if (currentItems[0] == null && (pos - slotA.position).sqrMagnitude < snapSqr)
+        {
+            SnapItem(item, 0, slotA.position);
+            return true;
+        }
+
+        if (currentItems[1] == null && (pos - slotB.position).sqrMagnitude < snapSqr)
+        {
+            SnapItem(item, 1, slotB.position);
+            return true;
+        }
+
+        if (currentItems[2] == null && (pos - slotC.position).sqrMagnitude < snapSqr)
+        {
+            SnapItem(item, 2, slotC.position);
+            return true;
+        }
+
+        return false;
+    }
+
+    void HandleSnapping()
+    {
+        PickupItem[] allPickupItems = Object.FindObjectsByType<PickupItem>(FindObjectsSortMode.None);
+
+        foreach (var pickup in allPickupItems)
+        {
+            CraftItem item = pickup.GetComponent<CraftItem>();
+            if (item == null || item.isPlacedOnTable) continue;
+
+            if (Vector3.Distance(pickup.transform.position, slotA.position) < snapDistance && currentItems[0] == null)
+            {
+                SnapItem(item, 0, slotA.position);
+            }
+            else if (Vector3.Distance(pickup.transform.position, slotB.position) < snapDistance && currentItems[1] == null)
+            {
+                SnapItem(item, 1, slotB.position);
+            }
+            else if (Vector3.Distance(pickup.transform.position, slotC.position) < snapDistance && currentItems[2] == null)
+            {
+                SnapItem(item, 2, slotC.position);
+            }
+        }
+    }
+
+    void SnapItem(CraftItem item, int slotIndex, Vector3 position)
+    {
         if (item.isPlacedOnTable) return;
 
         item.isPlacedOnTable = true;
-        item.currentTable = this; // ✅ IMPORTANT
 
         PickupItem pickup = item.GetComponent<PickupItem>();
 
@@ -43,17 +97,12 @@ public class SynthesisTable : MonoBehaviour
             pickup.rb.linearVelocity = Vector3.zero;
             pickup.rb.angularVelocity = Vector3.zero;
             pickup.rb.isKinematic = true;
-            pickup.rb.useGravity = false;
         }
 
         item.transform.position = position;
 
         currentItems[slotIndex] = item;
-
-        Debug.Log("Item placed in slot " + slotIndex);
     }
-
-
 
     void TryCraft()
     {
@@ -113,6 +162,10 @@ public class SynthesisTable : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
+        
+
+        
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(slotA.position, snapDistance);
 
@@ -122,31 +175,5 @@ public class SynthesisTable : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(slotC.position, snapDistance);
-    }
-
-    public void RemoveItem(CraftItem item)
-    {
-        for (int i = 0; i < currentItems.Length; i++)
-        {
-            if (currentItems[i] == item)
-            {
-                currentItems[i] = null;
-                break;
-            }
-        }
-
-        item.isPlacedOnTable = false;
-        item.currentTable = null;
-
-        PickupItem pickup = item.GetComponent<PickupItem>();
-        if (pickup != null)
-        {
-            pickup.rb.isKinematic = false;
-            pickup.rb.useGravity = true;
-            pickup.rb.linearVelocity = Vector3.zero;
-            pickup.rb.angularVelocity = Vector3.zero;
-        }
-
-        Debug.Log("Item removed from table");
     }
 }
