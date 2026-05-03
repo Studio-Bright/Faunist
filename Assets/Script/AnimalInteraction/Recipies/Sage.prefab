@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 7647807628567700491}
   - component: {fileID: 9069509988598692902}
   - component: {fileID: 4348096056096935278}
-  - component: {fileID: 9178186665845506789}
   - component: {fileID: 8932831427479825655}
+  - component: {fileID: 325713513318467416}
   m_Layer: 0
   m_Name: Sage
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 7643291920495828605}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.818, y: 1.74662, z: -1.811}
+  m_LocalPosition: {x: 6.038069, y: 0.050000716, z: 1.8870535}
   m_LocalScale: {x: 0.26, y: 0.26, z: 0.26}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -114,7 +114,27 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &9178186665845506789
+--- !u!114 &8932831427479825655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7643291920495828605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f84bfb14c608c9d4ca26f01e29bbe361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupItem
+  itemName: Sage
+  icon: {fileID: 0}
+  itemType: 0
+  containedLiquid: 0
+  rb: {fileID: 325713513318467416}
+  holdVisualPrefab: {fileID: 0}
+  spawnedHoldVisual: {fileID: 0}
+  holdableInHands: 0
+--- !u!54 &325713513318467416
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,27 +157,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8932831427479825655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7643291920495828605}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f84bfb14c608c9d4ca26f01e29bbe361, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PickupItem
-  itemName: Sage
-  icon: {fileID: 0}
-  itemType: 0
-  containedLiquid: 0
-  rb: {fileID: 9178186665845506789}
-  holdVisualPrefab: {fileID: 0}
-  spawnedHoldVisual: {fileID: 0}
-  holdableInHands: 0

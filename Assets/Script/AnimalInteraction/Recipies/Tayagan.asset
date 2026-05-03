@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PotionRecipe
   recipeName: Tayagan
   ingredients:
-  - MagmaEssence
   - Sage
-  - Pepper
   requiredPhysicalState: 2
   requiredTemperature: 3
   potionPrefab: {fileID: 7629232529631559383, guid: 7d3701c8093b9334d8bc6860696d6e8f, type: 3}

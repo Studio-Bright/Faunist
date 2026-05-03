@@ -7,10 +7,12 @@ public class ItemSource : MonoBehaviour
 
     public PickupItem GetItem()
     {
-        // Create a fresh instance (not in world)
-        PickupItem newItem = Instantiate(itemPrefab);
+        Vector3 spawnPosition = new Vector3(0f, -4f, 0f);
+        Quaternion spawnRotation = Quaternion.identity;
+
+        PickupItem newItem = Instantiate(itemPrefab, spawnPosition, spawnRotation);
         return newItem;
     }
 
-   
+
 }

@@ -117,14 +117,14 @@ public class AnimalEncounterManager : MonoBehaviour
         state = EncounterState.PostHeal;
 
         yield return new WaitForSecondsRealtime(currentAnimal.stayAfterHeal);
-
+        DestroyAnimal();
         bell.ResetBell();
 
         state = EncounterState.WaitingForBell;
 
         yield return StartCoroutine(WaitForBell());
 
-        DestroyAnimal();
+        
 
         yield return ShowHintDialogue();
 

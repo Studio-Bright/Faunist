@@ -7,6 +7,8 @@ public class CauldronInventory : MonoBehaviour, IInteractable
     private List<string> currentIngredients = new List<string>();
 
     public PotionTemperatureManager temperatureManager;
+    public Transform PotionSpawnPosition;
+
 
     private bool hasWater = false;
 
@@ -56,6 +58,7 @@ public class CauldronInventory : MonoBehaviour, IInteractable
     // =========================
     public void Brew(PhysicalState currentState)
     {
+
         if (!temperatureManager.temperatureReady)
         {
             Debug.Log("Temperature not set!");
@@ -72,7 +75,7 @@ public class CauldronInventory : MonoBehaviour, IInteractable
             {
                 Debug.Log("✅ Potion created: " + recipe.recipeName);
 
-                Instantiate(recipe.potionPrefab, transform.position, Quaternion.identity);
+                Instantiate(recipe.potionPrefab, PotionSpawnPosition.position, Quaternion.identity);
 
                 ResetCauldron();
                 return;

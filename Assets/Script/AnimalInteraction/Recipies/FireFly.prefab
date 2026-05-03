@@ -159,7 +159,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 88b0d4636170c3447a64bc96da40287c, type: 3}
   itemType: 0
   containedLiquid: 0
-  rb: {fileID: 0}
+  rb: {fileID: 880653132082964595}
   holdVisualPrefab: {fileID: 0}
   spawnedHoldVisual: {fileID: 0}
   holdableInHands: 0
