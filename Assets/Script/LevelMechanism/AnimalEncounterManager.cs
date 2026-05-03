@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class AnimalEncounterManager : MonoBehaviour
 {
+   
+
     public enum EncounterState
     {
         Idle,
@@ -16,10 +18,12 @@ public class AnimalEncounterManager : MonoBehaviour
     }
 
     public Transform spawnPoint;
+    public Transform VFXPoint;
     public Timer timer;
     public DialogueManager dialogueManager;
     public BellInteraction bell;
     public DayManager dayManager;
+    public VFXSpawner vfxSpawner;
 
     public Queue<AnimalData> animalQueue;
     public AnimalData currentAnimal;
@@ -38,7 +42,10 @@ public class AnimalEncounterManager : MonoBehaviour
 
         SpawnNextAnimal();
     }
-
+    void Explode()
+    {
+        vfxSpawner.PlayBoom(VFXPoint.position);
+    }
 
     void SpawnNextAnimal()
     {
@@ -49,6 +56,16 @@ public class AnimalEncounterManager : MonoBehaviour
         }
 
         currentAnimal = animalQueue.Dequeue();
+
+        StartCoroutine(SpawnWithVFX());
+    }
+    IEnumerator SpawnWithVFX()
+    {
+        // Play VFX first
+        Explode();
+
+        // Wait 1 second BEFORE spawning animal
+        yield return new WaitForSeconds(1f);
 
         currentInstance = Instantiate(
             currentAnimal.prefab,
