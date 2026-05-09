@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseMenuUI;
     public GameObject settingsUI;
+    
 
     private bool isPaused = false;
 
