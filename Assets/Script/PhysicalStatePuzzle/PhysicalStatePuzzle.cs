@@ -10,6 +10,33 @@ public class PhysicalStatePuzzle : MonoBehaviour
     public RotatableItem cube4;
 
     public bool isInteractable = false;
+
+    private Collider[] cubeColliders;
+
+    private void Awake()
+    {
+        cubeColliders = new Collider[]
+        {
+            cube1.GetComponent<Collider>(),
+            cube2.GetComponent<Collider>(),
+            cube3.GetComponent<Collider>(),
+            cube4.GetComponent<Collider>()
+        };
+
+        SetInteraction(false);
+    }
+
+    public void SetInteraction(bool enabled)
+    {
+        isInteractable = enabled;
+
+        foreach (Collider col in cubeColliders)
+        {
+            if (col != null)
+                col.enabled = enabled;
+        }
+    }
+
     public void CheckPuzzle()
     {
         Debug.Log("Potion crafted");

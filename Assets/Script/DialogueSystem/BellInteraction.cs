@@ -59,7 +59,7 @@ public class BellInteraction : MonoBehaviour, IInteractable
         if (!canInteract || hasPlayed) return;
 
         hasPlayed = true;
-        player.DisablePlayerControl();
+        
 
         DialogueData dialogueToPlay = null;
 
@@ -69,7 +69,6 @@ public class BellInteraction : MonoBehaviour, IInteractable
         }
        
 
-        // If no dialogue → skip directly
         if (dialogueToPlay == null)
         {
             HandleBellLogic(player);
@@ -81,28 +80,13 @@ public class BellInteraction : MonoBehaviour, IInteractable
             HandleBellLogic(player);
         });
     }
-    /*IEnumerator StartDayAfterDelay(PlayerInteraction player)
-    {
-        yield return new WaitForSeconds(1f);
-
-        player.EnablePlayerControl();
-
-        var day = dayManager.GetCurrentDay();
-        encounterManager.StartDay(day);
-
-        Debug.Log("Day started after dialogue.");
-    }
-    */
-    IEnumerator FinishInteraction(PlayerInteraction player)
-    {
-        yield return new WaitForSeconds(1f);
-        player.EnablePlayerControl();
-    }
+    
+   
 
     public void ResetBell()
     {
         hasPlayed = false;
-        canInteract = true; // or false if you want delay again
+        canInteract = true; 
     }
 
     void HandleBellLogic(PlayerInteraction player)
@@ -122,6 +106,6 @@ public class BellInteraction : MonoBehaviour, IInteractable
             onBellRung?.Invoke();
         }
 
-        StartCoroutine(FinishInteraction(player));
+        
     }
 }

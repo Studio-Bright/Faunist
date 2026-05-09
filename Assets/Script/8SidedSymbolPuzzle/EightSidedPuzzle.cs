@@ -102,13 +102,13 @@ public class EightSidedPuzzle : MonoBehaviour
             if (node.transform.position.z > highest)
             {
                 highest = node.transform.position.z;
-                startNode = node;
+                endNode = node;
             }
 
             if (node.transform.position.z < lowest)
             {
                 lowest = node.transform.position.z;
-                endNode = node;
+                startNode = node;
             }
         }
     }

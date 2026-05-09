@@ -11,7 +11,7 @@ public class SceneLoader : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // optional (keeps it between scenes)
+            DontDestroyOnLoad(gameObject); 
         }
         else
         {

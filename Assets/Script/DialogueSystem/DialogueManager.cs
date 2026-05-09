@@ -29,7 +29,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (!isDialogueActive) return;
 
-        if (canContinue && Input.GetMouseButtonDown(0))
+        if (canContinue)
         {
             NextLine();
         }
@@ -37,7 +37,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueData dialogue, System.Action onComplete = null)
     {
-        if (isDialogueActive) return; // prevent double triggering
+        if (isDialogueActive) return; 
 
         isDialogueActive = true;
         onDialogueEndCallback = onComplete;
@@ -49,16 +49,10 @@ public class DialogueManager : MonoBehaviour
 
         currentLine = 0;
 
-        // 🔥 DO NOT PAUSE GAME
-        // Time.timeScale = 0f;
-
-        // 🔥 Slow player instead
         if (playerMovement != null)
             playerMovement.SetPreBellState();
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
+        
         StartCoroutine(TypeLine());
     }
 
@@ -127,8 +121,7 @@ public class DialogueManager : MonoBehaviour
         if (playerMovement != null)
             playerMovement.SetNormalState();
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+       
 
         isDialogueActive = false;
 

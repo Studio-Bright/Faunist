@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class PotionTemperatureManager : MonoBehaviour
 {
+    [SerializeField] private Renderer thermometerRenderer;
+
     private int totalTemperature = 0;
     private int completedCount = 0;
 
@@ -21,6 +23,8 @@ public class PotionTemperatureManager : MonoBehaviour
     {
         totalTemperature += value;
         completedCount++;
+
+        UpdateThermometerVisual();
 
         if (completedCount == 3)
             EvaluateFinalTemperature();
@@ -47,9 +51,15 @@ public class PotionTemperatureManager : MonoBehaviour
 
     PotionState ConvertValueToState(int value)
     {
-        if (value <= -2) return PotionState.Cold;
-        if (value == -1) return PotionState.Warm;
-        if (value <= 1) return PotionState.Hot;
+        if (value <= 0) return PotionState.Cold;
+        if (value == 1) return PotionState.Warm;
+        if (value <= 2) return PotionState.Hot;
         return PotionState.Boiling;
+    }
+
+    void UpdateThermometerVisual()
+    {
+        float normalized = Mathf.InverseLerp(-3, 3, totalTemperature);
+        thermometerRenderer.material.SetFloat("_FillAmount", normalized);
     }
 }

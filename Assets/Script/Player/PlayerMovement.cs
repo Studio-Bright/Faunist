@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerMovementCC : MonoBehaviour
 {
-    public VFXSpawner vfxSpawner;
 
     public float normalSpeed = 5f;
     public float preBellSpeed = 2f;
@@ -28,6 +27,8 @@ public class PlayerMovementCC : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.IsPaused) return;
+
         if (isOnLadder)
         {
             ClimbLadder();
@@ -58,10 +59,7 @@ public class PlayerMovementCC : MonoBehaviour
         TryDetectLadder();
 
 
-        if (Input.GetKeyDown(KeyCode.B)) 
-        {
-            Explode();
-        }
+      
     }
 
     void TryDetectLadder()
@@ -138,8 +136,5 @@ public class PlayerMovementCC : MonoBehaviour
     }
 
 
-    void Explode()
-    {
-        vfxSpawner.PlayBoom(transform.position);
-    }
+    
 }

@@ -8,17 +8,20 @@ public class PlayerInteraction : MonoBehaviour
     public InventorySystem inventory;
     public PlayerMovementCC movement;
     public CameraContoller cameraController;
+    public GameObject cursorCanvas;
     
 
     [HideInInspector] public Vector3 originalCamPosition;
     [HideInInspector] public Quaternion originalCamRotation;
 
     private bool inPuzzleMode = false;
-    private MechanismInteraction currentMechanism;
+    public MechanismInteraction currentMechanism;
 
     private EightSidedPuzzle eightPuzzle;
     private PhysicalStatePuzzle statePuzzle;
     private DominoPuzzle dominoPuzzle;
+
+    private OutlineTarget currentOutline;
 
     void Start()
     {
@@ -29,9 +32,11 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
+        HandleOutline();
+
         if (inPuzzleMode)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E))
             {
                 ExitPuzzle();
             }
@@ -55,27 +60,35 @@ public class PlayerInteraction : MonoBehaviour
         }
         else if (scroll < 0f)
         {
-            inventory.Scroll(1); // вниз
+            inventory.Scroll(1); 
         }
     }
 
     void HandleInteraction()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        Ray ray = cam.ViewportPointToRay(Vector3.one * 0.5f);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, interactDistance))
         {
-            Ray ray = cam.ViewportPointToRay(Vector3.one * 0.5f);
-            RaycastHit hit;
+            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
 
-            if (Physics.Raycast(ray, out hit, interactDistance))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-
-                if (interactable != null)
+                if (!inPuzzleMode)
                 {
-                    interactable.Interact(this);
+                    if (interactable != null)
+                    {
+                        interactable.Interact(this);
+                    }
+                }
+                else
+                {
+                    return;
                 }
             }
         }
+        
     }
 
     public void DisablePlayerControl()
@@ -103,7 +116,13 @@ public class PlayerInteraction : MonoBehaviour
 
     public void EnablePuzzleMode(MechanismInteraction mechanism)
     {
+        if (currentOutline != null)
+        {
+            currentOutline.SetOutline(false);
+            currentOutline = null;
+        }
         inPuzzleMode = true;
+        cursorCanvas.SetActive(false);
         currentMechanism = mechanism;
         eightPuzzle.isInteractable = true;
         statePuzzle.isInteractable = true;
@@ -115,6 +134,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (currentMechanism != null)
         {
+            cursorCanvas.SetActive(true);
             StartCoroutine(currentMechanism.ExitMechanism(this));
             eightPuzzle.isInteractable = false;
             statePuzzle.isInteractable = false;
@@ -189,12 +209,37 @@ public class PlayerInteraction : MonoBehaviour
             }
             
 
-            /*if (!inPuzzleMode)
-                PlaceItem();*/
         }
     }
-    
 
-    
+
+    void HandleOutline()
+    {
+        if (inPuzzleMode)
+            return;
+
+        Ray ray = cam.ViewportPointToRay(Vector3.one * 0.5f);
+
+        RaycastHit hit;
+
+        OutlineTarget newOutline = null;
+
+        if (Physics.Raycast(ray, out hit, interactDistance))
+        {
+            newOutline =
+                hit.collider.GetComponentInParent<OutlineTarget>();
+        }
+
+        if (currentOutline != newOutline)
+        {
+            if (currentOutline != null)
+                currentOutline.SetOutline(false);
+
+            currentOutline = newOutline;
+
+            if (currentOutline != null)
+                currentOutline.SetOutline(true);
+        }
+    }
 
 }

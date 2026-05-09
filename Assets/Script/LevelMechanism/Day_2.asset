@@ -15,7 +15,22 @@ MonoBehaviour:
   animals:
   - prefab: {fileID: 115942387925937033, guid: 86493e3445e7f2d4cb2d72bb75cd020f, type: 3}
     healTime: 600
+    spawnRotation: {x: 0, y: -90, z: 0}
+    postHealDialogue: {fileID: 0}
+    failDialogues: []
+    stayAfterHeal: 3
+    delayBeforeNext: 2
   - prefab: {fileID: 6548496109830626272, guid: e7323deafaa34a649be1df28c7ff20e1, type: 3}
     healTime: 600
+    spawnRotation: {x: 0, y: 0, z: 0}
+    postHealDialogue: {fileID: 0}
+    failDialogues: []
+    stayAfterHeal: 3
+    delayBeforeNext: 2
   - prefab: {fileID: 1982755868791454835, guid: 6c2e5fd9843150c41b1caca63f06f0ed, type: 3}
     healTime: 900
+    spawnRotation: {x: 0, y: 0, z: 0}
+    postHealDialogue: {fileID: 0}
+    failDialogues: []
+    stayAfterHeal: 3
+    delayBeforeNext: 2
