@@ -7,9 +7,13 @@ public class SynthesisTable : MonoBehaviour
     public Transform slotA;
     public Transform slotB;
     public Transform slotC;
+    public Collider colliderA;
+    public Collider colliderB;
+    public Collider colliderC;
+    private Collider[] slotColliders;
 
-    [Header("Snap Settings")]
-    public float snapDistance = 1f;
+
+    
 
     [Header("Recipes")]
     public List<CraftRecipe> recipes;
@@ -19,9 +23,12 @@ public class SynthesisTable : MonoBehaviour
 
     private CraftItem[] currentItems = new CraftItem[3];
 
-    
 
-    
+    void Awake()
+    {
+        slotColliders = new Collider[3] { colliderA, colliderB, colliderC };
+    }
+
 
     void Update()
     {
@@ -34,7 +41,7 @@ public class SynthesisTable : MonoBehaviour
         if (item.isPlacedOnTable) return;
 
         item.isPlacedOnTable = true;
-        item.currentTable = this; // ✅ IMPORTANT
+        item.currentTable = this;
 
         PickupItem pickup = item.GetComponent<PickupItem>();
 
@@ -50,6 +57,10 @@ public class SynthesisTable : MonoBehaviour
 
         currentItems[slotIndex] = item;
 
+        // 🔴 Disable this slot collider
+        if (slotColliders[slotIndex] != null)
+            slotColliders[slotIndex].enabled = false;
+
         Debug.Log("Item placed in slot " + slotIndex);
     }
 
@@ -57,11 +68,9 @@ public class SynthesisTable : MonoBehaviour
 
     void TryCraft()
     {
-        // Only if all 3 slots are filled
         if (currentItems[0] == null || currentItems[1] == null || currentItems[2] == null)
             return;
 
-        // Get item names
         List<string> names = new List<string>()
         {
             currentItems[0].itemName,
@@ -73,7 +82,6 @@ public class SynthesisTable : MonoBehaviour
         {
             List<string> required = new List<string>() { recipe.input1, recipe.input2, recipe.input3 };
 
-            // Check if all inputs match (order independent)
             bool canCraft = true;
             foreach (var r in required)
             {
@@ -86,22 +94,23 @@ public class SynthesisTable : MonoBehaviour
 
             if (canCraft)
             {
-                // Remove old items (disable physics, deactivate, remove from inventory if needed)
-                foreach (var item in currentItems)
+                for (int i = 0; i < currentItems.Length; i++)
                 {
+                    var item = currentItems[i];
+
                     PickupItem pickup = item.GetComponent<PickupItem>();
                     if (pickup != null)
                     {
-                        // If you want to return items to inventory instead of destroying, use:
-                        // inventory.AddItem(pickup);
-                        Destroy(pickup.gameObject); // or gameObject.SetActive(false) to despawn
+                        Destroy(pickup.gameObject);
                     }
+
+                    // 🟢 Re-enable slot collider
+                    if (slotColliders[i] != null)
+                        slotColliders[i].enabled = true;
                 }
 
-                // Reset slots
                 currentItems = new CraftItem[3];
 
-                // Spawn new item at spawn point
                 Vector3 spawnPos = outputSpawn != null ? outputSpawn.position : transform.position + Vector3.up * 0.5f;
                 Instantiate(recipe.outputPrefab, spawnPos, Quaternion.identity);
 
@@ -111,18 +120,7 @@ public class SynthesisTable : MonoBehaviour
         }
     }
 
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(slotA.position, snapDistance);
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(slotB.position, snapDistance);
-
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(slotC.position, snapDistance);
-    }
 
     public void RemoveItem(CraftItem item)
     {
@@ -131,6 +129,11 @@ public class SynthesisTable : MonoBehaviour
             if (currentItems[i] == item)
             {
                 currentItems[i] = null;
+
+                // 🟢 Re-enable collider
+                if (slotColliders[i] != null)
+                    slotColliders[i].enabled = true;
+
                 break;
             }
         }

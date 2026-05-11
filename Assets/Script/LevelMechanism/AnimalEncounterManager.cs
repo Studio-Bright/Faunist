@@ -33,11 +33,24 @@ public class AnimalEncounterManager : MonoBehaviour
 
     private bool dayStarted = false;
 
+    public ReputationUI reputationUI;
+    public float reputationBonus = 0.052f;
+
+
+    void Start()
+    {
+        reputationUI.Initialize(0f);
+    }
+
     public void StartDay(DayData dayData)
     {
+
         if (dayStarted) return;
 
         dayStarted = true;
+
+        bool isDayOne = dayManager.GetCurrentDay() == dayData && dayManager.HasNextDay() == true && dayManager.GetCurrentDay() == dayManager.days[0];
+
         animalQueue = new Queue<AnimalData>(dayData.animals);
 
         SpawnNextAnimal();
@@ -75,6 +88,9 @@ public class AnimalEncounterManager : MonoBehaviour
 
         state = EncounterState.WaitingForHeal;
 
+        
+        reputationUI.StartDecay(reputationBonus, currentAnimal.healTime);
+
         timer.OnTimerFinished += OnFail;
         timer.StartTimer(currentAnimal.healTime);
     }
@@ -96,6 +112,8 @@ public class AnimalEncounterManager : MonoBehaviour
 
         timer.StopTimer();
         timer.OnTimerFinished -= OnFail;
+
+        reputationUI.CommitCurrentToPermanent();
 
         StartCoroutine(PostHealFlow());
     }
@@ -119,14 +137,14 @@ public class AnimalEncounterManager : MonoBehaviour
 
             Debug.Log("Starting next day...");
 
+            dayStarted = false; 
+
             var nextDay = dayManager.GetCurrentDay();
             StartDay(nextDay);
         }
         else
         {
             Debug.Log("Game complete! 🎉");
-
-           
         }
     }
     IEnumerator PostHealFlow()
@@ -237,4 +255,6 @@ public class AnimalEncounterManager : MonoBehaviour
         if (currentInstance != null)
             Destroy(currentInstance);
     }
+
+
 }

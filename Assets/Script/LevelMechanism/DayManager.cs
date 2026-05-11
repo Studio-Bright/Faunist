@@ -27,6 +27,9 @@ public class DayManager : MonoBehaviour
     {
         currentDayIndex++;
     }
-
+    public int GetCurrentDayIndex()
+    {
+        return currentDayIndex;
+    }
 
 }

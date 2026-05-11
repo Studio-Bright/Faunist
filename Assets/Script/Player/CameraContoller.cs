@@ -13,6 +13,8 @@ public class CameraContoller : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.IsPaused) return;
+
         float mouseX = Input.GetAxis("Mouse X") * sensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
 

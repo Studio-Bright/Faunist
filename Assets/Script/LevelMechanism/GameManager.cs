@@ -8,24 +8,17 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseMenuUI;
     public GameObject settingsUI;
-    
+    public GameObject cursorCanvas;
 
     private bool isPaused = false;
+    public static bool IsPaused;
 
 
-    
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.O))
         {
-            if (settingsUI.activeSelf)
-            {
-                CloseSettings();
-            }
-            else
-            {
-                TogglePause();
-            }
+            TogglePause();
         }
 
         
@@ -36,13 +29,13 @@ public class GameManager : MonoBehaviour
     // --------------------
     public void TogglePause()
     {
-        if (isPaused)
+        if (!isPaused)
         {
-            Resume();
+            Pause();
         }
         else
         {
-            Pause();
+            Resume();
         }
     }
 
@@ -50,10 +43,12 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Paused");
         pauseMenuUI.SetActive(true);
+        cursorCanvas.SetActive(false);
         Time.timeScale = 0f;
-        isPaused = true;
 
-        // 🔓 Unlock cursor
+        isPaused = true;
+        IsPaused = true;
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -63,12 +58,14 @@ public class GameManager : MonoBehaviour
         Debug.Log("Resume clicked");
         pauseMenuUI.SetActive(false);
         settingsUI.SetActive(false);
+        cursorCanvas.SetActive(true);
         Time.timeScale = 1f;
+
         isPaused = false;
+        IsPaused = false;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
     }
 
     // --------------------
@@ -86,13 +83,10 @@ public class GameManager : MonoBehaviour
         pauseMenuUI.SetActive(true);
     }
 
-    // --------------------
-    // OTHER BUTTONS
-    // --------------------
     public void LoadMainMenu()
     {
         Debug.Log("Main menu opened");
-        //SceneManager.LoadScene("MainMenu"); // change to your scene name
+        //SceneManager.LoadScene("MainMenu"); 
     }
 
     public void QuitGame()

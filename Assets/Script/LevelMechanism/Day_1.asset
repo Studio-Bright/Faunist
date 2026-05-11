@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DayData
   animals:
   - prefab: {fileID: 1708429587035860298, guid: 870a679b6684fd74095ae722a37b65d8, type: 3}
-    healTime: 600
+    healTime: 30
     spawnRotation: {x: 0, y: 180, z: 0}
     postHealDialogue: {fileID: 11400000, guid: fab3a4cf32180a34bb529b6abfe96879, type: 2}
     failDialogues:

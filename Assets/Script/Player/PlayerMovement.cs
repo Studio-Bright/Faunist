@@ -27,6 +27,8 @@ public class PlayerMovementCC : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.IsPaused) return;
+
         if (isOnLadder)
         {
             ClimbLadder();
@@ -57,7 +59,7 @@ public class PlayerMovementCC : MonoBehaviour
         TryDetectLadder();
 
 
-       
+      
     }
 
     void TryDetectLadder()
@@ -134,5 +136,5 @@ public class PlayerMovementCC : MonoBehaviour
     }
 
 
-   
+    
 }

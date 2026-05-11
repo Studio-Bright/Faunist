@@ -3,11 +3,18 @@ using System.Collections;
 
 public class MechanismInteraction : MonoBehaviour, IInteractable
 {
-    public Transform cameraPoint; 
+    public Transform cameraPoint;
     public float transitionSpeed = 5f;
 
     public bool isActive = false;
 
+    public PhysicalStatePuzzle puzzle;
+    private Collider col;
+
+    void Awake()
+    {
+        col = GetComponent<Collider>();
+    }
     public void Interact(PlayerInteraction player)
     {
         if (isActive) return;
@@ -19,7 +26,13 @@ public class MechanismInteraction : MonoBehaviour, IInteractable
     {
         isActive = true;
 
+        if (col != null)
+            col.enabled = false;
+
         player.DisablePlayerControl();
+
+        if (puzzle != null)
+            puzzle.SetInteraction(true);
 
         Transform cam = player.cam.transform;
 
@@ -61,6 +74,12 @@ public class MechanismInteraction : MonoBehaviour, IInteractable
             cam.rotation = Quaternion.Slerp(startRot, targetRot, t);
             yield return null;
         }
+
+        if (puzzle != null)
+            puzzle.SetInteraction(false);
+
+        if (col != null)
+            col.enabled = true;
 
         isActive = false;
         player.EnablePlayerControl();
