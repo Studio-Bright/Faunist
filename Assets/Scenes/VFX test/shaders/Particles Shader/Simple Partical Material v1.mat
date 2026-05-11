@@ -45,7 +45,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 0
+    - _AlphaClip: 0.433
     - _AlphaToMask: 0
     - _Blend: 2
     - _CastShadows: 1
@@ -61,7 +61,7 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 8.474191, g: 8.474191, b: 8.474191, a: 1}
+    - _Color: {r: 2.3311539, g: 5.4262347, b: 7.898249, a: 0.77254903}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &3750296698395731559
