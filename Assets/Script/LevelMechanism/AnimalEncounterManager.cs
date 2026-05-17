@@ -57,6 +57,7 @@ public class AnimalEncounterManager : MonoBehaviour
     }
     void Explode()
     {
+        AudioManager.Instance.PlaySFX("MagicalPuff");
         vfxSpawner.PlayBoom(VFXPoint.position);
     }
 

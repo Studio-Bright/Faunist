@@ -1,12 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class BellInteraction : MonoBehaviour, IInteractable
+public class BellInteraction : PickupItem
 {
     public DialogueManager dialogueManager;
-    public DialogueData introDialogue;     
-
-    public AudioSource bellAudio;
+    public DialogueData introDialogue;
 
     public float delayBeforeRing = 10f;
 
@@ -15,51 +13,42 @@ public class BellInteraction : MonoBehaviour, IInteractable
     public DayManager dayManager;
     public AnimalEncounterManager encounterManager;
 
-    private bool canInteract = false;
+    private bool canUse = false;
     private bool hasPlayed = false;
     private bool hasStartedDay = false;
 
     public System.Action onBellRung;
 
-    void Awake()
-    {
-        playerMovement.SetPreBellState(); 
-    }
-
     void Start()
     {
+        playerMovement.SetPreBellState();
         StartCoroutine(RingAfterDelay());
     }
 
-    void Update()
-    {
-        if (!canInteract)
-        {
-            playerMovement.SetPreBellState();
-        }
-    }
     IEnumerator RingAfterDelay()
     {
         yield return new WaitForSeconds(delayBeforeRing);
+
         RingBell();
     }
 
     void RingBell()
     {
-        if (bellAudio != null)
-            bellAudio.Play();
+        AudioManager.Instance.PlaySFX("BellRinging");
 
-        canInteract = true;
+        canUse = true;
+
         playerMovement.SetNormalState();
-        Debug.Log("Bell is ringing! Player can interact now.");
+
+        Debug.Log("Bell is ready.");
     }
 
-    public void Interact(PlayerInteraction player)
+    public override void Use(PlayerInteraction player)
     {
-        if (!canInteract || hasPlayed) return;
+        if (!canUse || hasPlayed)
+            return;
 
         hasPlayed = true;
-        
 
         DialogueData dialogueToPlay = null;
 
@@ -67,35 +56,33 @@ public class BellInteraction : MonoBehaviour, IInteractable
         {
             dialogueToPlay = introDialogue;
         }
-       
 
         if (dialogueToPlay == null)
         {
-            HandleBellLogic(player);
+            HandleBellLogic();
             return;
         }
 
         dialogueManager.StartDialogue(dialogueToPlay, () =>
         {
-            HandleBellLogic(player);
+            HandleBellLogic();
         });
     }
-    
-   
 
     public void ResetBell()
     {
         hasPlayed = false;
-        canInteract = true; 
+        canUse = true;
     }
 
-    void HandleBellLogic(PlayerInteraction player)
+    void HandleBellLogic()
     {
         if (!hasStartedDay)
         {
             hasStartedDay = true;
 
             var day = dayManager.GetCurrentDay();
+
             encounterManager.StartDay(day);
 
             Debug.Log("Day started!");
@@ -103,9 +90,8 @@ public class BellInteraction : MonoBehaviour, IInteractable
         else
         {
             Debug.Log("Bell rung for progression");
+
             onBellRung?.Invoke();
         }
-
-        
     }
 }

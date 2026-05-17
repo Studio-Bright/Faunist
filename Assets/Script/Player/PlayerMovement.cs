@@ -19,6 +19,8 @@ public class PlayerMovementCC : MonoBehaviour
     private bool isOnLadder = false;
     private Ladder currentLadder;
 
+    private bool walkingSoundPlaying = false;
+
     void Start()
     {
         cc = GetComponent<CharacterController>();
@@ -44,6 +46,27 @@ public class PlayerMovementCC : MonoBehaviour
         float z = Input.GetAxis("Vertical");
 
         Vector3 move = transform.right * x + transform.forward * z;
+
+        // WALKING AUDIO
+        bool isMoving = move.magnitude > 0.1f && grounded;
+
+        if (isMoving)
+        {
+            if (!walkingSoundPlaying)
+            {
+                AudioManager.Instance.PlaySFX("Walking");
+                walkingSoundPlaying = true;
+            }
+        }
+        else
+        {
+            if (walkingSoundPlaying)
+            {
+                AudioManager.Instance.StopSFX("Walking");
+                walkingSoundPlaying = false;
+            }
+        }
+
 
         if (Input.GetButtonDown("Jump") && grounded)
         {

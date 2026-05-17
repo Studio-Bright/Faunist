@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class PlayerHands : MonoBehaviour
 {
-    public Transform handPoint; // assign in inspector (camera child)
+    [Header("References")]
+    public Transform handPoint;
 
-    private GameObject currentHeldObject;
+    private PickupItem currentItem;
 
     public void ShowItem(PickupItem item)
     {
@@ -13,24 +14,18 @@ public class PlayerHands : MonoBehaviour
         if (item == null)
             return;
 
-        GameObject prefabToShow = item.GetHoldVisual();
+        currentItem = item;
 
-        if (prefabToShow == null)
-        {
-            Debug.LogWarning("No hold visual assigned!");
-            return;
-        }
-
-        currentHeldObject = Instantiate(prefabToShow, handPoint);
-        currentHeldObject.transform.localPosition = Vector3.zero;
-        currentHeldObject.transform.localRotation = Quaternion.identity;
+        item.OnPickup(handPoint);
     }
 
     public void Clear()
     {
-        if (currentHeldObject != null)
-        {
-            Destroy(currentHeldObject);
-        }
+        if (currentItem == null)
+            return;
+
+        currentItem.transform.SetParent(null);
+
+        currentItem = null;
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class WaterSource : MonoBehaviour, IInteractable
 {
+    public CauldronWater waterBucket;
     public void Interact(PlayerInteraction player)
     {
         PickupItem item = player.inventory.GetSelectedItem();
@@ -19,7 +20,7 @@ public class WaterSource : MonoBehaviour, IInteractable
         }
 
         item.containedLiquid = PickupItem.LiquidType.Water;
-
+        waterBucket.FillWater();
         Debug.Log("Bucket filled with water!");
     }
 }

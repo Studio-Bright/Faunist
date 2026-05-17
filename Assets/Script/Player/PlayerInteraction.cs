@@ -41,8 +41,13 @@ public class PlayerInteraction : MonoBehaviour
                 ExitPuzzle();
             }
 
-            HandleClick();   
+            HandleClick();
             return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            UseSelectedItem();
         }
 
         HandleScroll();
@@ -240,6 +245,16 @@ public class PlayerInteraction : MonoBehaviour
             if (currentOutline != null)
                 currentOutline.SetOutline(true);
         }
+    }
+
+    void UseSelectedItem()
+    {
+        PickupItem item = inventory.GetSelectedItem();
+
+        if (item == null)
+            return;
+
+        item.Use(this);
     }
 
 }
