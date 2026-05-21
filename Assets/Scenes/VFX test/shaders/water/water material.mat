@@ -135,7 +135,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_color: {r: 0.32298148, g: 0.5161583, b: 0.89757407, a: 1}
+    - _Base_color: {r: 0.26671764, g: 0.48145288, b: 0.8980392, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Ripple_Color: {r: 0.6934342, g: 1.200217, b: 1.698113, a: 1}
