@@ -94,9 +94,9 @@ public class PlayerPickup : MonoBehaviour
                     craftItem.currentTable?.RemoveItem(craftItem);
                 }
 
-                inventory.AddItem(pickupItem);
-
                 pickupItem.OnPickup();
+
+                inventory.AddItem(pickupItem);
 
                 Debug.Log("Picked item");
 
@@ -162,9 +162,9 @@ public class PlayerPickup : MonoBehaviour
 
         AudioManager.Instance.PlaySFX("Drop");
 
-        selected.OnDrop(dropPosition);
-
         inventory.RemoveSelected();
+
+        selected.OnDrop(dropPosition);
     }
 
     private void TryUsePotionOnAnimal(Animal animal)

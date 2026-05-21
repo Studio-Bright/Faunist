@@ -30,13 +30,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3945981837762881610}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6830127, y: 0.18301274, z: 0.18301274, w: 0.6830127}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -5.4105, y: 0.9612, z: 0.0238}
-  m_LocalScale: {x: 125, y: 125, z: 125}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 30}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &731547601794547029
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -134,10 +134,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   itemName: WaterEssence
-  rb: {fileID: 0}
   icon: {fileID: 21300000, guid: 004a76e1d092abd4491d82cdeafca150, type: 3}
   itemType: 0
   containedLiquid: 0
+  rb: {fileID: 0}
+  holdableInHands: 0
+  handPositionOffset: {x: 0, y: 0, z: 0}
+  handRotationOffset: {x: 0, y: 0, z: 0}
+  handScale: {x: 1, y: 1, z: 1}
 --- !u!114 &661286891566181469
 MonoBehaviour:
   m_ObjectHideFlags: 0

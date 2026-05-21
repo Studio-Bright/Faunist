@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 73e67869a9bfbaf49aa46301de7f02ba, type: 3}
       propertyPath: m_LocalScale.x
-      value: 125
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 73e67869a9bfbaf49aa46301de7f02ba, type: 3}
       propertyPath: m_LocalScale.y
-      value: 125
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 73e67869a9bfbaf49aa46301de7f02ba, type: 3}
       propertyPath: m_LocalScale.z
-      value: 125
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 73e67869a9bfbaf49aa46301de7f02ba, type: 3}
       propertyPath: m_LocalPosition.x
@@ -34,19 +34,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 73e67869a9bfbaf49aa46301de7f02ba, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6830127
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 73e67869a9bfbaf49aa46301de7f02ba, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.6830127
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 73e67869a9bfbaf49aa46301de7f02ba, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.18301274
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 73e67869a9bfbaf49aa46301de7f02ba, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.18301274
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 73e67869a9bfbaf49aa46301de7f02ba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 73e67869a9bfbaf49aa46301de7f02ba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 73e67869a9bfbaf49aa46301de7f02ba, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -134,10 +134,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   itemName: AirEssence
-  rb: {fileID: 0}
   icon: {fileID: 21300000, guid: 32be46c21be04bc4a96e4ecaa6dcb1f6, type: 3}
   itemType: 0
   containedLiquid: 0
+  rb: {fileID: 0}
+  holdableInHands: 0
+  handPositionOffset: {x: 0, y: 0, z: 0}
+  handRotationOffset: {x: 0, y: 0, z: 0}
+  handScale: {x: 1, y: 1, z: 1}
 --- !u!114 &3208898163739734330
 MonoBehaviour:
   m_ObjectHideFlags: 0

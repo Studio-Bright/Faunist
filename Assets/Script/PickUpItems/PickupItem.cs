@@ -4,13 +4,10 @@ public class PickupItem : MonoBehaviour
 {
     [Header("Item Info")]
     public string itemName;
-
     public Sprite icon;
 
     public ItemType itemType;
-
-    public LiquidType containedLiquid =
-        LiquidType.None;
+    public LiquidType containedLiquid = LiquidType.None;
 
     [Header("Physics")]
     public Rigidbody rb;
@@ -22,6 +19,9 @@ public class PickupItem : MonoBehaviour
     public Vector3 handPositionOffset;
     public Vector3 handRotationOffset;
     public Vector3 handScale = Vector3.one;
+
+    private Renderer[] renderers;
+    private Collider[] colliders;
 
     public enum ItemType
     {
@@ -35,12 +35,27 @@ public class PickupItem : MonoBehaviour
         Water
     }
 
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
+        renderers = GetComponentsInChildren<Renderer>(true);
+        colliders = GetComponentsInChildren<Collider>(true);
     }
 
-    // Pickup into hand
+    public void SetVisible(bool state)
+    {
+        foreach (Renderer r in renderers)
+            r.enabled = state;
+    }
+
+    public void SetColliders(bool state)
+    {
+        foreach (Collider c in colliders)
+            c.enabled = state;
+    }
+
     public void OnPickup(Transform handParent)
     {
         rb.isKinematic = true;
@@ -58,10 +73,10 @@ public class PickupItem : MonoBehaviour
 
         transform.localScale = handScale;
 
-        SetColliderState(false);
+        SetColliders(false);
+        SetVisible(true);
     }
 
-    // Pickup into inventory
     public void OnPickup()
     {
         rb.isKinematic = true;
@@ -70,7 +85,10 @@ public class PickupItem : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        SetColliderState(false);
+        transform.SetParent(null);
+
+        SetColliders(false);
+        SetVisible(false);
     }
 
     public void OnDrop(Vector3 position)
@@ -85,15 +103,8 @@ public class PickupItem : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        SetColliderState(true);
-    }
-
-    private void SetColliderState(bool state)
-    {
-        Collider col = GetComponent<Collider>();
-
-        if (col != null)
-            col.enabled = state;
+        SetVisible(true);
+        SetColliders(true);
     }
 
     public virtual void Use(PlayerInteraction player)

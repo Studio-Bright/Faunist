@@ -35,7 +35,12 @@ public class SynthesisTable : MonoBehaviour
         TryCraft();
     }
 
-    public void TryPlaceItem(CraftItem item, int slotIndex, Vector3 position)
+    public void TryPlaceItem(
+    CraftItem item,
+    int slotIndex,
+    Vector3 position,
+    Quaternion rotation
+)
     {
         if (currentItems[slotIndex] != null) return;
         if (item.isPlacedOnTable) return;
@@ -55,9 +60,11 @@ public class SynthesisTable : MonoBehaviour
 
         item.transform.position = position;
 
+        // STRICT ROTATION
+        item.transform.rotation = rotation;
+
         currentItems[slotIndex] = item;
 
-        // 🔴 Disable this slot collider
         if (slotColliders[slotIndex] != null)
             slotColliders[slotIndex].enabled = false;
 

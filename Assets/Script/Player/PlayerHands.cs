@@ -9,20 +9,30 @@ public class PlayerHands : MonoBehaviour
 
     public void ShowItem(PickupItem item)
     {
-        Clear();
+        // Hide previous item
+        if (currentItem != null && currentItem != item)
+        {
+            currentItem.SetVisible(false);
+            currentItem.transform.SetParent(null);
+        }
+
+        currentItem = item;
 
         if (item == null)
             return;
 
-        currentItem = item;
-
         item.OnPickup(handPoint);
     }
 
-    public void Clear()
+    public void Clear(bool hideItem = true)
     {
         if (currentItem == null)
             return;
+
+        if (hideItem)
+        {
+            currentItem.SetVisible(false);
+        }
 
         currentItem.transform.SetParent(null);
 

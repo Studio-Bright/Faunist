@@ -43,6 +43,13 @@ public class InventorySystem : MonoBehaviour
     {
         if (items.Count == 0 || selectedIndex < 0) return;
 
+        PickupItem removedItem = items[selectedIndex];
+
+        if (playerHands != null)
+        {
+            playerHands.Clear();
+        }
+
         items.RemoveAt(selectedIndex);
 
         Destroy(slotParent.GetChild(selectedIndex).gameObject);
@@ -53,7 +60,7 @@ public class InventorySystem : MonoBehaviour
         if (items.Count == 0)
         {
             selectedIndex = -1;
-            playerHands.Clear();
+            playerHands.Clear(false);
         }
         else
         {
@@ -112,17 +119,25 @@ public class InventorySystem : MonoBehaviour
 
     private void RefreshHands()
     {
-        if (playerHands == null) return;
+        if (playerHands == null)
+            return;
 
         PickupItem item = GetSelectedItem();
-        if (item == null) return;
 
-        if (!item.holdableInHands)
+        if (item == null)
         {
             playerHands.Clear();
             return;
         }
 
+        if (!item.holdableInHands)
+        {
+            item.SetVisible(false);
+
+            playerHands.Clear();
+            return;
+        }
+
         playerHands.ShowItem(item);
-    }
+    }   
 }
