@@ -118,13 +118,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   itemName: "\u0421hamomile"
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 15c393fada865c84fbd17611bc039a35, type: 3}
   itemType: 0
   containedLiquid: 0
   rb: {fileID: 4150540044875940009}
-  holdVisualPrefab: {fileID: 0}
-  spawnedHoldVisual: {fileID: 0}
   holdableInHands: 0
+  handPositionOffset: {x: 0, y: 0, z: 0}
+  handRotationOffset: {x: 0, y: 0, z: 0}
+  handScale: {x: 1, y: 1, z: 1}
 --- !u!114 &7485727375240863309
 MonoBehaviour:
   m_ObjectHideFlags: 0

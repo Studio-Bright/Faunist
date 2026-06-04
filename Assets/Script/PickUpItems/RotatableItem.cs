@@ -37,7 +37,9 @@ public class RotatableItem : MonoBehaviour
 
         Quaternion startRotation = transform.rotation;
 
-        rotationIndex = (rotationIndex + 3) % 4;
+        rotationIndex = (rotationIndex + 1) % 4;
+        Debug.Log($"{name} -> {rotationIndex}");
+
 
         Quaternion endRotation = startRotation * Quaternion.Euler(0f, 0f, 90f);
 

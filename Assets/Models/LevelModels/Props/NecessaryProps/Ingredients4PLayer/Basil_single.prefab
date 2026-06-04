@@ -103,13 +103,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   itemName: Basil
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 152529919124f884cadfb41a326ead4f, type: 3}
   itemType: 0
   containedLiquid: 0
   rb: {fileID: 1487510916332531749}
-  holdVisualPrefab: {fileID: 0}
-  spawnedHoldVisual: {fileID: 0}
   holdableInHands: 0
+  handPositionOffset: {x: 0, y: 0, z: 0}
+  handRotationOffset: {x: 0, y: 0, z: 0}
+  handScale: {x: 1, y: 1, z: 1}
 --- !u!54 &1487510916332531749
 Rigidbody:
   m_ObjectHideFlags: 0

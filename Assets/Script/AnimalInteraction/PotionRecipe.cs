@@ -5,6 +5,7 @@ using UnityEngine;
 public class PotionRecipe : ScriptableObject
 {
     public string recipeName;
+    public string targetAnimalID;
 
     public List<string> ingredients;
 
@@ -12,5 +13,5 @@ public class PotionRecipe : ScriptableObject
 
     public PotionState requiredTemperature;
 
-    public GameObject potionPrefab;
+    //public GameObject potionPrefab;
 }

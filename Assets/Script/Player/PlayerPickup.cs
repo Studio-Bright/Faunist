@@ -9,6 +9,7 @@ public class PlayerPickup : MonoBehaviour
     public Camera cam;
     public InventorySystem inventory;
     public AnimalEncounterManager animalEncounterManager;
+    public CauldronInventory cauldronInventory;
 
     private void Update()
     {
@@ -62,6 +63,7 @@ public class PlayerPickup : MonoBehaviour
 
             if (animal != null)
             {
+
                 TryUsePotionOnAnimal(animal);
                 return;
             }
@@ -79,9 +81,8 @@ public class PlayerPickup : MonoBehaviour
                 return;
             }
 
-            // Pickup Item
             PickupItem pickupItem =
-                hit.collider.GetComponentInParent<PickupItem>();
+     hit.collider.GetComponentInParent<PickupItem>();
 
             if (pickupItem != null)
             {
@@ -94,12 +95,15 @@ public class PlayerPickup : MonoBehaviour
                     craftItem.currentTable?.RemoveItem(craftItem);
                 }
 
-                pickupItem.OnPickup();
+                if (cauldronInventory.IsCurrentBottle(pickupItem))
+                {
+                    cauldronInventory.RemoveItem(pickupItem);
+                }
 
+                pickupItem.OnPickup();
                 inventory.AddItem(pickupItem);
 
                 Debug.Log("Picked item");
-
                 return;
             }
 
@@ -135,8 +139,8 @@ public class PlayerPickup : MonoBehaviour
 
     private void PlaceItem()
     {
-        PickupItem selected =
-            inventory.GetSelectedItem();
+
+        PickupItem selected = inventory.GetSelectedItem();
 
         if (selected == null)
             return;
@@ -186,7 +190,6 @@ public class PlayerPickup : MonoBehaviour
 
         UsePotionOnAnimal(potion, animal);
     }
-
     public void UsePotionOnAnimal(
         PotionItem potion,
         Animal animal)
@@ -194,6 +197,10 @@ public class PlayerPickup : MonoBehaviour
         if (potion.targetAnimalID == animal.animalID)
         {
             Debug.Log("Correct potion used!");
+
+            animal.Heal();
+
+            inventory.RemoveSelected(); // remove from inventory first
 
             Destroy(potion.gameObject);
 

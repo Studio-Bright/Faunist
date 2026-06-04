@@ -14,5 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
   lines:
   - What's up, student? I have a free minute and I hope you're doing well.
+  - The most important thing is, don't keep the client waiting! Everyone has their
+    own things to do, so it's crucial to complete them on time. You can accept the
+    next client by ringing the bell.
+  - You know, gossip spreads fast in our community. Every improperly brewed potion
+    or late-delivered order lowers your reputation, so try not to make mistakes.
+  - I think I should run now...
   characterIcon: {fileID: 21300000, guid: ad864c0ad8fea674b922ba8cc177ee40, type: 3}
-  autoAdvanceDelay: 2
+  autoAdvanceDelay: 4

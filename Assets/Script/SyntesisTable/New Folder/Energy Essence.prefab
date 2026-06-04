@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   itemName: EnergyEssence
-  icon: {fileID: 21300000, guid: cdb09d96784f5f848b6dd3f10948dda6, type: 3}
+  icon: {fileID: 21300000, guid: baa52fd9abcd82644b734875a4a3b34d, type: 3}
   itemType: 0
   containedLiquid: 0
   rb: {fileID: 0}

@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   itemName: MagmaEssence
-  icon: {fileID: 21300000, guid: e77ec711436fb8e469bb70828fc8a43c, type: 3}
+  icon: {fileID: 21300000, guid: 461e76e14cc7e1349895a38dcf5eb210, type: 3}
   itemType: 0
   containedLiquid: 0
   rb: {fileID: 0}

@@ -1,3 +1,4 @@
+using System.Reflection;
 using UnityEngine;
 
 public class PlayerMovementCC : MonoBehaviour
@@ -7,7 +8,7 @@ public class PlayerMovementCC : MonoBehaviour
     public float preBellSpeed = 2f;
     public float jump = 2f;
     public float gravity = -9.81f;
-
+    public LightingStateManager LSM;
     public float currentSpeed;
 
     private CharacterController cc;
@@ -20,11 +21,26 @@ public class PlayerMovementCC : MonoBehaviour
     private Ladder currentLadder;
 
     private bool walkingSoundPlaying = false;
-
+    public LevelLightmapData switcher;
+    void Awake()
+    {
+        LSM.SwitchToDay();
+    }
     void Start()
     {
         cc = GetComponent<CharacterController>();
         currentSpeed = normalSpeed;
+
+        Debug.Log("Switcher = " + switcher.name);
+
+        var scenariosField = typeof(LevelLightmapData)
+            .GetField("lightingScenariosData",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+
+        var list = scenariosField.GetValue(switcher) as System.Collections.IList;
+
+        Debug.Log("Scenario count from PlayerMovement = " +
+                  (list != null ? list.Count.ToString() : "NULL"));
     }
 
     void Update()
@@ -80,9 +96,13 @@ public class PlayerMovementCC : MonoBehaviour
         cc.Move(finalMove * Time.deltaTime);
 
         TryDetectLadder();
+        
+       
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            LSM.ToggleLighting();
+        }
 
-
-      
     }
 
     void TryDetectLadder()

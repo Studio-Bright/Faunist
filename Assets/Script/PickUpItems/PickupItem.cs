@@ -26,7 +26,9 @@ public class PickupItem : MonoBehaviour
     public enum ItemType
     {
         Ingredient,
-        Bucket
+        Bucket,
+        EmptyBottle,
+        Potion
     }
 
     public enum LiquidType
@@ -56,7 +58,7 @@ public class PickupItem : MonoBehaviour
             c.enabled = state;
     }
 
-    public void OnPickup(Transform handParent)
+    public virtual void OnPickup(Transform handParent)
     {
         rb.isKinematic = true;
         rb.useGravity = false;
@@ -77,7 +79,7 @@ public class PickupItem : MonoBehaviour
         SetVisible(true);
     }
 
-    public void OnPickup()
+    public virtual void OnPickup()
     {
         rb.isKinematic = true;
         rb.useGravity = false;
@@ -91,7 +93,7 @@ public class PickupItem : MonoBehaviour
         SetVisible(false);
     }
 
-    public void OnDrop(Vector3 position)
+    public virtual void OnDrop(Vector3 position)
     {
         transform.SetParent(null);
 

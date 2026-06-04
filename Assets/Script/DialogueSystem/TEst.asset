@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TEst
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
   lines:
-  - test
-  characterIcon: {fileID: 0}
+  - Hello, my student!
+  characterIcon: {fileID: 21300000, guid: ad864c0ad8fea674b922ba8cc177ee40, type: 3}
   autoAdvanceDelay: 2

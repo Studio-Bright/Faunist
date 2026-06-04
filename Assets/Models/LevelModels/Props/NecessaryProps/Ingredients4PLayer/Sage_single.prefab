@@ -118,13 +118,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   itemName: Sage
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: cb01269be4f637645aabb78491f6d862, type: 3}
   itemType: 0
   containedLiquid: 0
   rb: {fileID: 3221886574798750263}
-  holdVisualPrefab: {fileID: 0}
-  spawnedHoldVisual: {fileID: 0}
   holdableInHands: 0
+  handPositionOffset: {x: 0, y: 0, z: 0}
+  handRotationOffset: {x: 0, y: 0, z: 0}
+  handScale: {x: 1, y: 1, z: 1}
 --- !u!114 &5443255906907868244
 MonoBehaviour:
   m_ObjectHideFlags: 0

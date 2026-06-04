@@ -39,17 +39,22 @@ public class PhysicalStatePuzzle : MonoBehaviour
 
     public void CheckPuzzle()
     {
-        Debug.Log("Potion crafted");
+        Debug.Log("CheckPuzzle called");
 
         int r1 = cube1.GetRotationIndex();
         int r2 = cube2.GetRotationIndex();
         int r3 = cube3.GetRotationIndex();
         int r4 = cube4.GetRotationIndex();
+        Debug.Log($"P1={ValidPair(r3, r4)}");
+        Debug.Log($"P2={ValidPair(r2, r3)}");
+        Debug.Log($"P3={ValidPair(r1, r2)}");
+        Debug.Log($"Rotations: {r1} {r2} {r3} {r4}");
 
         if (ValidPair(r3, r4) &&
             ValidPair(r2, r3) &&
             ValidPair(r1, r2))
         {
+            Debug.Log("Puzzle valid -> Brew");
             cauldron.Brew(Convert(r4));
         }
     }

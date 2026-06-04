@@ -12,6 +12,7 @@ public class AnimalData
     public DialogueData[] failDialogues; 
     public float stayAfterHeal = 3f;
     public float delayBeforeNext = 2f;
+    public int requiredHeals = 1;
+    public bool isSnailLevel;
 
-   
 }

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!258 &-439759927812831008
+LightProbes:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NightLight_probes
+  serializedVersion: 2
+  m_Data:
+    m_Tetrahedralization:
+      m_Tetrahedra: []
+      m_HullRays: []
+    m_ProbeSets: []
+    m_Positions: []
+    m_NonTetrahedralizedProbeSetIndexMap: []
+  m_BakedCoefficients: []
+  m_BakedLightOcclusion: []
+  m_HasBeenEdited: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d760cb918e1c21b4ab1d1be2265da02a, type: 3}
+  m_Name: LightingScenario_LightProbes
+  m_EditorClassIdentifier: LightingTools.LightmapSwitcher::LightProbesAsset
+  coefficients: []
+  lightprobes: {fileID: -439759927812831008}

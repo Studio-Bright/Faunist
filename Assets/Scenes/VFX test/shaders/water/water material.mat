@@ -135,10 +135,10 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_color: {r: 0.26671764, g: 0.48145288, b: 0.8980392, a: 1}
+    - _Base_color: {r: 0.37254906, g: 0.514489, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Ripple_Color: {r: 0.6934342, g: 1.200217, b: 1.698113, a: 1}
+    - _Ripple_Color: {r: 0.7023608, g: 1.1833856, b: 1.698113, a: 1}
     - _Ripple_Density: {r: 0, g: 0, b: 0, a: 0}
     - _Ripple_Slimnes: {r: 4, g: 4, b: 0, a: 0}
     - _Ripple_Speed: {r: 0, g: 0, b: 0, a: 0}

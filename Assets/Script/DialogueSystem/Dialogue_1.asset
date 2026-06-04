@@ -18,6 +18,8 @@ MonoBehaviour:
     are on you...
   - 'But look at it this way: how can you learn more effectively than through practice?
     You don''t have a choice anyway.'
+  - All the recipes and information you need for today are on the administration
+    desk, so you won't get confused.
   - So, the most important things you'll need to be in the main hall for your medicines
     are the cauldron and the synthesis table. You'll use them most often.
   - At the synthesis table, you'll create other compounds by combining basic elements.
@@ -28,4 +30,4 @@ MonoBehaviour:
   - I think I've said all the most important things, the first pet should arrive
     soon, lucky student!
   characterIcon: {fileID: 21300000, guid: ad864c0ad8fea674b922ba8cc177ee40, type: 3}
-  autoAdvanceDelay: 2
+  autoAdvanceDelay: 4

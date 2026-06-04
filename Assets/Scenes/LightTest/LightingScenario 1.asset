@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2be71d7eb33e8e4691eccb42fe0a7e7, type: 3}
+  m_Name: NightLight
+  m_EditorClassIdentifier: LightingTools.LightmapSwitcher::LightingScenarioData
+  lightingSceneName: NightLight
+  geometrySceneName: LightTest
+  storeRendererInfos: 1
+  rendererInfos:
+  - renderer: {fileID: 0}
+    transformHash: -1390391831
+    meshHash: 946
+    name: Sphere
+    lightmapIndex: 1
+    lightmapScaleOffset: {x: 0.67968726, y: 0.68105847, z: 0.00390625, w: 0.00390625}
+  - renderer: {fileID: 0}
+    transformHash: 1362849627
+    meshHash: 942
+    name: Cube
+    lightmapIndex: -1
+    lightmapScaleOffset: {x: 1, y: 1, z: 0, w: 0}
+  - renderer: {fileID: 0}
+    transformHash: -1390246640
+    meshHash: 942
+    name: Cube (1)
+    lightmapIndex: 0
+    lightmapScaleOffset: {x: 0.9523577, y: 0.9633464, z: 0.00004370953, w: -0.00000085821375}
+  lightmaps:
+  - {fileID: 2800000, guid: 3f0f5d1a88818d14c939bc10efb8e9d6, type: 3}
+  - {fileID: 2800000, guid: 3c8608e95023f924ca5860f1f7d2145d, type: 3}
+  lightmapsDir:
+  - {fileID: 2800000, guid: e28ca67ade5a0064ea8ba2dac8f9bd1b, type: 3}
+  - {fileID: 2800000, guid: f35c2dd7b8cb3ab4a874397c781b8868, type: 3}
+  shadowMasks: []
+  lightmapsMode: 1
+  lightProbesAsset: {fileID: 11400000, guid: 52c6246e32bb86e4ca453ff268127c0e, type: 2}
+  hasRealtimeLights: 1

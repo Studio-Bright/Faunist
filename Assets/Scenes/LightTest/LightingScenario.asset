@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2be71d7eb33e8e4691eccb42fe0a7e7, type: 3}
+  m_Name: DayLight
+  m_EditorClassIdentifier: LightingTools.LightmapSwitcher::LightingScenarioData
+  lightingSceneName: DayLight
+  geometrySceneName: LightTest
+  storeRendererInfos: 1
+  rendererInfos: []
+  lightmaps:
+  - {fileID: 2800000, guid: f3cb0281786538447ad8a0dff4dfeed3, type: 3}
+  - {fileID: 2800000, guid: 6bfc65565114f7640835a07d782c2cd7, type: 3}
+  lightmapsDir:
+  - {fileID: 2800000, guid: 2701b3760ead3444fb934228314a6bc3, type: 3}
+  - {fileID: 2800000, guid: 6003eb974bb9df741b5ca16ee37ed415, type: 3}
+  shadowMasks: []
+  lightmapsMode: 1
+  lightProbesAsset: {fileID: 11400000, guid: 52c6246e32bb86e4ca453ff268127c0e, type: 2}
+  hasRealtimeLights: 1

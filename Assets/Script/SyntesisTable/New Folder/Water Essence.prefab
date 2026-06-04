@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   itemName: WaterEssence
-  icon: {fileID: 21300000, guid: 004a76e1d092abd4491d82cdeafca150, type: 3}
+  icon: {fileID: 21300000, guid: 08f9661d932c7184585d7aea5d54950a, type: 3}
   itemType: 0
   containedLiquid: 0
   rb: {fileID: 0}

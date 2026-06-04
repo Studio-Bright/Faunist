@@ -28,15 +28,19 @@ public class AnimalEncounterManager : MonoBehaviour
     public Queue<AnimalData> animalQueue;
     public AnimalData currentAnimal;
     private GameObject currentInstance;
-
+    public LightingStateManager lightingStateManager;
     private EncounterState state;
-
+    [Header("Day End UI")]
+    public GameObject dayEndCanvas;
     private bool dayStarted = false;
 
     public ReputationUI reputationUI;
     public float reputationBonus = 0.052f;
-
-
+    public bool isNight;
+    [Header("Multi-Heal Settings")]
+    private int currentHeals = 0;
+    private int requiredHeals = 1;
+    private bool nightTriggered = false;
     void Start()
     {
         reputationUI.Initialize(0f);
@@ -75,10 +79,17 @@ public class AnimalEncounterManager : MonoBehaviour
     }
     IEnumerator SpawnWithVFX()
     {
-        // Play VFX first
+        currentHeals = 0;
+        requiredHeals = currentAnimal.requiredHeals;
+
+        if (!nightTriggered && currentAnimal.isSnailLevel)
+        {
+            nightTriggered = true;
+            lightingStateManager?.SwitchToNight();
+        }
+
         Explode();
 
-        // Wait 1 second BEFORE spawning animal
         yield return new WaitForSeconds(1f);
 
         currentInstance = Instantiate(
@@ -89,7 +100,6 @@ public class AnimalEncounterManager : MonoBehaviour
 
         state = EncounterState.WaitingForHeal;
 
-        
         reputationUI.StartDecay(reputationBonus, currentAnimal.healTime);
 
         timer.OnTimerFinished += OnFail;
@@ -109,8 +119,22 @@ public class AnimalEncounterManager : MonoBehaviour
 
     public void OnAnimalHealed()
     {
-        if (state != EncounterState.WaitingForHeal) return;
+        if (state != EncounterState.WaitingForHeal)
+            return;
 
+        currentHeals++;
+
+        Debug.Log($"Healed {currentHeals}/{requiredHeals}");
+
+        Explode();
+
+        if (currentHeals < requiredHeals)
+        {
+            // NOT finished yet
+            return;
+        }
+
+        // Fully healed
         timer.StopTimer();
         timer.OnTimerFinished -= OnFail;
 
@@ -145,6 +169,10 @@ public class AnimalEncounterManager : MonoBehaviour
         }
         else
         {
+            if (dayEndCanvas != null)
+                dayEndCanvas.SetActive(true);
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
             Debug.Log("Game complete! 🎉");
         }
     }
@@ -184,10 +212,11 @@ public class AnimalEncounterManager : MonoBehaviour
         bell.ResetBell();
 
         state = EncounterState.WaitingForBell;
+        DestroyAnimal();
 
         yield return StartCoroutine(WaitForBell());
 
-        DestroyAnimal();
+       
 
         yield return ShowHintDialogue();
 

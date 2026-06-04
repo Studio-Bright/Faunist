@@ -7,11 +7,10 @@ public class SceneLoader : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton setup
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); 
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -19,18 +18,28 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
-    // --------------------
-    // BASIC LOAD
-    // --------------------
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            ReloadCurrentScene();
+        }
+    }
+
     public void LoadScene(string sceneName)
     {
-        Time.timeScale = 1f; // safety reset
+        Time.timeScale = 1f;
         SceneManager.LoadScene(sceneName);
     }
 
-    // --------------------
-    // QUIT
-    // --------------------
+    public void ReloadCurrentScene()
+    {
+        Time.timeScale = 1f;
+
+        //Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene("BuildLevel");
+    }
+
     public void QuitGame()
     {
         Debug.Log("Quit Game");

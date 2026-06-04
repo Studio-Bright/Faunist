@@ -12,16 +12,24 @@ public class BellInteraction : PickupItem
 
     public DayManager dayManager;
     public AnimalEncounterManager encounterManager;
+    public BellAnimation bellAnimation;
 
     private bool canUse = false;
     private bool hasPlayed = false;
     private bool hasStartedDay = false;
+    public bool isRinging = false;
+    private bool introCompleted = false;
+
+    private Quaternion originalRotation;
 
     public System.Action onBellRung;
 
     void Start()
     {
+        originalRotation = transform.rotation;
+
         playerMovement.SetPreBellState();
+
         StartCoroutine(RingAfterDelay());
     }
 
@@ -36,11 +44,31 @@ public class BellInteraction : PickupItem
     {
         AudioManager.Instance.PlaySFX("BellRinging");
 
+        isRinging = true;
         canUse = true;
+
+        bellAnimation.PlayRing();
 
         playerMovement.SetNormalState();
 
         Debug.Log("Bell is ready.");
+    }
+    public override void OnPickup()
+    {
+        base.OnPickup();
+
+        isRinging = false;
+
+        bellAnimation.StopRing();
+    }
+    public override void OnDrop(Vector3 position)
+    {
+        base.OnDrop(position);
+
+        transform.rotation = originalRotation;
+
+        bellAnimation.EnableAnimator();
+        bellAnimation.PlayRing();
     }
 
     public override void Use(PlayerInteraction player)
@@ -50,29 +78,26 @@ public class BellInteraction : PickupItem
 
         hasPlayed = true;
 
-        DialogueData dialogueToPlay = null;
-
-        if (!hasStartedDay)
+        // Only play intro dialogue once
+        if (!introCompleted && introDialogue != null)
         {
-            dialogueToPlay = introDialogue;
+            dialogueManager.StartDialogue(introDialogue, () =>
+            {
+                HandleBellLogic();
+            });
         }
-
-        if (dialogueToPlay == null)
+        else
         {
             HandleBellLogic();
-            return;
         }
-
-        dialogueManager.StartDialogue(dialogueToPlay, () =>
-        {
-            HandleBellLogic();
-        });
     }
-
     public void ResetBell()
     {
         hasPlayed = false;
-        canUse = true;
+        isRinging = false;
+
+        // ❌ do NOT reset introCompleted
+        // introCompleted stays locked for whole run
     }
 
     void HandleBellLogic()
@@ -80,17 +105,15 @@ public class BellInteraction : PickupItem
         if (!hasStartedDay)
         {
             hasStartedDay = true;
+            introCompleted = true; // permanently mark intro as played
 
             var day = dayManager.GetCurrentDay();
-
             encounterManager.StartDay(day);
 
             Debug.Log("Day started!");
         }
         else
         {
-            Debug.Log("Bell rung for progression");
-
             onBellRung?.Invoke();
         }
     }

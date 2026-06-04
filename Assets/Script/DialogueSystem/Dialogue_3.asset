@@ -16,5 +16,6 @@ MonoBehaviour:
   - Hello again... I forgot to mention that today we'll be hosting a very important
     guest's pet. So please do everything on time and without any mistakes, as this
     will especially impact your reputation.
+  - Well, forewarned is forearmed, right?
   characterIcon: {fileID: 21300000, guid: ad864c0ad8fea674b922ba8cc177ee40, type: 3}
-  autoAdvanceDelay: 2
+  autoAdvanceDelay: 4

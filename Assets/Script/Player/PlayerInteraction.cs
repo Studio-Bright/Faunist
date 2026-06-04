@@ -1,15 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-
     public float interactDistance = 3f;
     public Camera cam;
     public InventorySystem inventory;
     public PlayerMovementCC movement;
     public CameraContoller cameraController;
     public GameObject cursorCanvas;
-    
+    [Header("UI")]
+    public GameObject mechanismPrompt;
 
     [HideInInspector] public Vector3 originalCamPosition;
     [HideInInspector] public Quaternion originalCamRotation;
@@ -17,15 +18,22 @@ public class PlayerInteraction : MonoBehaviour
     private bool inPuzzleMode = false;
     public MechanismInteraction currentMechanism;
 
-    private EightSidedPuzzle eightPuzzle;
+    private List<EightSidedPuzzle> eightPuzzles = new List<EightSidedPuzzle>();
     private PhysicalStatePuzzle statePuzzle;
     private DominoPuzzle dominoPuzzle;
 
     private OutlineTarget currentOutline;
 
+    public Transform fireVFXPosition;
+    public GameObject fireVFX;
+    public void FireVFX(Vector3 position)
+    {
+        GameObject vfx = Instantiate(fireVFX, position, Quaternion.identity);
+
+    }
     void Start()
     {
-        eightPuzzle = FindFirstObjectByType<EightSidedPuzzle>();
+        eightPuzzles.AddRange(Object.FindObjectsByType<EightSidedPuzzle>(FindObjectsInactive.Include, FindObjectsSortMode.None));
         statePuzzle = FindFirstObjectByType<PhysicalStatePuzzle>();
         dominoPuzzle = FindFirstObjectByType<DominoPuzzle>();
     }
@@ -40,7 +48,10 @@ public class PlayerInteraction : MonoBehaviour
             {
                 ExitPuzzle();
             }
-
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                FireVFX(fireVFXPosition.position);
+            }
             HandleClick();
             return;
         }
@@ -50,9 +61,12 @@ public class PlayerInteraction : MonoBehaviour
             UseSelectedItem();
         }
 
+        HandleMechanismPrompt();
         HandleScroll();
         HandleInteraction();
         HandleClick();
+
+
     }
 
     void HandleScroll()
@@ -61,11 +75,11 @@ public class PlayerInteraction : MonoBehaviour
 
         if (scroll > 0f)
         {
-            inventory.Scroll(-1); // вверх
+            inventory.Scroll(-1); 
         }
         else if (scroll < 0f)
         {
-            inventory.Scroll(1); 
+            inventory.Scroll(1);
         }
     }
 
@@ -93,7 +107,6 @@ public class PlayerInteraction : MonoBehaviour
                 }
             }
         }
-        
     }
 
     public void DisablePlayerControl()
@@ -129,10 +142,15 @@ public class PlayerInteraction : MonoBehaviour
         inPuzzleMode = true;
         cursorCanvas.SetActive(false);
         currentMechanism = mechanism;
-        eightPuzzle.isInteractable = true;
-        statePuzzle.isInteractable = true;
-        //dominoPuzzle.isInteractable = true;
 
+        // Activate every single octagonal puzzle registered in the scene
+        foreach (var puzzle in eightPuzzles)
+        {
+            if (puzzle != null)
+                puzzle.isInteractable = true;
+        }
+
+        if (statePuzzle != null) statePuzzle.isInteractable = true;
     }
 
     void ExitPuzzle()
@@ -141,15 +159,18 @@ public class PlayerInteraction : MonoBehaviour
         {
             cursorCanvas.SetActive(true);
             StartCoroutine(currentMechanism.ExitMechanism(this));
-            eightPuzzle.isInteractable = false;
-            statePuzzle.isInteractable = false;
+
+            // FIX: Replaced the single 'eightPuzzle' with a foreach loop over 'eightPuzzles'
+            foreach (var puzzle in eightPuzzles)
+            {
+                if (puzzle != null)
+                    puzzle.isInteractable = false;
+            }
+
+            if (statePuzzle != null) statePuzzle.isInteractable = false;
             //dominoPuzzle.isInteractable = false;
-
         }
-
     }
-    
-
 
     void HandleClick()
     {
@@ -168,9 +189,6 @@ public class PlayerInteraction : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, rayDistance))
             {
-                
-                
-
                 Debug.Log("Hit: " + hit.collider.name);
                 if (inPuzzleMode)
                 {
@@ -181,27 +199,30 @@ public class PlayerInteraction : MonoBehaviour
                         return;
                     }
 
-                    PhysicalStatePuzzle statePuzzle = hit.collider.GetComponent<PhysicalStatePuzzle>();
-                    if (statePuzzle != null)
-                    {
-                        statePuzzle.CheckPuzzle();
-                        return;
-                    }
-
                     DominoPuzzle dominoPuzzle = hit.collider.GetComponentInParent<DominoPuzzle>();
                     if (dominoPuzzle != null && dominoPuzzle.isInteractable)
                     {
                         dominoPuzzle.CheckPuzzle();
                         return;
                     }
+                    RotateHandle rotateHandle =
+    hit.collider.GetComponent<RotateHandle>();
 
-                  
+                    if (rotateHandle != null)
+                    {
+                        rotateHandle.Rotate();
+
+                        if (statePuzzle != null)
+                        {
+                            statePuzzle.CheckPuzzle();
+                        }
+
+                        return;
+                    }
 
                 }
                 else
                 {
-                    
-
                     CauldronInventory cauldron = hit.collider.GetComponent<CauldronInventory>();
                     if (cauldron != null)
                     {
@@ -209,14 +230,9 @@ public class PlayerInteraction : MonoBehaviour
                         return;
                     }
                 }
-
-
             }
-            
-
         }
     }
-
 
     void HandleOutline()
     {
@@ -224,15 +240,12 @@ public class PlayerInteraction : MonoBehaviour
             return;
 
         Ray ray = cam.ViewportPointToRay(Vector3.one * 0.5f);
-
         RaycastHit hit;
-
         OutlineTarget newOutline = null;
 
         if (Physics.Raycast(ray, out hit, interactDistance))
         {
-            newOutline =
-                hit.collider.GetComponentInParent<OutlineTarget>();
+            newOutline = hit.collider.GetComponentInParent<OutlineTarget>();
         }
 
         if (currentOutline != newOutline)
@@ -257,4 +270,30 @@ public class PlayerInteraction : MonoBehaviour
         item.Use(this);
     }
 
+    void HandleMechanismPrompt()
+    {
+        if (inPuzzleMode)
+        {
+            mechanismPrompt.SetActive(false);
+            return;
+        }
+
+        Ray ray = cam.ViewportPointToRay(Vector3.one * 0.5f);
+        RaycastHit hit;
+
+        bool lookingAtMechanism = false;
+
+        if (Physics.Raycast(ray, out hit, interactDistance))
+        {
+            MechanismInteraction mechanism =
+                hit.collider.GetComponentInParent<MechanismInteraction>();
+
+            if (mechanism != null)
+            {
+                lookingAtMechanism = true;
+            }
+        }
+
+        mechanismPrompt.SetActive(lookingAtMechanism);
+    }
 }
