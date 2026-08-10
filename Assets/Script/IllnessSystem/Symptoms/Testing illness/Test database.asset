@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6d243ddc68fd13498e73d77bb1ddf33, type: 3}
+  m_Name: Test database
+  m_EditorClassIdentifier: Assembly-CSharp::SymptomDatabase
+  symptoms:
+  - {fileID: 11400000, guid: 6946a75acdd175340a9b6f39632a067c, type: 2}
+  - {fileID: 11400000, guid: 896ebacc3b8a13a46a9db8995f39c125, type: 2}
+  - {fileID: 11400000, guid: 416c6629bb9bd354bbe9bef751472311, type: 2}
+  - {fileID: 11400000, guid: 00fcf9b78a5d4d24797eb617c32de7e4, type: 2}

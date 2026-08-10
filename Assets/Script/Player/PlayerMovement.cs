@@ -22,16 +22,16 @@ public class PlayerMovementCC : MonoBehaviour
 
     private bool walkingSoundPlaying = false;
     public LevelLightmapData switcher;
-    void Awake()
+    /*void Awake()
     {
         LSM.SwitchToDay();
-    }
+    }*/
     void Start()
     {
         cc = GetComponent<CharacterController>();
         currentSpeed = normalSpeed;
 
-        Debug.Log("Switcher = " + switcher.name);
+        /* Debug.Log("Switcher = " + switcher.name);
 
         var scenariosField = typeof(LevelLightmapData)
             .GetField("lightingScenariosData",
@@ -40,7 +40,7 @@ public class PlayerMovementCC : MonoBehaviour
         var list = scenariosField.GetValue(switcher) as System.Collections.IList;
 
         Debug.Log("Scenario count from PlayerMovement = " +
-                  (list != null ? list.Count.ToString() : "NULL"));
+                  (list != null ? list.Count.ToString() : "NULL"));*/
     }
 
     void Update()
@@ -64,7 +64,7 @@ public class PlayerMovementCC : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
 
         // WALKING AUDIO
-        bool isMoving = move.magnitude > 0.1f && grounded;
+       /* bool isMoving = move.magnitude > 0.1f && grounded;
 
         if (isMoving)
         {
@@ -82,7 +82,7 @@ public class PlayerMovementCC : MonoBehaviour
                 walkingSoundPlaying = false;
             }
         }
-
+       */
 
         if (Input.GetButtonDown("Jump") && grounded)
         {
