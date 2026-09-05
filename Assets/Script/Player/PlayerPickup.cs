@@ -47,6 +47,14 @@ public class PlayerPickup : MonoBehaviour
                 return;
             }
 
+            WoodPlace woodplace =
+                    hit.collider.GetComponentInParent<WoodPlace>();
+
+            if (woodplace != null)
+            {
+                woodplace.PutIntoFire();
+                return;
+            }
             // Door
             SwingDoor door =
                 hit.collider.GetComponentInParent<SwingDoor>();

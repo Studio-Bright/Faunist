@@ -24,6 +24,7 @@ public class BellInteraction : PickupItem
 
     public System.Action onBellRung;
 
+    public BellCall bellCall;
     void Start()
     {
         originalRotation = transform.rotation;
@@ -46,6 +47,8 @@ public class BellInteraction : PickupItem
 
         isRinging = true;
         canUse = true;
+
+        bellCall.TurnOnBellCanvas();
 
         bellAnimation.PlayRing();
 
@@ -73,6 +76,7 @@ public class BellInteraction : PickupItem
 
     public override void Use(PlayerInteraction player)
     {
+        bellCall.TurnOffBellCanvas();
         if (!canUse || hasPlayed)
             return;
 
@@ -84,6 +88,7 @@ public class BellInteraction : PickupItem
             dialogueManager.StartDialogue(introDialogue, () =>
             {
                 HandleBellLogic();
+                
             });
         }
         else

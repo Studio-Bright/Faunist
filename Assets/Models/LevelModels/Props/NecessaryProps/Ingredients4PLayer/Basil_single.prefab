@@ -106,6 +106,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 152529919124f884cadfb41a326ead4f, type: 3}
   itemType: 0
   containedLiquid: 0
+  woodType: 2
   rb: {fileID: 1487510916332531749}
   holdableInHands: 0
   handPositionOffset: {x: 0, y: 0, z: 0}

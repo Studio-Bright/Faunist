@@ -9,6 +9,8 @@ public class PickupItem : MonoBehaviour
     public ItemType itemType;
     public LiquidType containedLiquid = LiquidType.None;
 
+    public WoodType woodType = WoodType.NotWood;
+
     [Header("Physics")]
     public Rigidbody rb;
 
@@ -36,7 +38,13 @@ public class PickupItem : MonoBehaviour
         None,
         Water
     }
+    public enum WoodType
+    {
+        Red,
+        Blue,
 
+        NotWood
+    }
 
     private void Awake()
     {

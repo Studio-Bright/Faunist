@@ -8,7 +8,9 @@ public class CauldronInventory : MonoBehaviour, IInteractable
     public List<PotionRecipe> potionRecipes = new List<PotionRecipe>();
 
     [Header("References")]
-    public PotionTemperatureManager temperatureManager;
+    //public PotionTemperatureManager temperatureManager;
+    public TemperatureManager tempManger;
+
     public Transform potionSpawnPosition;
     public CauldronWater waterCauldron;
     public CauldronWater waterBucket;
@@ -103,14 +105,10 @@ public class CauldronInventory : MonoBehaviour, IInteractable
 
     public void Brew(PhysicalState currentState)
     {
-        if (!temperatureManager.temperatureReady)
-        {
-            Debug.Log("Temperature not set!");
-            return;
-        }
+        
 
         PotionState currentTemperature =
-            temperatureManager.finalTemperature;
+            tempManger.finalTemperature;
 
         foreach (PotionRecipe recipe in potionRecipes)
         {
@@ -155,7 +153,7 @@ public class CauldronInventory : MonoBehaviour, IInteractable
         Debug.Log("Potion failed!");
 
         ResetCauldron();
-        temperatureManager.ResetAllPuzzles();
+       // temperatureManager.ResetAllPuzzles();
     }
 
     private bool IsRecipeMatch(PotionRecipe recipe)
@@ -225,7 +223,7 @@ public class CauldronInventory : MonoBehaviour, IInteractable
 
         hasWater = false;
 
-        temperatureManager.temperatureReady = false;
+        //temperatureManager.temperatureReady = false;
 
         waterCauldron.EmptyWater();
         

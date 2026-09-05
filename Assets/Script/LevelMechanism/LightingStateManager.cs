@@ -10,6 +10,10 @@ public class LightingStateManager : MonoBehaviour
     public Light[] dayLights;
     public Light[] nightLights;
 
+    [Header("Directional Lights")]
+    public GameObject DirectionalLightDay;
+    public GameObject DirectionalLighNight;
+
     [Header("Emissive Materials (optional direct control)")]
     public Material[] emissiveMaterials;
 
@@ -35,13 +39,32 @@ public class LightingStateManager : MonoBehaviour
     public Volume nightVolume;
 
     private bool isNight;
-
+    /*private void Update()
+    {
+       if (Input.GetKeyDown(KeyCode.V))
+        {
+            SwitchToDay();
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            SwitchToNight();
+        }
+    }*/
     public void SwitchToDay()
     {
         isNight = false;
 
-        ApplyLighting(0, dayLights, nightLights, dayEmissionColor, dayFogColor, dayAmbient,
-            dayVolume, nightVolume);
+        ApplyLighting(
+            0,
+            dayLights,
+            nightLights,
+            dayEmissionColor,
+            dayFogColor,
+            dayAmbient,
+            dayVolume,
+            nightVolume
+        );
+
         RefreshLightingProbes();
     }
 
@@ -49,16 +72,26 @@ public class LightingStateManager : MonoBehaviour
     {
         isNight = true;
 
-        ApplyLighting(1, dayLights, nightLights, nightEmissionColor, nightFogColor, nightAmbient,
-            dayVolume, nightVolume);
+        ApplyLighting(
+            1,
+            dayLights,
+            nightLights,
+            nightEmissionColor,
+            nightFogColor,
+            nightAmbient,
+            dayVolume,
+            nightVolume
+        );
+
         RefreshLightingProbes();
     }
 
     public void ToggleLighting()
     {
-        if (isNight) SwitchToDay();
-        else SwitchToNight();
-
+        if (isNight)
+            SwitchToDay();
+        else
+            SwitchToNight();
     }
 
     private void ApplyLighting(
@@ -75,20 +108,24 @@ public class LightingStateManager : MonoBehaviour
         if (levelLightmapData != null)
         {
             levelLightmapData.LoadLightingScenario(lightmapIndex);
-
-            // helps prevent stale lighting in some edge cases
             DynamicGI.UpdateEnvironment();
-
         }
 
-        // LIGHTS
+        // REALTIME LIGHTS
         SetLights(enableLights, true);
         SetLights(disableLights, false);
+
+        // DIRECTIONAL LIGHT GAMEOBJECTS
+        if (DirectionalLightDay != null)
+            DirectionalLightDay.SetActive(lightmapIndex == 0);
+
+        if (DirectionalLighNight != null)
+            DirectionalLighNight.SetActive(lightmapIndex == 1);
 
         // EMISSION
         SetEmission(emissionColor);
 
-        // FOG (GLOBAL)
+        // FOG
         RenderSettings.fog = true;
         RenderSettings.fogColor = fogColor;
 
@@ -96,13 +133,17 @@ public class LightingStateManager : MonoBehaviour
         RenderSettings.ambientLight = ambientColor;
 
         // VOLUMES
-        if (dayVol) dayVol.weight = (lightmapIndex == 0) ? 1f : 0f;
-        if (nightVol) nightVol.weight = (lightmapIndex == 1) ? 1f : 0f;
+        if (dayVol)
+            dayVol.weight = (lightmapIndex == 0) ? 1f : 0f;
+
+        if (nightVol)
+            nightVol.weight = (lightmapIndex == 1) ? 1f : 0f;
     }
 
     private void SetLights(Light[] lights, bool state)
     {
-        if (lights == null) return;
+        if (lights == null)
+            return;
 
         foreach (var light in lights)
         {
@@ -113,22 +154,25 @@ public class LightingStateManager : MonoBehaviour
 
     private void SetEmission(Color color)
     {
-        // MATERIAL ARRAY PATH (your original system)
+        // MATERIAL ARRAY PATH
         if (emissiveMaterials != null)
         {
             foreach (var mat in emissiveMaterials)
             {
-                if (!mat) continue;
+                if (!mat)
+                    continue;
+
                 ApplyEmission(mat, color);
             }
         }
 
-        // RENDERER PATH (more scalable, recommended)
+        // RENDERER PATH
         if (emissiveRenderers != null)
         {
             foreach (var r in emissiveRenderers)
             {
-                if (!r) continue;
+                if (!r)
+                    continue;
 
                 foreach (var mat in r.materials)
                 {
@@ -140,7 +184,8 @@ public class LightingStateManager : MonoBehaviour
 
     private void ApplyEmission(Material mat, Color color)
     {
-        if (!mat) return;
+        if (!mat)
+            return;
 
         mat.EnableKeyword("_EMISSION");
         mat.SetColor("_EmissionColor", color);
@@ -151,6 +196,7 @@ public class LightingStateManager : MonoBehaviour
         LightProbes.Tetrahedralize();
         DynamicGI.UpdateEnvironment();
     }
+
     private void RefreshReflectionProbes()
     {
         var probes = FindObjectsOfType<ReflectionProbe>();

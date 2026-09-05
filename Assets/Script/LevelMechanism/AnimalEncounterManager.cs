@@ -1,6 +1,7 @@
+using System;
 using System.Collections;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class AnimalEncounterManager : MonoBehaviour
 {
@@ -176,24 +177,24 @@ public class AnimalEncounterManager : MonoBehaviour
             Debug.Log("Game complete! 🎉");
         }
     }
+   
     IEnumerator PostHealFlow()
     {
-        state = EncounterState.PostHeal;
+            state = EncounterState.PostHeal;
 
-        yield return new WaitForSecondsRealtime(currentAnimal.stayAfterHeal);
-        DestroyAnimal();
-        bell.ResetBell();
+            yield return new WaitForSecondsRealtime(currentAnimal.stayAfterHeal);
+            DestroyAnimal();
+            bell.ResetBell();
 
-        state = EncounterState.WaitingForBell;
+            // Wait 3 seconds after the animal is healed before continuing
+            yield return new WaitForSecondsRealtime(3f);
 
-        yield return StartCoroutine(WaitForBell());
+            yield return ShowHintDialogue();
 
-        
-
-        yield return ShowHintDialogue();
-
-        CleanupAndNext();
+            CleanupAndNext();
     }
+
+
 
     IEnumerator FailFlow()
     {
@@ -276,7 +277,7 @@ public class AnimalEncounterManager : MonoBehaviour
         if (currentAnimal.failDialogues == null || currentAnimal.failDialogues.Length == 0)
             return null;
 
-        int index = Random.Range(0, currentAnimal.failDialogues.Length);
+        int index = UnityEngine.Random.Range(0, currentAnimal.failDialogues.Length);
         return currentAnimal.failDialogues[index];
     }
 

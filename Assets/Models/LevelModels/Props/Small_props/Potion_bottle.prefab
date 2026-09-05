@@ -129,9 +129,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   itemName: Potion_bottle
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 7a2185d435195c743ab56b6dc114b2de, type: 3}
   itemType: 2
   containedLiquid: 0
+  woodType: 0
   rb: {fileID: 5018632893682161717}
   holdableInHands: 0
   handPositionOffset: {x: 0, y: 0, z: 0}

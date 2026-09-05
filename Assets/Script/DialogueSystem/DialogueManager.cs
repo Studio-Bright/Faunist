@@ -71,7 +71,7 @@ public class DialogueManager : MonoBehaviour
 
         isTyping = false;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(5f);
 
         canContinue = true;
 
