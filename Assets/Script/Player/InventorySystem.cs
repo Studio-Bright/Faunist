@@ -4,20 +4,57 @@ using UnityEngine.UI;
 
 public class InventorySystem : MonoBehaviour
 {
-    public List<PickupItem> items = new List<PickupItem>();
-    public int selectedIndex = -1;
+    [Header("Inventory")]
+    [SerializeField] private List<PickupItem> items = new List<PickupItem>();
+
+    [SerializeField] private int selectedIndex = -1;
 
     [Header("UI")]
-    public GameObject slotPrefab;
-    public Transform slotParent;
+    [SerializeField] private GameObject slotPrefab;
+    [SerializeField] private Transform slotParent;
 
-    private List<Image> icons = new List<Image>();
-    private List<GameObject> overlays = new List<GameObject>();
+    [Header("Hands")]
+    [SerializeField] private PlayerHands playerHands;
+
+    private readonly List<Image> icons = new List<Image>();
+
+    private readonly List<GameObject> overlays = new List<GameObject>();
 
 
-    public PlayerHands playerHands;
+    // =====================================================
+    // PUBLIC API
+    // =====================================================
+
+    public PickupItem GetSelectedItem()
+    {
+        if (selectedIndex < 0 || selectedIndex >= items.Count)
+        {
+            return null;
+        }
+
+        return items[selectedIndex];
+    }
+
+
+    // =====================================================
+    // ADD ITEM
+    // =====================================================
+    public bool IsFull()
+    {
+        return items.Count >= 5;
+    }
     public void AddItem(PickupItem item)
     {
+        // Maximum 5 items
+        if (items.Count >= 5)
+        {
+            Debug.Log("Inventory is full!");
+            return;
+        }
+
+        if (item == null)
+            return;
+
         items.Add(item);
         selectedIndex = items.Count - 1;
 
@@ -39,90 +76,156 @@ public class InventorySystem : MonoBehaviour
         RefreshHands();
     }
 
+
+    // =====================================================
+    // REMOVE SELECTED
+    // =====================================================
+
     public void RemoveSelected()
     {
-        if (items.Count == 0 || selectedIndex < 0) return;
+        if (items.Count == 0 || selectedIndex < 0 || selectedIndex >= items.Count)
+        {
+            return;
+        }
 
-        PickupItem removedItem = items[selectedIndex];
 
+        int removedIndex = selectedIndex;
+
+
+        // Clear the currently displayed hand item.
         if (playerHands != null)
         {
             playerHands.Clear();
         }
 
-        items.RemoveAt(selectedIndex);
 
-        Destroy(slotParent.GetChild(selectedIndex).gameObject);
+        items.RemoveAt(removedIndex);
 
-        icons.RemoveAt(selectedIndex);
-        overlays.RemoveAt(selectedIndex);
 
+        // Remove inventory UI slot.
+        if (slotParent != null && removedIndex < slotParent.childCount)
+        {
+            Destroy(slotParent.GetChild(removedIndex).gameObject);
+        }
+
+
+        if (removedIndex < icons.Count)
+        {
+            icons.RemoveAt(removedIndex);
+        }
+
+        if (removedIndex < overlays.Count)
+        {
+            overlays.RemoveAt(removedIndex);
+        }
+
+
+        // No items left.
         if (items.Count == 0)
         {
             selectedIndex = -1;
-            playerHands.Clear(false);
+
+            if (playerHands != null)
+            {
+                playerHands.Clear(false);
+            }
+
+            UpdateUI();
+
+            return;
+        }
+
+
+        // Keep selection valid.
+        if (removedIndex >= items.Count)
+        {
+            selectedIndex = items.Count - 1;
         }
         else
         {
-            if (selectedIndex >= items.Count)
-                selectedIndex = items.Count - 1;
-            RefreshHands();
+            selectedIndex = removedIndex;
         }
 
+
         UpdateUI();
+        RefreshHands();
     }
 
-    public PickupItem GetSelectedItem()
-    {
-        if (selectedIndex < 0 || selectedIndex >= items.Count)
-            return null;
 
-        return items[selectedIndex];
-    }
+    // =====================================================
+    // SCROLL
+    // =====================================================
 
     public void Scroll(int direction)
     {
-        if (items.Count == 0) return;
+        if (items.Count == 0)
+            return;
+
 
         selectedIndex = (selectedIndex + direction + items.Count) % items.Count;
 
-        UpdateUI();
 
+        UpdateUI();
         RefreshHands();
     }
+
+
+    // =====================================================
+    // SELECT ITEM
+    // =====================================================
+
+    public void SetSelectedItem(PickupItem item)
+    {
+        if (item == null)
+            return;
+
+
+        int index = items.IndexOf(item);
+
+
+        if (index == -1)
+        {
+            Debug.LogWarning("Item not found in inventory!");
+
+            return;
+        }
+
+
+        selectedIndex = index;
+
+        UpdateUI();
+        RefreshHands();
+    }
+
+
+    // =====================================================
+    // UI
+    // =====================================================
 
     private void UpdateUI()
     {
         for (int i = 0; i < overlays.Count; i++)
         {
             if (overlays[i] != null)
+            {
                 overlays[i].SetActive(i == selectedIndex);
+            }
         }
     }
 
-    public void SetSelectedItem(PickupItem item)
-    {
-        int index = items.IndexOf(item);
 
-        if (index == -1)
-        {
-            Debug.LogWarning("Item not found in inventory!");
-            return;
-        }
-
-        selectedIndex = index;
-        UpdateUI();
-
-
-        RefreshHands();
-    }
+    // =====================================================
+    // HANDS
+    // =====================================================
 
     private void RefreshHands()
     {
         if (playerHands == null)
             return;
 
+
         PickupItem item = GetSelectedItem();
+
 
         if (item == null)
         {
@@ -130,14 +233,17 @@ public class InventorySystem : MonoBehaviour
             return;
         }
 
+
         if (!item.holdableInHands)
         {
             item.SetVisible(false);
 
             playerHands.Clear();
+
             return;
         }
 
+
         playerHands.ShowItem(item);
-    }   
+    }
 }

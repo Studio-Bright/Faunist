@@ -475,7 +475,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 52176167}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17931f4f777a2a94aa06d4b2d98f9014, type: 3}
   m_Name: 
@@ -516,7 +516,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 52176167}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fbe946742b026c64bb85a6746c5010e4, type: 3}
   m_Name: 
@@ -5049,6 +5049,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 6409f434ed71c3f4ca5883cea90ce654, type: 3}
   itemType: 1
   containedLiquid: 0
+  woodType: 2
   rb: {fileID: 0}
   holdableInHands: 0
   handPositionOffset: {x: 0, y: 0, z: 0}
@@ -6209,6 +6210,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99fd4fce90657564c945996734f547a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimalEncounterManager
+  spawnPoint: {fileID: 0}
+  VFXPoint: {fileID: 0}
+  timer: {fileID: 0}
+  dialogueManager: {fileID: 0}
+  bell: {fileID: 0}
+  dayManager: {fileID: 0}
+  vfxSpawner: {fileID: 0}
+  currentAnimal:
+    prefab: {fileID: 0}
+    healTime: 0
+    spawnRotation: {x: 0, y: 0, z: 0}
+    postHealDialogue: {fileID: 0}
+    failDialogues: []
+    stayAfterHeal: 3
+    delayBeforeNext: 2
+    requiredHeals: 1
+    isSnailLevel: 0
+  lightingStateManager: {fileID: 0}
+  dayEndCanvas: {fileID: 0}
+  reputationUI: {fileID: 0}
+  reputationBonus: 0.052
+  isNight: 0
 --- !u!4 &1110786772
 Transform:
   m_ObjectHideFlags: 0
@@ -7454,7 +7477,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1453228703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9768,7 +9791,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CauldronInventory
   potionRecipes:
   - {fileID: 0}
-  temperatureManager: {fileID: 1366235575}
+  tempManger: {fileID: 0}
   potionSpawnPosition: {fileID: 0}
   waterCauldron: {fileID: 0}
   waterBucket: {fileID: 0}

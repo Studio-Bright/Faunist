@@ -3,116 +3,188 @@ using System.Collections;
 
 public class BellInteraction : PickupItem
 {
-    public DialogueManager dialogueManager;
-    public DialogueData introDialogue;
+    [Header("Dialogue")]
+    [SerializeField] private DialogueManager dialogueManager;
+    [SerializeField] private DialogueData introDialogue;
 
-    public float delayBeforeRing = 10f;
+    [Header("Bell Timing")]
+    [SerializeField] private float delayBeforeRing = 10f;
 
-    public PlayerMovementCC playerMovement;
+    [Header("Player")]
+    [SerializeField] private PlayerMovementCC playerMovement;
 
-    public DayManager dayManager;
-    public AnimalEncounterManager encounterManager;
-    public BellAnimation bellAnimation;
+    [Header("Day")]
+    [SerializeField] private DayManager dayManager;
+    [SerializeField] private AnimalEncounterManager encounterManager;
+
+    [Header("Bell")]
+    [SerializeField] private BellAnimation bellAnimation;
+    [SerializeField] private BellCall bellCall;
 
     private bool canUse = false;
     private bool hasPlayed = false;
     private bool hasStartedDay = false;
+
     public bool isRinging = false;
+
     private bool introCompleted = false;
 
     private Quaternion originalRotation;
 
     public System.Action onBellRung;
 
-    public BellCall bellCall;
-    void Start()
+
+    // =====================================================
+    // INITIALIZATION
+    // =====================================================
+
+    private void Start()
     {
         originalRotation = transform.rotation;
 
-        playerMovement.SetPreBellState();
+        if (playerMovement != null)
+        {
+            playerMovement.SetPreBellState();
+        }
 
         StartCoroutine(RingAfterDelay());
     }
 
-    IEnumerator RingAfterDelay()
+
+    // =====================================================
+    // DELAYED BELL
+    // =====================================================
+
+    private IEnumerator RingAfterDelay()
     {
         yield return new WaitForSeconds(delayBeforeRing);
 
         RingBell();
     }
 
-    void RingBell()
+
+    private void RingBell()
     {
-        AudioManager.Instance.PlaySFX("BellRinging");
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX("BellRinging");
+        }
 
         isRinging = true;
         canUse = true;
 
-        bellCall.TurnOnBellCanvas();
+        if (bellCall != null)
+        {
+            bellCall.TurnOnBellCanvas();
+        }
 
-        bellAnimation.PlayRing();
+        if (bellAnimation != null)
+        {
+            bellAnimation.PlayRing();
+        }
 
-        playerMovement.SetNormalState();
+        if (playerMovement != null)
+        {
+            playerMovement.SetNormalState();
+        }
 
         Debug.Log("Bell is ready.");
     }
+
+
+    // =====================================================
+    // PICKUP
+    // =====================================================
+
     public override void OnPickup()
     {
         base.OnPickup();
 
         isRinging = false;
 
-        bellAnimation.StopRing();
+        if (bellAnimation != null)
+        {
+            bellAnimation.StopRing();
+        }
     }
+
+
+    // =====================================================
+    // DROP
+    // =====================================================
+
     public override void OnDrop(Vector3 position)
     {
         base.OnDrop(position);
 
         transform.rotation = originalRotation;
 
-        bellAnimation.EnableAnimator();
-        bellAnimation.PlayRing();
+        if (bellAnimation != null)
+        {
+            bellAnimation.EnableAnimator();
+            bellAnimation.PlayRing();
+        }
     }
 
-    public override void Use(PlayerInteraction player)
+
+    // =====================================================
+    // UNIVERSAL INTERACTION
+    // =====================================================
+
+    public override void Interact(PlayerInteractionContext context)
     {
-        bellCall.TurnOffBellCanvas();
+        base.Interact(context);
+    }
+
+
+    public override void AlternateInteract(PlayerInteractionContext context)
+    {
+        UseBell();
+    }
+
+
+    // =====================================================
+    // BELL USE
+    // =====================================================
+
+    private void UseBell()
+    {
+        if (bellCall != null)
+        {
+            bellCall.TurnOffBellCanvas();
+        }
+
         if (!canUse || hasPlayed)
             return;
 
         hasPlayed = true;
 
-        // Only play intro dialogue once
+
         if (!introCompleted && introDialogue != null)
         {
-            dialogueManager.StartDialogue(introDialogue, () =>
-            {
-                HandleBellLogic();
-                
-            });
+            dialogueManager.StartDialogue(introDialogue, HandleBellLogic);
         }
         else
         {
             HandleBellLogic();
         }
     }
-    public void ResetBell()
-    {
-        hasPlayed = false;
-        isRinging = false;
 
-        // ❌ do NOT reset introCompleted
-        // introCompleted stays locked for whole run
-    }
 
-    void HandleBellLogic()
+    // =====================================================
+    // BELL LOGIC
+    // =====================================================
+
+    private void HandleBellLogic()
     {
         if (!hasStartedDay)
         {
             hasStartedDay = true;
-            introCompleted = true; // permanently mark intro as played
+
+            introCompleted = true;
 
             var day = dayManager.GetCurrentDay();
+
             encounterManager.StartDay(day);
 
             Debug.Log("Day started!");
@@ -121,5 +193,16 @@ public class BellInteraction : PickupItem
         {
             onBellRung?.Invoke();
         }
+    }
+
+
+    // =====================================================
+    // RESET
+    // =====================================================
+
+    public void ResetBell()
+    {
+        hasPlayed = false;
+        isRinging = false;
     }
 }

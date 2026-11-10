@@ -1,11 +1,15 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
 
-public class WaterSource : MonoBehaviour, IInteractable
+public class WaterSource : MonoBehaviour, IUniversalInteractable
 {
     public CauldronWater waterBucket;
-    public void Interact(PlayerInteraction player)
+
+    public bool ShowInteractionPrompt => true;
+
+    public void Interact(PlayerInteractionContext context)
     {
-        PickupItem item = player.inventory.GetSelectedItem();
+        PickupItem item = context.SelectedItem;
 
         if (item == null)
         {
@@ -21,6 +25,9 @@ public class WaterSource : MonoBehaviour, IInteractable
 
         item.containedLiquid = PickupItem.LiquidType.Water;
         waterBucket.FillWater();
+
         Debug.Log("Bucket filled with water!");
     }
+
+    public void AlternateInteract(PlayerInteractionContext context) { }
 }

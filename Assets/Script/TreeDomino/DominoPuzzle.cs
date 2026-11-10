@@ -23,6 +23,14 @@ public class DominoPuzzle : MonoBehaviour
         CalculateGridOrigin();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            GeneratePieces();   
+        }
+    }
+
     void CalculateGridOrigin()
     {
         if (boardArea == null) return;

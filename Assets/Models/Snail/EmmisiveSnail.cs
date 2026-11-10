@@ -1,32 +1,45 @@
 using UnityEngine;
 
-public class EmissiveSnail : MonoBehaviour, IInteractable
+public class EmissiveSnail : MonoBehaviour, IUniversalInteractable
 {
-    public string requiredItem;
+    [Header("Required Item")]
+    [SerializeField] private string requiredItem;
 
-    public SkinnedMeshRenderer snailRenderer;
+    [Header("Renderer")]
+    [SerializeField] private SkinnedMeshRenderer snailRenderer;
 
-    public float emissionStrength = 1f;
-    public float emissionIncrease = 2f;
+    [Header("Emission")]
+    [SerializeField] private float emissionStrength = 1f;
+    [SerializeField] private float emissionIncrease = 2f;
 
     private Material mat;
     private Color baseEmissionColor;
 
-    void Start()
+    public bool ShowInteractionPrompt => true;
+
+    private void Start()
     {
+        if (snailRenderer == null)
+        {
+            Debug.LogError($"{name}: EmissiveSnail requires a SkinnedMeshRenderer.");
+            return;
+        }
+
         mat = snailRenderer.material;
 
         mat.EnableKeyword("_EMISSION");
 
-        // Store the original emission color
         baseEmissionColor = mat.GetColor("_EmissionColor");
 
         UpdateEmission();
     }
 
-    public void Interact(PlayerInteraction player)
+    public void Interact(PlayerInteractionContext context)
     {
-        PickupItem selectedItem = player.inventory.GetSelectedItem();
+        if (context == null)
+            return;
+
+        PickupItem selectedItem = context.SelectedItem;
 
         if (selectedItem == null)
         {
@@ -41,19 +54,26 @@ public class EmissiveSnail : MonoBehaviour, IInteractable
         }
 
         IncreaseEmission();
-        player.inventory.RemoveSelected();
+
+        context.Inventory.RemoveSelected();
     }
 
-    void IncreaseEmission()
+    public void AlternateInteract(PlayerInteractionContext context) { }
+
+    private void IncreaseEmission()
     {
         emissionStrength += emissionIncrease;
+
         UpdateEmission();
 
         Debug.Log("Snail glowing stronger!");
     }
 
-    void UpdateEmission()
+    private void UpdateEmission()
     {
+        if (mat == null)
+            return;
+
         mat.SetColor("_EmissionColor", baseEmissionColor * emissionStrength);
     }
 }

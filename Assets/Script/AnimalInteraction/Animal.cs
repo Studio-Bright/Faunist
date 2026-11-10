@@ -1,14 +1,14 @@
+using System;
 using UnityEngine;
-using UnityEngine.VFX;
 
-[System.Serializable]
+[Serializable]
 public class MaterialSwap
 {
     public Material from;
     public Material to;
 }
 
-public class Animal : MonoBehaviour
+public class Animal : MonoBehaviour, IUniversalInteractable
 {
     public string animalID;
 
@@ -24,35 +24,65 @@ public class Animal : MonoBehaviour
 
     [Header("Heal VFX")]
     [SerializeField] private GameObject healVFXPrefab;
-    [SerializeField] private Vector3 vfxOffset = Vector3.zero;
+    [SerializeField] private Vector3 vfxOffset;
     [SerializeField] private float vfxScale = 1f;
+
     [Header("Snail")]
     [SerializeField] private SnailAnimLight snailToChange;
     [SerializeField] private int healedSnailID;
-    private bool healed = false;
+
+    private bool healed;
+
+    public bool ShowInteractionPrompt => !healed;
+
+    public void Interact(PlayerInteractionContext context)
+    {
+        if (healed) return;
+
+        PickupItem item = context.SelectedItem;
+        if (item == null) return;
+
+        PotionItem potion = item.GetComponent<PotionItem>();
+        if (potion == null)
+        {
+            Debug.Log("This animal requires a potion.");
+            return;
+        }
+
+        if (potion.targetAnimalID != animalID)
+        {
+            Debug.Log("Wrong potion.");
+            return;
+        }
+
+        Heal();
+        context.Inventory.RemoveSelected();
+        Destroy(item.gameObject);
+
+        AnimalEncounterManager manager = FindFirstObjectByType<AnimalEncounterManager>();
+        if (manager != null) manager.OnAnimalHealed();
+    }
+
+    public void AlternateInteract(PlayerInteractionContext context) { }
 
     public void Heal()
     {
-        if (healed)
-            return;
+        if (healed) return;
 
         healed = true;
 
         if (snailToChange != null)
-        {
             snailToChange.ChangeSnailID(healedSnailID);
-        }
 
         SpawnHealVFX();
 
         if (animator != null)
-        {
             animator.SetTrigger("Healed");
-        }
 
         ApplyMaterialSwaps();
         DestroyHealObjects();
     }
+
     private void ApplyMaterialSwaps()
     {
         foreach (Renderer rend in renderersToSwap)
@@ -79,28 +109,22 @@ public class Animal : MonoBehaviour
     {
         foreach (GameObject obj in objectsToDestroyOnHeal)
         {
-            if (obj != null)
-            {
-                Destroy(obj);
-            }
+            if (obj != null) Destroy(obj);
         }
     }
 
     private void SpawnHealVFX()
     {
-        Quaternion rotation = Quaternion.Euler(-90f, 0f, 0f);
-
-        if (healVFXPrefab == null)
-            return;
+        if (healVFXPrefab == null) return;
 
         GameObject vfx = Instantiate(
             healVFXPrefab,
             transform.position + vfxOffset,
-            rotation
+            Quaternion.Euler(-90f, 0f, 0f)
         );
 
         vfx.transform.localScale *= vfxScale;
-
-        Destroy(vfx, 5f); // adjust to effect duration
+        Destroy(vfx, 5f);
     }
 }
+

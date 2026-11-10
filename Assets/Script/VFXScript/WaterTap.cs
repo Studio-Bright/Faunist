@@ -1,37 +1,32 @@
 using UnityEngine;
 
-public class WaterTap : MonoBehaviour
+public class WaterTap : MonoBehaviour, IUniversalInteractable
 {
     [Header("References")]
-    public GameObject vfxTap;
-    public WaterSource sinkSource;
+    [SerializeField] private GameObject vfxTap;
+    [SerializeField] private WaterSource sinkSource;
 
-    [Header("State")]
-    public bool isPouring = false;
+    [SerializeField] private bool isPouring;
 
-    public void TurnOnSink()
+    public bool ShowInteractionPrompt => true;
+
+    public void Interact(PlayerInteractionContext context)
     {
-        vfxTap.SetActive(true);
-
-        isPouring = true;
-
-        sinkSource.enabled = true;
+        Toggle();
     }
 
-    public void TurnOffSink()
+    public void AlternateInteract(PlayerInteractionContext context)
     {
-        vfxTap.SetActive(false);
-
-        isPouring = false;
-
-        sinkSource.enabled = false;
     }
 
     public void Toggle()
     {
-        if (isPouring)
-            TurnOffSink();
-        else
-            TurnOnSink();
+        isPouring = !isPouring;
+
+        if (vfxTap != null)
+            vfxTap.SetActive(isPouring);
+
+        if (sinkSource != null)
+            sinkSource.enabled = isPouring;
     }
 }

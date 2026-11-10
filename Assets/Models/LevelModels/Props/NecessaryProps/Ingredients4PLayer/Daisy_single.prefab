@@ -71,7 +71,7 @@ PrefabInstance:
       addedObject: {fileID: 7485727375240863309}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b9c3d23348152f749a18120bbb7788d1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -654163353688825280}
+      addedObject: {fileID: 7439158846849866976}
   m_SourcePrefab: {fileID: 100100000, guid: b9c3d23348152f749a18120bbb7788d1, type: 3}
 --- !u!1 &9142845467626319022 stripped
 GameObject:
@@ -139,8 +139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e6ae70ca8dfd64b8a7ed81f514bcf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OutlineTarget
---- !u!65 &-654163353688825280
-BoxCollider:
+--- !u!136 &7439158846849866976
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -157,6 +157,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.0017317254, y: 0.0017479303, z: 0.0025786932}
-  m_Center: {x: 0.0000051262614, y: -0.000045895424, z: 0.0012893466}
+  serializedVersion: 2
+  m_Radius: 0.00024668695
+  m_Height: 0.0028375052
+  m_Direction: 2
+  m_Center: {x: 0.000012521744, y: -0.000045895427, z: 0.0013078693}

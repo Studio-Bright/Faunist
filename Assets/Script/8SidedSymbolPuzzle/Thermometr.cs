@@ -1,15 +1,21 @@
 using UnityEngine;
 
-public class Thermometr : MonoBehaviour, IInteractable
+public class Thermometr : MonoBehaviour, IUniversalInteractable
 {
+    [Header("Temperature")]
     [SerializeField] private PotionTemperatureManager temperatureManager;
 
-    public void Interact(PlayerInteraction player)
+    public bool ShowInteractionPrompt => true;
+
+    public void Interact(PlayerInteractionContext context)
     {
-        if (temperatureManager != null)
-        {
-            temperatureManager.ResetAllPuzzles();
-            Debug.Log("Temperature puzzle reset.");
-        }
+        if (temperatureManager == null)
+            return;
+
+        temperatureManager.ResetAllPuzzles();
+
+        Debug.Log("Temperature puzzle reset.");
     }
+
+    public void AlternateInteract(PlayerInteractionContext context) { }
 }

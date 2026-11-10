@@ -71,7 +71,7 @@ PrefabInstance:
       addedObject: {fileID: 8174592890618425990}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 30cead93a4a56f8449d5d91385f98134, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4788192393719574040}
+      addedObject: {fileID: 3131906122104695934}
   m_SourcePrefab: {fileID: 100100000, guid: 30cead93a4a56f8449d5d91385f98134, type: 3}
 --- !u!1 &7039385843563274916 stripped
 GameObject:
@@ -123,6 +123,9 @@ MonoBehaviour:
   containedLiquid: 0
   woodType: 2
   rb: {fileID: 6668173709565352686}
+  placementCollisionMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   holdableInHands: 0
   handPositionOffset: {x: 0, y: 0, z: 0}
   handRotationOffset: {x: 0, y: 0, z: 0}
@@ -139,8 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e6ae70ca8dfd64b8a7ed81f514bcf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OutlineTarget
---- !u!65 &4788192393719574040
-BoxCollider:
+--- !u!136 &3131906122104695934
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -157,6 +160,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.0012987864, y: 0.0015703004, z: 0.0051911254}
-  m_Center: {x: 0.00043035412, y: -0.0005957013, z: 0.002582725}
+  serializedVersion: 2
+  m_Radius: 0.0006656933
+  m_Height: 0.005532516
+  m_Direction: 2
+  m_Center: {x: 0.00042137146, y: -0.00059570133, z: 0.0026097312}

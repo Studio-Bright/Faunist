@@ -8,9 +8,11 @@ public class SynthesisTable : MonoBehaviour
     public Transform slotA;
     public Transform slotB;
     public Transform slotC;
+
     public Collider colliderA;
     public Collider colliderB;
     public Collider colliderC;
+
     private Collider[] slotColliders;
 
     [Header("Segments")]
@@ -21,6 +23,7 @@ public class SynthesisTable : MonoBehaviour
     [Header("Center Segment")]
     public PathSegment centerSegment;
 
+    [Header("Craft VFX")]
     public GameObject syntesisVFXCraft;
     public Transform syntesisVFXSpawnPoint;
 
@@ -33,46 +36,61 @@ public class SynthesisTable : MonoBehaviour
     private CraftItem[] currentItems = new CraftItem[3];
 
     [Header("Glow Connections")]
-    [SerializeField] private List<SynthesisConnection> connections = new List<SynthesisConnection>();
+    [SerializeField]
+    private List<SynthesisConnection> connections =
+        new List<SynthesisConnection>();
 
     private bool isCrafting = false;
-    void Awake()
+
+    private void Awake()
     {
-        slotColliders = new Collider[3] { colliderA, colliderB, colliderC };
+        slotColliders = new Collider[3]
+        {
+            colliderA,
+            colliderB,
+            colliderC
+        };
     }
 
-
-    void Update()
+    private void Update()
     {
         TryCraft();
     }
 
     public void TryPlaceItem(
-    CraftItem item,
-    int slotIndex,
-    Vector3 position,
-    Quaternion rotation
-)
+        CraftItem item,
+        int slotIndex,
+        Vector3 position,
+        Quaternion rotation)
     {
-        if (currentItems[slotIndex] != null) return;
-        if (item.isPlacedOnTable) return;
+        if (item == null)
+            return;
 
-        item.isPlacedOnTable = true;
-        item.currentTable = this;
+        if (slotIndex < 0 || slotIndex >= currentItems.Length)
+            return;
+
+        if (currentItems[slotIndex] != null)
+            return;
+
+        if (item.isPlacedOnTable)
+            return;
+
+        item.SetTable(this);
 
         PickupItem pickup = item.GetComponent<PickupItem>();
 
-        if (pickup != null)
+        if (pickup != null && pickup.rb != null)
         {
             pickup.rb.linearVelocity = Vector3.zero;
             pickup.rb.angularVelocity = Vector3.zero;
+
             pickup.rb.isKinematic = true;
             pickup.rb.useGravity = false;
         }
 
         item.transform.position = position;
 
-        // STRICT ROTATION
+        // Strict rotation
         item.transform.rotation = rotation;
 
         currentItems[slotIndex] = item;
@@ -81,41 +99,43 @@ public class SynthesisTable : MonoBehaviour
             slotColliders[slotIndex].enabled = false;
 
         RefreshSegments();
+
         Debug.Log("Item placed in slot " + slotIndex);
     }
 
-
-
-    void TryCraft()
+    private void TryCraft()
     {
-        if (isCrafting) return;
+        if (isCrafting)
+            return;
 
         if (currentItems[0] == null ||
             currentItems[1] == null ||
             currentItems[2] == null)
+        {
             return;
+        }
 
         List<string> names = new List<string>()
-    {
-        currentItems[0].itemName,
-        currentItems[1].itemName,
-        currentItems[2].itemName
-    };
+        {
+            currentItems[0].itemName,
+            currentItems[1].itemName,
+            currentItems[2].itemName
+        };
 
-        foreach (var recipe in recipes)
+        foreach (CraftRecipe recipe in recipes)
         {
             List<string> required = new List<string>()
-        {
-            recipe.input1,
-            recipe.input2,
-            recipe.input3
-        };
+            {
+                recipe.input1,
+                recipe.input2,
+                recipe.input3
+            };
 
             bool canCraft = true;
 
-            foreach (var r in required)
+            foreach (string requiredName in required)
             {
-                if (!names.Contains(r))
+                if (!names.Contains(requiredName))
                 {
                     canCraft = false;
                     break;
@@ -130,8 +150,7 @@ public class SynthesisTable : MonoBehaviour
         }
     }
 
-
-    IEnumerator CraftRoutine(CraftRecipe recipe)
+    private IEnumerator CraftRoutine(CraftRecipe recipe)
     {
         isCrafting = true;
 
@@ -144,80 +163,93 @@ public class SynthesisTable : MonoBehaviour
 
         for (int i = 0; i < currentItems.Length; i++)
         {
-            var item = currentItems[i];
+            CraftItem item = currentItems[i];
 
-            if (item == null) continue;
+            if (item == null)
+                continue;
 
             PickupItem pickup = item.GetComponent<PickupItem>();
+
             if (pickup != null)
                 Destroy(pickup.gameObject);
         }
 
         currentItems = new CraftItem[3];
 
-        RefreshSegments(); 
+        RefreshSegments();
 
         Vector3 spawnPos = outputSpawn != null
             ? outputSpawn.position
             : transform.position + Vector3.up * 0.5f;
 
-        Instantiate(recipe.outputPrefab, spawnPos, Quaternion.identity);
-        CraftVFX(syntesisVFXSpawnPoint.position);
+        Instantiate(
+            recipe.outputPrefab,
+            spawnPos,
+            Quaternion.identity
+        );
 
-
-
-        
-        ResetSlots();
-        isCrafting = false;
-    }
-    public void RemoveItem(CraftItem item)
-    {
-        for (int i = 0; i < currentItems.Length; i++)
+        if (syntesisVFXSpawnPoint != null)
         {
-            if (currentItems[i] == item)
-            {
-                currentItems[i] = null;
-
-                // 🟢 Re-enable collider
-                if (slotColliders[i] != null)
-                    slotColliders[i].enabled = true;
-
-                break;
-            }
+            CraftVFX(syntesisVFXSpawnPoint.position);
         }
 
-        item.isPlacedOnTable = false;
-        item.currentTable = null;
+        ResetSlots();
+
+        isCrafting = false;
+    }
+
+    public void RemoveItem(CraftItem item)
+    {
+        if (item == null)
+            return;
+
+        for (int i = 0; i < currentItems.Length; i++)
+        {
+            if (currentItems[i] != item)
+                continue;
+
+            currentItems[i] = null;
+
+            if (slotColliders[i] != null)
+                slotColliders[i].enabled = true;
+
+            break;
+        }
+
+        item.SetTable(null);
 
         PickupItem pickup = item.GetComponent<PickupItem>();
-        if (pickup != null)
+
+        if (pickup != null && pickup.rb != null)
         {
             pickup.rb.isKinematic = false;
             pickup.rb.useGravity = true;
+
             pickup.rb.linearVelocity = Vector3.zero;
             pickup.rb.angularVelocity = Vector3.zero;
         }
 
         Debug.Log("Item removed from table");
+
         ResetSlots();
         RefreshSegments();
     }
 
-    void RefreshSegments()
+    private void RefreshSegments()
     {
         bool a = currentItems[0] != null;
         bool b = currentItems[1] != null;
         bool c = currentItems[2] != null;
 
-        // AB (0-1)
+        // AB
         if (segmentAB != null)
             segmentAB.SetActive(a && b);
 
-        // BC (1-2)
+        // BC
         if (segmentBC != null)
             segmentBC.SetActive(b && c);
 
-        // CA (2-0)
+        // CA
         if (segmentCA != null)
             segmentCA.SetActive(c && a);
 
@@ -225,7 +257,7 @@ public class SynthesisTable : MonoBehaviour
             centerSegment.SetActive(false);
     }
 
-    void ResetSlots()
+    private void ResetSlots()
     {
         for (int i = 0; i < slotColliders.Length; i++)
         {
@@ -236,7 +268,14 @@ public class SynthesisTable : MonoBehaviour
 
     public void CraftVFX(Vector3 position)
     {
-        GameObject vfx = Instantiate(syntesisVFXCraft, position, Quaternion.identity);
+        if (syntesisVFXCraft == null)
+            return;
+
+        GameObject vfx = Instantiate(
+            syntesisVFXCraft,
+            position,
+            Quaternion.identity
+        );
 
         Destroy(vfx, 2f);
     }

@@ -9,70 +9,119 @@ public class PhysicalStatePuzzle : MonoBehaviour
     public RotatableItem cube3;
     public RotatableItem cube4;
 
-    public bool isInteractable = false;
-
-    private Collider[] cubeColliders;
-
-    private void Awake()
-    {
-        cubeColliders = new Collider[]
-        {
-            cube1.GetComponent<Collider>(),
-            cube2.GetComponent<Collider>(),
-            cube3.GetComponent<Collider>(),
-            cube4.GetComponent<Collider>()
-        };
-
-        SetInteraction(false);
-    }
-
-    public void SetInteraction(bool enabled)
-    {
-        isInteractable = enabled;
-
-        foreach (Collider col in cubeColliders)
-        {
-            if (col != null)
-                col.enabled = enabled;
-        }
-    }
-
     public void CheckPuzzle()
     {
-        Debug.Log("CheckPuzzle called");
+        if (cube1 == null ||
+            cube2 == null ||
+            cube3 == null ||
+            cube4 == null)
+        {
+            Debug.LogWarning("PhysicalStatePuzzle is missing cubes.");
+            return;
+        }
+
+        if (cube1.IsRotating() ||
+            cube2.IsRotating() ||
+            cube3.IsRotating() ||
+            cube4.IsRotating())
+        {
+            Debug.Log("Cannot check puzzle while cubes are rotating.");
+            return;
+        }
 
         int r1 = cube1.GetRotationIndex();
         int r2 = cube2.GetRotationIndex();
         int r3 = cube3.GetRotationIndex();
         int r4 = cube4.GetRotationIndex();
-        Debug.Log($"P1={ValidPair(r3, r4)}");
-        Debug.Log($"P2={ValidPair(r2, r3)}");
-        Debug.Log($"P3={ValidPair(r1, r2)}");
-        Debug.Log($"Rotations: {r1} {r2} {r3} {r4}");
 
-        if (ValidPair(r3, r4) &&
-            ValidPair(r2, r3) &&
-            ValidPair(r1, r2))
+        Debug.Log(
+            $"Checking puzzle: {r1}, {r2}, {r3}, {r4}"
+        );
+
+        if (IsValidPattern(r1, r2, r3, r4))
         {
             Debug.Log("Puzzle valid -> Brew");
-            cauldron.Brew(Convert(r4));
+
+            PhysicalState state = Convert(r4);
+
+            if (cauldron != null)
+            {
+                cauldron.Brew(state);
+            }
+        }
+        else
+        {
+            Debug.Log("Puzzle invalid.");
         }
     }
 
-    bool ValidPair(int previous, int next)
+    private bool IsValidPattern(
+    int r1,
+    int r2,
+    int r3,
+    int r4)
     {
-        return previous == next || (previous + 1) % 4 == next;
-    }
+        int[] states = { r1, r2, r3, r4 };
 
-    PhysicalState Convert(int index)
+        bool duplicateUsed = false;
+
+        for (int i = 1; i < states.Length; i++)
+        {
+            int previous = states[i - 1];
+            int current = states[i];
+
+            // Same state
+            if (current == previous)
+            {
+                // Only ONE duplicated pair is allowed
+                if (duplicateUsed)
+                    return false;
+
+                duplicateUsed = true;
+
+                // Three identical states in a row
+                if (i >= 2 && states[i - 2] == current)
+                    return false;
+
+                continue;
+            }
+
+            // Different state must move forward
+            // Solid -> Liquid -> Gas -> Essence -> Solid
+            int expected = (previous + 1) % 4;
+
+            if (current != expected)
+                return false;
+        }
+
+        return true;
+    }
+    private PhysicalState Convert(int index)
     {
         switch (index)
         {
-            case 0: return PhysicalState.Solid;
-            case 1: return PhysicalState.Liquid;
-            case 2: return PhysicalState.Gas;
-            case 3: return PhysicalState.Essence;
-            default: return PhysicalState.Solid;
+            case 0:
+                return PhysicalState.Solid;
+
+            case 1:
+                return PhysicalState.Liquid;
+
+            case 2:
+                return PhysicalState.Gas;
+
+            case 3:
+                return PhysicalState.Essence;
+
+            default:
+                return PhysicalState.Solid;
         }
     }
+}
+
+public enum PhysicalState
+{
+    Solid,
+    Liquid,
+    Gas,
+    Essence
 }

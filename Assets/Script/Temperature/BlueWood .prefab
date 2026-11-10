@@ -89,10 +89,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   itemName: BlueWood
   icon: {fileID: 21300000, guid: 7eab8409f78e39644b570f138ac17260, type: 3}
-  itemType: 0
+  itemType: 4
   containedLiquid: 0
   woodType: 1
   rb: {fileID: 4566225743722632613}
+  placementCollisionMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   holdableInHands: 0
   handPositionOffset: {x: 0, y: 0, z: 0}
   handRotationOffset: {x: 0, y: 0, z: 0}

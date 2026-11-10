@@ -71,7 +71,10 @@ PrefabInstance:
       addedObject: {fileID: 5443255906907868244}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b1cff467cb9f4174797a3c7baf751f00, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -9149881564601431290}
+      addedObject: {fileID: -1555786521008424942}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b1cff467cb9f4174797a3c7baf751f00, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5866770076516761724}
   m_SourcePrefab: {fileID: 100100000, guid: b1cff467cb9f4174797a3c7baf751f00, type: 3}
 --- !u!1 &6637484409416774378 stripped
 GameObject:
@@ -139,8 +142,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e6ae70ca8dfd64b8a7ed81f514bcf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OutlineTarget
---- !u!65 &-9149881564601431290
-BoxCollider:
+--- !u!114 &-1555786521008424942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6637484409416774378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5011e571e62edf249828cbee7ade95b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColliderPenetrationResolver
+  targetCollider: {fileID: 0}
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  triggerInteraction: 1
+  skinWidth: 0.001
+  resolvePenetration: 1
+  maxIterations: 5
+  positionEpsilon: 0.00001
+  drawDebug: 1
+  drawContactPoint: 1
+  debugDuration: 0.05
+  penetrationColor: {r: 1, g: 0, b: 0, a: 1}
+  resolvedColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!136 &5866770076516761724
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -157,6 +186,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.0019849287, y: 0.0016033046, z: 0.0049699172}
-  m_Center: {x: -0.00016072253, y: 0.0006017559, z: 0.0024334826}
+  serializedVersion: 2
+  m_Radius: 0.00060676096
+  m_Height: 0.0050720875
+  m_Direction: 2
+  m_Center: {x: 0.000007071495, y: 0.00060175604, z: 0.0024996004}

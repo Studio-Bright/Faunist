@@ -1,32 +1,58 @@
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class BottleSlot : MonoBehaviour
 {
     public CauldronInventory cauldron;
 
     private Collider slotCollider;
+
     private void Awake()
     {
         slotCollider = GetComponent<Collider>();
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        PickupItem bottle = other.GetComponentInParent<PickupItem>();
+        if (cauldron == null)
+            return;
 
-        if (bottle == null)
+        PickupItem item =
+            other.GetComponentInParent<PickupItem>();
+
+        if (item == null)
+            return;
+
+        // Only bottles and already-created potions
+        // are allowed in this slot.
+        if (item.itemType != PickupItem.ItemType.EmptyBottle &&
+            item.itemType != PickupItem.ItemType.Potion)
         {
             return;
         }
+
+        // Don't accept another item while the slot
+        // is already occupied.
+        if (cauldron.currentBottle != null)
+            return;
+
         cauldron.SnapBottle(
-            bottle,
+            item,
             transform.position
         );
-        slotCollider.enabled = false;
+
+        if (slotCollider != null)
+            slotCollider.enabled = false;
     }
 
     public void EnableSlot()
     {
-        slotCollider.enabled = true;
+        if (slotCollider != null)
+            slotCollider.enabled = true;
+    }
+
+    public void DisableSlot()
+    {
+        if (slotCollider != null)
+            slotCollider.enabled = false;
     }
 }

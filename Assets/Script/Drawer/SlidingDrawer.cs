@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class SlidingDrawer : MonoBehaviour, IInteractable
+public class SlidingDrawer : MonoBehaviour, IUniversalInteractable
 {
-    public Transform drawerTransform;
-    public Vector3 openOffset = new Vector3(0, 0, 0.3f);
-    public float speed = 5f;
+    [Header("Drawer")]
+    [SerializeField] private Transform drawerTransform;
+    [SerializeField] private Vector3 openOffset = new Vector3(0f, 0f, 0.3f);
+    [SerializeField] private float speed = 5f;
 
     private Vector3 closedPos;
     private Vector3 openPos;
     private bool isOpen;
 
-    void Start()
+    public bool ShowInteractionPrompt => true;
+
+    private void Start()
     {
         if (drawerTransform == null)
             drawerTransform = transform;
@@ -19,17 +22,18 @@ public class SlidingDrawer : MonoBehaviour, IInteractable
         openPos = closedPos + openOffset;
     }
 
-    public void Interact(PlayerInteraction player)
+    public void Interact(PlayerInteractionContext context)
     {
         isOpen = !isOpen;
     }
 
-    void Update()
+    public void AlternateInteract(PlayerInteractionContext context) { }
+
+    private void Update()
     {
-        drawerTransform.localPosition = Vector3.Lerp(
-            drawerTransform.localPosition,
-            isOpen ? openPos : closedPos,
-            Time.deltaTime * speed
-        );
+        if (drawerTransform == null)
+            return;
+
+        drawerTransform.localPosition = Vector3.Lerp(drawerTransform.localPosition, isOpen ? openPos : closedPos, Time.deltaTime * speed);
     }
 }

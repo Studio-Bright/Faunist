@@ -1,27 +1,22 @@
+
 using UnityEngine;
 using static PickupItem;
 
-public class WoodPlace : MonoBehaviour
+public class WoodPlace : MonoBehaviour, IUniversalInteractable
 {
     [SerializeField] private TemperatureManager temperatureManager;
-    [SerializeField] private InventorySystem inventory;
 
-    public void PutIntoFire()
+    public bool ShowInteractionPrompt => true;
+
+    public void Interact(PlayerInteractionContext context)
     {
-        if (inventory == null)
-        {
-            Debug.LogError("WoodPlace: InventorySystem is not assigned!");
-            return;
-        }
-
         if (temperatureManager == null)
         {
             Debug.LogError("WoodPlace: TemperatureManager is not assigned!");
             return;
         }
 
-        // Get the item currently selected in the player's inventory
-        PickupItem selectedItem = inventory.GetSelectedItem();
+        PickupItem selectedItem = context.SelectedItem;
 
         if (selectedItem == null)
         {
@@ -29,42 +24,34 @@ public class WoodPlace : MonoBehaviour
             return;
         }
 
-        // Check if selected item is actually wood
         if (selectedItem.woodType == WoodType.NotWood)
         {
             Debug.Log("This item is not wood.");
             return;
         }
 
-        // RED WOOD
         if (selectedItem.woodType == WoodType.Red)
         {
             temperatureManager.AddRedWood();
-
-            ConsumeWood(selectedItem);
-
+            ConsumeWood(context, selectedItem);
             Debug.Log("Red wood added to fire!");
             return;
         }
 
-        // BLUE WOOD
         if (selectedItem.woodType == WoodType.Blue)
         {
             temperatureManager.AddBlueWood();
-
-            ConsumeWood(selectedItem);
-
+            ConsumeWood(context, selectedItem);
             Debug.Log("Blue wood added to fire!");
-            return;
         }
     }
 
-    private void ConsumeWood(PickupItem wood)
-    {
-        // Remove from inventory
-        inventory.RemoveSelected();
+    public void AlternateInteract(PlayerInteractionContext context) { }
 
-        // Destroy the physical item
+    private void ConsumeWood(PlayerInteractionContext context, PickupItem wood)
+    {
+        context.Inventory.RemoveSelected();
         Destroy(wood.gameObject);
     }
 }
+

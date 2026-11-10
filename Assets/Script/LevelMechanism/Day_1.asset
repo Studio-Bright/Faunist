@@ -18,7 +18,7 @@ MonoBehaviour:
     spawnRotation: {x: 0, y: 180, z: 0}
     postHealDialogue: {fileID: 11400000, guid: fab3a4cf32180a34bb529b6abfe96879, type: 2}
     failDialogues: []
-    stayAfterHeal: 5
+    stayAfterHeal: 2.5
     delayBeforeNext: 2
     requiredHeals: 1
     isSnailLevel: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     spawnRotation: {x: 0, y: 180, z: 0}
     postHealDialogue: {fileID: 11400000, guid: e2a561058c0fae8418b6e6646a1140ca, type: 2}
     failDialogues: []
-    stayAfterHeal: 5
+    stayAfterHeal: 2.5
     delayBeforeNext: 2
     requiredHeals: 1
     isSnailLevel: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
     spawnRotation: {x: 0, y: 0, z: 0}
     postHealDialogue: {fileID: 0}
     failDialogues: []
-    stayAfterHeal: 4
+    stayAfterHeal: 2.5
     delayBeforeNext: 2
     requiredHeals: 3
     isSnailLevel: 1

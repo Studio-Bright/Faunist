@@ -1,12 +1,23 @@
 using UnityEngine;
 using System.Collections;
 
-public class RotatableItem : MonoBehaviour
+public class RotatableItem : MonoBehaviour, IUniversalInteractable
 {
     public float rotationDuration = 0.5f;
 
-    private int rotationIndex = 0;
-    private bool isRotating = false;
+    private int rotationIndex;
+    private bool isRotating;
+
+    public bool ShowInteractionPrompt => true;
+
+    public void Interact(PlayerInteractionContext context)
+    {
+        RotateSelf();
+    }
+
+    public void AlternateInteract(PlayerInteractionContext context)
+    {
+    }
 
     public int GetRotationIndex()
     {
@@ -20,11 +31,9 @@ public class RotatableItem : MonoBehaviour
 
     public void RotateSelf()
     {
-        // ❌ Prevent rotation spam
         if (isRotating)
             return;
 
-        // ❌ Extra safety check (ensure aligned)
         if (!IsAligned())
             return;
 
@@ -36,34 +45,40 @@ public class RotatableItem : MonoBehaviour
         isRotating = true;
 
         Quaternion startRotation = transform.rotation;
+        Quaternion endRotation =
+            startRotation * Quaternion.Euler(0f, 0f, 90f);
 
         rotationIndex = (rotationIndex + 1) % 4;
-        Debug.Log($"{name} -> {rotationIndex}");
 
-
-        Quaternion endRotation = startRotation * Quaternion.Euler(0f, 0f, 90f);
+        Debug.Log($"{name} -> rotation index: {rotationIndex}");
 
         float elapsed = 0f;
 
         while (elapsed < rotationDuration)
         {
-            transform.rotation = Quaternion.Slerp(startRotation, endRotation, elapsed / rotationDuration);
+            transform.rotation = Quaternion.Slerp(
+                startRotation,
+                endRotation,
+                elapsed / rotationDuration
+            );
+
             elapsed += Time.deltaTime;
+
             yield return null;
         }
 
         transform.rotation = endRotation;
 
         isRotating = false;
+
     }
 
     private bool IsAligned()
     {
         float z = transform.localEulerAngles.z;
-
-        // Snap tolerance check (handles floating point drift)
         float remainder = z % 90f;
 
-        return Mathf.Abs(remainder) < 0.1f || Mathf.Abs(remainder - 90f) < 0.1f;
+        return Mathf.Abs(remainder) < 0.1f ||
+               Mathf.Abs(remainder - 90f) < 0.1f;
     }
 }

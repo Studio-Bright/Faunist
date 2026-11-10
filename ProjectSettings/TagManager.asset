@@ -15,7 +15,7 @@ TagManager:
   - PreviewLayer
   - Outline
   - PlayerOnlyCollision
-  - 
+  - PlayerNoCollision
   - 
   - 
   - 

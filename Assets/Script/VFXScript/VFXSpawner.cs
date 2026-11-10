@@ -2,13 +2,23 @@ using UnityEngine;
 
 public class VFXSpawner : MonoBehaviour
 {
-    public GameObject boomVFX; // assign prefab in Inspector
+    public GameObject boomVFX;
+    public KnockbackTrigger knockbackTrigger;
 
     public void PlayBoom(Vector3 position)
     {
-        GameObject vfx = Instantiate(boomVFX, position, Quaternion.identity);
+        GameObject vfx = Instantiate(
+            boomVFX,
+            position,
+            Quaternion.identity
+        );
 
-        // Optional: destroy after duration
         Destroy(vfx, 3f);
+
+        // Only knock back if player is currently inside the zone
+        if (knockbackTrigger != null)
+        {
+            knockbackTrigger.Explode();
+        }
     }
 }
